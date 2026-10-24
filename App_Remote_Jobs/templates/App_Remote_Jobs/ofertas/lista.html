@@ -2,18 +2,29 @@
 {% block title %}Ofertas · Remote Jobs{% endblock %}
 {% block content %}
     <h1>Ofertas de empleo y prácticas</h1>
-    <p>Explora las oportunidades disponibles.</p>
+    <form method="get" action="{% url 'jobs:oferta_list' %}" role="search">
+        <label for="q">Puesto, empresa o habilidad</label>
+        <input id="q" type="search" name="q" value="{{ q }}" list="sugerencias-ofertas" placeholder="Ej. Python o diseño">
+        <datalist id="sugerencias-ofertas">
+            {% for titulo, empresa in sugerencias_busqueda %}
+            <option value="{{ titulo }}">{{ empresa }}</option>
+            <option value="{{ empresa }}">{{ titulo }}</option>
+            {% endfor %}
+        </datalist>
+        <button type="submit">Buscar</button>
+        {% if q %}
+        <a href="{% url 'jobs:oferta_list' %}">Limpiar</a>
+        {% endif %}
+    </form>
+    <p>{{ ofertas|length }} resultado(s)</p>
     <div class="job-grid">
         {% for oferta in ofertas %}
         <article class="job-card">
             <p>{{ oferta.empresa }} · {{ oferta.sector.nombre }}</p>
             <h2><a href="{{ oferta.get_absolute_url }}">{{ oferta.titulo }}</a></h2>
-            <p>{{ oferta.resumen }}</p>
-            <p>{{ oferta.get_modalidad_display }} · {{ oferta.get_tipo_empleo_display }}</p>
-            <strong>{{ oferta.etiqueta_salario }}</strong>
-        </article>
-        {% empty %}
-        <p>No hay ofertas publicadas todavía.</p>
+            <p>{{ oferta.resumen }}</p><strong>{{ oferta.etiqueta_salario }}</strong>
+        </article>{% empty %}
+        <p>No hay ofertas que coincidan con la búsqueda.</p>
         {% endfor %}
     </div>
 {% endblock %}

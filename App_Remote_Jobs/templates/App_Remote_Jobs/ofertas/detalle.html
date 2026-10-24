@@ -16,7 +16,7 @@
         <h2>Habilidades</h2>
         <p>
             {% for habilidad in oferta.habilidades.all %}
-            <span>{{ habilidad.nombre }}{% if not forloop.last %}, {% endif%}</span>
+            <span>{{ habilidad.nombre }}{% if not forloop.last %}, {% endif %}</span>
             {% empty %}Sin habilidades asociadas
             {% endfor %}
         </p>
