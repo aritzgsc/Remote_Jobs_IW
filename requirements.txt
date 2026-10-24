@@ -1,2 +1,4 @@
 # Framework web, administración, formularios y sistema de plantillas.
 Django>=5.2,<7.0
+# Carga de variables locales desde el archivo .env.
+python-dotenv>=1.0.1,<2.0

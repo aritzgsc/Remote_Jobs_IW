@@ -6,12 +6,12 @@ Remote Jobs reúne ofertas organizadas por sector y habilidades para que sea má
 
 ## Navegación
 
-[Funcionalidades](#funcionalidades) · [Calidad y mantenimiento](#calidad-y-mantenimiento) · [Instalación](#instalacion) · [Pruebas](#pruebas-y-comprobaciones) · [Estructura](#estructura) · [Seguridad](#seguridad-local)
+[Funcionalidades](#funcionalidades) · [Calidad y mantenimiento](#calidad-y-mantenimiento) · [Instalación](#instalacion) · [Configuración](#configuracion) · [Pruebas](#pruebas-y-comprobaciones) · [Estructura](#estructura) · [Seguridad](#seguridad-local)
 
 ## Funcionalidades
 
 - [x] Portada funcional
-- [ ] Configuración mediante variables de entorno
+- [x] Configuración mediante variables de entorno
 - [ ] Plantilla base y estilos adaptables
 - [ ] Gestión de sectores desde el administrador
 - [ ] Habilidades relacionadas con sectores y ofertas
@@ -54,6 +54,7 @@ Remote Jobs reúne ofertas organizadas por sector y habilidades para que sea má
 py -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
+Copy-Item .env.example .env
 ```
 
 ### macOS y Linux
@@ -62,8 +63,17 @@ python -m pip install -r requirements.txt
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
+cp .env.example .env
 ```
 
+Abre `.env` y sustituye los valores de ejemplo por los ajustes locales que necesites. Define una clave secreta propia para Django; no compartas este archivo ni lo añadas al repositorio.
+
+## Configuración
+
+- `DJANGO_DEBUG`: déjalo activado únicamente mientras desarrollas en local.
+- `DJANGO_ALLOWED_HOSTS`: enumera los hosts admitidos, separados por comas.
+
+El archivo `.env.example` contiene nombres de variables y valores de ejemplo, no credenciales reales.
 
 ## Ejecutar la aplicación
 
