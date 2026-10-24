@@ -17,7 +17,7 @@ Remote Jobs reúne ofertas organizadas por sector y habilidades para que sea má
 - [x] Habilidades relacionadas con sectores y ofertas
 - [x] Ofertas con modalidad, tipo y datos salariales
 - [x] Datos de demostración reproducibles
-- [ ] Portada conectada a la base de datos
+- [x] Portada conectada a la base de datos
 - [ ] Listado y detalle de ofertas
 - [ ] Búsqueda textual y sugerencias nativas
 - [ ] Filtros por sector, habilidad y modalidad
