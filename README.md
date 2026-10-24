@@ -16,7 +16,7 @@ Remote Jobs reúne ofertas organizadas por sector y habilidades para que sea má
 - [x] Gestión de sectores desde el administrador
 - [x] Habilidades relacionadas con sectores y ofertas
 - [x] Ofertas con modalidad, tipo y datos salariales
-- [ ] Datos de demostración reproducibles
+- [x] Datos de demostración reproducibles
 - [ ] Portada conectada a la base de datos
 - [ ] Listado y detalle de ofertas
 - [ ] Búsqueda textual y sugerencias nativas
@@ -79,10 +79,13 @@ El archivo `.env.example` contiene nombres de variables y valores de ejemplo, no
 
 ```bash
 python manage.py migrate
+python manage.py cargar_datos_demo
 python manage.py runserver
 ```
 
 Abre [http://127.0.0.1:8000/](http://127.0.0.1:8000/) en el navegador. Para administrar los datos, crea una cuenta de administrador con `python manage.py createsuperuser` y entra en `/admin/`.
+
+El comando `cargar_datos_demo` inserta datos de ejemplo para explorar el catálogo. Se puede volver a ejecutar sin crear copias del conjunto inicial.
 
 ## Pruebas y comprobaciones
 
