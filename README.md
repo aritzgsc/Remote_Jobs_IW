@@ -13,7 +13,7 @@ Remote Jobs reúne ofertas organizadas por sector y habilidades para que sea má
 - [x] Portada funcional
 - [x] Configuración mediante variables de entorno
 - [x] Plantilla base y estilos adaptables
-- [ ] Gestión de sectores desde el administrador
+- [x] Gestión de sectores desde el administrador
 - [ ] Habilidades relacionadas con sectores y ofertas
 - [ ] Ofertas con modalidad, tipo y datos salariales
 - [ ] Datos de demostración reproducibles
@@ -89,6 +89,7 @@ Abre [http://127.0.0.1:8000/](http://127.0.0.1:8000/) en el navegador. Para admi
 ```bash
 python manage.py check
 python manage.py test
+python manage.py makemigrations --check --dry-run
 ```
 
 ## Estructura
