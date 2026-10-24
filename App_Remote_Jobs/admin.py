@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Sector
+from .models import Habilidad, Sector
 
 @admin.register(Sector)
 class SectorAdmin(admin.ModelAdmin):
@@ -7,3 +7,10 @@ class SectorAdmin(admin.ModelAdmin):
     search_fields = ("nombre", "descripcion")
     prepopulated_fields = {"slug": ("nombre",)}
     ordering = ("orden", "nombre")
+
+@admin.register(Habilidad)
+class HabilidadAdmin(admin.ModelAdmin):
+    list_display = ("nombre", "categoria", "slug")
+    list_filter = ("categoria",)
+    search_fields = ("nombre", "descripcion")
+    prepopulated_fields = {"slug": ("nombre",)}
