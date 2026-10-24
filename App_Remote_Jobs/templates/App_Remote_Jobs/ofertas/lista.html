@@ -11,10 +11,32 @@
             <option value="{{ empresa }}">{{ titulo }}</option>
             {% endfor %}
         </datalist>
-        <button type="submit">Buscar</button>
-        {% if q %}
-        <a href="{% url 'jobs:oferta_list' %}">Limpiar</a>
-        {% endif %}
+        <label for="sector">Sector</label>
+        <select id="sector" name="sector">
+            <option value="">Todos</option>
+            {% for item in sectores %}
+            <option value="{{ item.slug }}" {% if sector_seleccionado == item.slug %} selected{% endif %}>{{ item.nombre }}</option>
+            {% endfor %}
+        </select>
+        <label for="habilidad">Habilidad</label>
+        <select id="habilidad" name="habilidad">
+            <option value="">Todas</option>
+            {% for item in habilidades %}
+            <option value="{{ item.slug }}" {% if habilidad_seleccionada == item.slug %} selected{% endif %}>{{ item.nombre }}</option>
+            {% endfor %}
+        </select>
+        <label for="modalidad">Modalidad</label><select id="modalidad" name="modalidad">
+            <option value="">Todas</option>
+            <option value="remoto" {% if modalidad_seleccionada == "remoto" %} selected{% endif %}>Remoto</option>
+            <option value="hibrido" {% if modalidad_seleccionada == "hibrido" %} selected{% endif %}>Híbrido</option>
+        </select>
+        <label for="tipo">Tipo</label>
+        <select id="tipo" name="tipo">
+            <option value="">Todos</option>
+            <option value="junior" {% if tipo_seleccionado == "junior" %} selected{% endif %}>Junior</option>
+            <option value="practicas" {% if tipo_seleccionado == "practicas" %} selected{% endif %}>Prácticas</option>
+        </select>
+        <button type="submit">Buscar</button><a href="{% url 'jobs:oferta_list' %}">Limpiar</a>
     </form>
     <p>{{ ofertas|length }} resultado(s)</p>
     <div class="job-grid">
@@ -23,8 +45,8 @@
             <p>{{ oferta.empresa }} · {{ oferta.sector.nombre }}</p>
             <h2><a href="{{ oferta.get_absolute_url }}">{{ oferta.titulo }}</a></h2>
             <p>{{ oferta.resumen }}</p><strong>{{ oferta.etiqueta_salario }}</strong>
-        </article>{% empty %}
-        <p>No hay ofertas que coincidan con la búsqueda.</p>
+        </article>
+        {% empty %}<p>No hay ofertas que coincidan con los filtros.</p>
         {% endfor %}
     </div>
 {% endblock %}

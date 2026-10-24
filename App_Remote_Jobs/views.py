@@ -15,9 +15,21 @@ def inicio(request):
 def lista_ofertas(request):
     q = request.GET.get("q", "").strip()[:120]
     ofertas = ofertas_publicadas()
+    sector = request.GET.get("sector", "").strip()
+    habilidad = request.GET.get("habilidad", "").strip()
+    modalidad = request.GET.get("modalidad", "").strip()
+    tipo = request.GET.get("tipo", "").strip()
     if q:
         ofertas = ofertas.filter(Q(titulo__icontains=q) | Q(empresa__icontains=q) | Q(resumen__icontains=q) | Q(descripcion__icontains=q) | Q(requisitos__icontains=q) | Q(sector__nombre__icontains=q) | Q(habilidades__nombre__icontains=q)).distinct()
-    return render(request, "App_Remote_Jobs/ofertas/lista.html", {"ofertas": ofertas, "q": q, "sugerencias_busqueda": sugerencias_busqueda()})
+    if sector and Sector.objects.filter(slug=sector).exists(): ofertas = ofertas.filter(sector__slug=sector)
+    else: sector = ""
+    if habilidad and Habilidad.objects.filter(slug=habilidad).exists(): ofertas = ofertas.filter(habilidades__slug=habilidad)
+    else: habilidad = ""
+    if modalidad in Oferta.Modalidad.values: ofertas = ofertas.filter(modalidad=modalidad)
+    else: modalidad = ""
+    if tipo in Oferta.TipoEmpleo.values: ofertas = ofertas.filter(tipo_empleo=tipo)
+    else: tipo = ""
+    return render(request, "App_Remote_Jobs/ofertas/lista.html", {"ofertas": ofertas, "q": q, "sector_seleccionado": sector, "habilidad_seleccionada": habilidad, "modalidad_seleccionada": modalidad, "tipo_seleccionado": tipo, "sectores": Sector.objects.all(), "habilidades": Habilidad.objects.all(), "sugerencias_busqueda": sugerencias_busqueda()})
 
 def detalle_oferta(request, slug):
     oferta = get_object_or_404(ofertas_publicadas(), slug=slug)
