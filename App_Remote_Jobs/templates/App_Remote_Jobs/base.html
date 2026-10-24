@@ -1,16 +1,19 @@
+{% load static %}
 <!doctype html>
 <html lang="es">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Ofertas junior y prácticas en remoto o híbrido">
     <title>{% block title %}Remote Jobs{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'App_Remote_Jobs/css/estilos.css' %}">
 </head>
 
 <body>
-    <header><a href="{% url 'jobs:inicio' %}">Remote Jobs</a></header>
-    <main>{% block content %}{% endblock %}</main>
-    <footer>Remote Jobs · Oportunidades profesionales</footer>
+    <header class="site-header"><a class="brand" href="{% url 'jobs:inicio' %}">remotejobs</a></header>
+    <main id="contenido">{% block content %}{% endblock %}</main>
+    <footer class="site-footer">Remote Jobs · Oportunidades profesionales</footer>
 </body>
 
 </html>

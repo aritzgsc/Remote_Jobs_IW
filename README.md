@@ -12,7 +12,7 @@ Remote Jobs reúne ofertas organizadas por sector y habilidades para que sea má
 
 - [x] Portada funcional
 - [x] Configuración mediante variables de entorno
-- [ ] Plantilla base y estilos adaptables
+- [x] Plantilla base y estilos adaptables
 - [ ] Gestión de sectores desde el administrador
 - [ ] Habilidades relacionadas con sectores y ofertas
 - [ ] Ofertas con modalidad, tipo y datos salariales
