@@ -1,52 +1,84 @@
 {% extends "App_Remote_Jobs/base.html" %}
 {% block title %}Ofertas · Remote Jobs{% endblock %}
 {% block content %}
-    <h1>Ofertas de empleo y prácticas</h1>
-    <form method="get" action="{% url 'jobs:oferta_list' %}" role="search">
-        <label for="q">Puesto, empresa o habilidad</label>
-        <input id="q" type="search" name="q" value="{{ q }}" list="sugerencias-ofertas" placeholder="Ej. Python o diseño">
-        <datalist id="sugerencias-ofertas">
-            {% for titulo, empresa in sugerencias_busqueda %}
-            <option value="{{ titulo }}">{{ empresa }}</option>
-            <option value="{{ empresa }}">{{ titulo }}</option>
+    <section>
+        <h1>Explorar ofertas</h1>
+        <p>{{ page_obj.paginator.count }} oportunidades</p>
+        <form method="get" action="{% url 'jobs:oferta_list' %}" role="search">
+            <label for="q">Puesto, empresa o habilidad</label>
+            <input id="q" type="search" name="q" value="{{ q }}" list="sugerencias-ofertas">
+            <datalist id="sugerencias-ofertas">
+                {% for titulo, empresa in sugerencias_busqueda %}
+                <option value="{{ titulo }}">{{ empresa }}</option>
+                <option value="{{ empresa }}">{{ titulo }}</option>
+                {% endfor %}
+            </datalist>
+            <label for="sector">Sector</label>
+            <select id="sector" name="sector">
+                <option value="">Todos</option>
+                {% for item in sectores %}
+                <option value="{{ item.slug }}" {% if sector_seleccionado == item.slug %} selected{% endif %}>{{ item.nombre }}</option>
+                {% endfor %}
+            </select>
+            <label for="habilidad">Habilidad</label>
+            <select id="habilidad" name="habilidad">
+                <option value="">Todas</option>
+                {% for item in habilidades %}
+                <option value="{{ item.slug }}" {% if habilidad_seleccionada == item.slug %} selected{% endif %}>{{ item.nombre }}</option>
+                {% endfor %}
+            </select>
+            <label for="modalidad">Modalidad</label>
+            <select id="modalidad" name="modalidad">
+                <option value="">Todas</option>
+                <option value="remoto" {% if modalidad_seleccionada == "remoto" %} selected{% endif %}>Remoto</option>
+                <option value="hibrido" {% if modalidad_seleccionada == "hibrido" %} selected{% endif %}>Híbrido</option>
+            </select>
+            <label for="tipo">Tipo</label>
+            <select id="tipo" name="tipo">
+                <option value="">Todos</option>
+                <option value="junior" {% if tipo_seleccionado == "junior" %} selected{% endif %}>Junior</option>
+                <option value="practicas" {% if tipo_seleccionado == "practicas" %} selected{% endif %}>Prácticas</option>
+            </select>
+            <label for="ubicacion">Ubicación</label>
+            <input id="ubicacion" name="ubicacion" value="{{ ubicacion }}">
+            <label for="salario_desde">Salario desde</label>
+            <input id="salario_desde" name="salario_desde" type="number" min="0" value="{{ salario_desde }}">
+            <label for="salario_hasta">Salario hasta</label>
+            <input id="salario_hasta" name="salario_hasta" type="number" min="0" value="{{ salario_hasta }}">
+            <label for="fecha_desde">Publicadas desde</label>
+            <input id="fecha_desde" name="fecha_desde" type="date" value="{{ fecha_desde }}">
+            <label for="fecha_hasta">Publicadas hasta</label>
+            <input id="fecha_hasta" name="fecha_hasta" type="date" value="{{ fecha_hasta }}"><label for="orden">Orden</label>
+            <select id="orden" name="orden">
+                <option value="recientes" {% if orden == "recientes" %} selected{% endif %}>Más recientes</option>
+                <option value="antiguas" {% if orden == "antiguas" %} selected{% endif %}>Más antiguas</option>
+                <option value="titulo" {% if orden == "titulo" %} selected{% endif %}>Título</option>
+                <option value="salario_desc" {% if orden == "salario_desc" %} selected{% endif %}>Salario más alto</option>
+                <option value="salario_asc" {% if orden == "salario_asc" %} selected{% endif %}>Salario más bajo</option>
+            </select>
+            <button type="submit">Aplicar filtros</button>
+            <a href="{% url 'jobs:oferta_list' %}">Limpiar</a>
+        </form>
+        <div class="job-grid">
+            {% for oferta in ofertas %}
+            <article class="job-card">
+                <p>{{ oferta.empresa }} · {{ oferta.sector.nombre }}</p>
+                <h2><a href="{{ oferta.get_absolute_url }}">{{ oferta.titulo }}</a></h2>
+                <p>{{ oferta.resumen }}</p><strong>{{ oferta.etiqueta_salario }}</strong>
+            </article>
+            {% empty %}<p>No hay ofertas con esos filtros.</p>
             {% endfor %}
-        </datalist>
-        <label for="sector">Sector</label>
-        <select id="sector" name="sector">
-            <option value="">Todos</option>
-            {% for item in sectores %}
-            <option value="{{ item.slug }}" {% if sector_seleccionado == item.slug %} selected{% endif %}>{{ item.nombre }}</option>
-            {% endfor %}
-        </select>
-        <label for="habilidad">Habilidad</label>
-        <select id="habilidad" name="habilidad">
-            <option value="">Todas</option>
-            {% for item in habilidades %}
-            <option value="{{ item.slug }}" {% if habilidad_seleccionada == item.slug %} selected{% endif %}>{{ item.nombre }}</option>
-            {% endfor %}
-        </select>
-        <label for="modalidad">Modalidad</label><select id="modalidad" name="modalidad">
-            <option value="">Todas</option>
-            <option value="remoto" {% if modalidad_seleccionada == "remoto" %} selected{% endif %}>Remoto</option>
-            <option value="hibrido" {% if modalidad_seleccionada == "hibrido" %} selected{% endif %}>Híbrido</option>
-        </select>
-        <label for="tipo">Tipo</label>
-        <select id="tipo" name="tipo">
-            <option value="">Todos</option>
-            <option value="junior" {% if tipo_seleccionado == "junior" %} selected{% endif %}>Junior</option>
-            <option value="practicas" {% if tipo_seleccionado == "practicas" %} selected{% endif %}>Prácticas</option>
-        </select>
-        <button type="submit">Buscar</button><a href="{% url 'jobs:oferta_list' %}">Limpiar</a>
-    </form>
-    <p>{{ ofertas|length }} resultado(s)</p>
-    <div class="job-grid">
-        {% for oferta in ofertas %}
-        <article class="job-card">
-            <p>{{ oferta.empresa }} · {{ oferta.sector.nombre }}</p>
-            <h2><a href="{{ oferta.get_absolute_url }}">{{ oferta.titulo }}</a></h2>
-            <p>{{ oferta.resumen }}</p><strong>{{ oferta.etiqueta_salario }}</strong>
-        </article>
-        {% empty %}<p>No hay ofertas que coincidan con los filtros.</p>
-        {% endfor %}
-    </div>
+        </div>
+        {% if page_obj.paginator.num_pages > 1 %}
+        <nav aria-label="Paginación">
+            {% if page_obj.has_previous %}
+            <a href="?{% if query_string %}{{ query_string }}&amp;{% endif %}page={{ page_obj.previous_page_number }}">Anterior</a>
+            {% endif %}
+            <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+            {% if page_obj.has_next %}
+            <a href="?{% if query_string %}{{ query_string }}&amp;{% endif %}page={{ page_obj.next_page_number }}">Siguiente</a>
+            {% endif %}
+        </nav>
+        {% endif %}
+    </section>
 {% endblock %}
