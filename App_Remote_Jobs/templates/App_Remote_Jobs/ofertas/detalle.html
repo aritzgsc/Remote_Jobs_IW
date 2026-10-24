@@ -1,0 +1,28 @@
+{% extends "App_Remote_Jobs/base.html" %}
+{% block title %}{{ oferta.titulo }} · Remote Jobs{% endblock %}
+{% block content %}
+    <p><a href="{% url 'jobs:oferta_list' %}">← Todas las ofertas</a></p>
+    <article class="panel">
+        <p>{{ oferta.empresa }} · {{ oferta.sector.nombre }}</p>
+        <h1>{{ oferta.titulo }}</h1>
+        <p>{{ oferta.resumen }}</p>
+        <p>{{ oferta.descripcion }}</p>
+        <h2>Requisitos</h2>
+        <ul>
+            {% for requisito in oferta.lista_requisitos %}
+            <li>{{ requisito }}</li>
+            {% endfor %}
+        </ul>
+        <h2>Habilidades</h2>
+        <p>
+            {% for habilidad in oferta.habilidades.all %}
+            <span>{{ habilidad.nombre }}{% if not forloop.last %}, {% endif%}</span>
+            {% empty %}Sin habilidades asociadas
+            {% endfor %}
+        </p>
+        <p>{{ oferta.etiqueta_salario }} · {{ oferta.get_modalidad_display }}</p>
+        {% if oferta.url_solicitud %}
+        <p><a class="button" href="{{ oferta.url_solicitud }}" rel="noopener noreferrer">Solicitar oferta</a></p>
+        {% endif %}
+    </article>
+{% endblock %}

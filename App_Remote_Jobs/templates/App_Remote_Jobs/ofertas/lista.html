@@ -1,0 +1,19 @@
+{% extends "App_Remote_Jobs/base.html" %}
+{% block title %}Ofertas · Remote Jobs{% endblock %}
+{% block content %}
+    <h1>Ofertas de empleo y prácticas</h1>
+    <p>Explora las oportunidades disponibles.</p>
+    <div class="job-grid">
+        {% for oferta in ofertas %}
+        <article class="job-card">
+            <p>{{ oferta.empresa }} · {{ oferta.sector.nombre }}</p>
+            <h2><a href="{{ oferta.get_absolute_url }}">{{ oferta.titulo }}</a></h2>
+            <p>{{ oferta.resumen }}</p>
+            <p>{{ oferta.get_modalidad_display }} · {{ oferta.get_tipo_empleo_display }}</p>
+            <strong>{{ oferta.etiqueta_salario }}</strong>
+        </article>
+        {% empty %}
+        <p>No hay ofertas publicadas todavía.</p>
+        {% endfor %}
+    </div>
+{% endblock %}
