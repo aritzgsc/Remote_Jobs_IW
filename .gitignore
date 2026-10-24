@@ -1,0 +1,35 @@
+# Entornos virtuales: cada instalación de dependencias se mantiene en local.
+.venv/
+venv/
+env/
+
+# Bytecode, cachés y resultados de herramientas de Python.
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.log
+.coverage
+htmlcov/
+
+# Configuración privada y secretos locales.
+.env
+.env.*
+# Conserva la plantilla: contiene nombres de variables, no credenciales reales.
+!.env.example
+
+# Bases de datos locales; el esquema se reconstruye mediante migraciones.
+db.sqlite3
+db.sqlite3-journal
+*.sqlite3
+
+# Archivos subidos por usuarios y salidas generadas por collectstatic.
+media/
+staticfiles/
+
+# Preferencias del editor y archivos propios del sistema operativo.
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

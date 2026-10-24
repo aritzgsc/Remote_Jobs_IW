@@ -1,0 +1,2 @@
+# Framework web, administración, formularios y sistema de plantillas.
+Django>=5.2,<7.0
