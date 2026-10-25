@@ -1,0 +1,29 @@
+{% extends "App_Remote_Jobs/base.html" %}
+{% block title %}
+    Habilidades · Remote Jobs
+{% endblock %}
+{% block content %}
+    <h1>Explorar habilidades</h1>
+    <form method="get">
+        <label for="q">Buscar habilidad</label>
+        <input id="q" name="q" value="{{ q }}">
+        <label for="categoria">Categoría</label>
+        <select name="categoria" id="categoria">
+            <option value="">Todas</option>
+            {% for item in categorias %}
+            <option value="{{ item }}">{{ item }}</option>
+            {% endfor %}
+        </select>
+        <button>Buscar</button>
+    </form>
+    <div class="job-grid">
+        {% for habilidad in habilidades %}
+        <article class="job-card">
+            <h2><a href="{{ habilidad.get_absolute_url }}">{{ habilidad.nombre }}</a></h2>
+            <p>{{ habilidad.descripcion }}</p>
+            <p>{{ habilidad.total_ofertas }} ofertas</p>
+        </article>
+        {% empty %}<p>No hay habilidades.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

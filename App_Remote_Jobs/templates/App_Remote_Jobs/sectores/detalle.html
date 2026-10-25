@@ -1,0 +1,32 @@
+{% extends "App_Remote_Jobs/base.html" %}
+{% block title %}
+    {{ sector.nombre }} · Remote Jobs
+{% endblock %}
+{% block content %}
+    <p><a href="{% url 'jobs:sector_list' %}">← Sectores</a></p>
+    <h1>{{ sector.nombre }}</h1>
+    <p>{{ sector.descripcion }}</p>
+    <form method="get"><label for="modalidad">Modalidad</label>
+        <select name="modalidad" id="modalidad">
+            <option value="">Todas</option>
+            <option value="remoto">Remoto</option>
+            <option value="hibrido">Híbrido</option>
+        </select>
+        <label for="tipo">Tipo</label>
+        <select name="tipo" id="tipo">
+            <option value="">Todos</option>
+            <option value="junior">Junior</option>
+            <option value="practicas">Prácticas</option>
+        </select>
+        <button>Filtrar</button>
+    </form>
+    <div class="job-grid">
+        {% for oferta in ofertas %}
+        <article class="job-card">
+            <h2><a href="{{ oferta.get_absolute_url }}">{{ oferta.titulo }}</a></h2>
+            <p>{{ oferta.empresa }} · {{ oferta.resumen }}</p>
+        </article>
+        {% empty %}<p>No hay ofertas para este sector.</p>
+        {% endfor %}
+    </div>
+{% endblock %}
