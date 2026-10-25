@@ -23,6 +23,7 @@
             {% endfor %}
         </p>
         <p>{{ oferta.etiqueta_salario }} · {{ oferta.get_modalidad_display }}</p>
+            {% include "App_Remote_Jobs/componentes/boton_favorito.html" with oferta=oferta %}
         {% if oferta.url_solicitud %}
         <p><a class="button" href="{{ oferta.url_solicitud }}" rel="noopener noreferrer">Solicitar oferta</a></p>
         {% endif %}

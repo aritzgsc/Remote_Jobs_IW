@@ -1,0 +1,13 @@
+{% if user.is_authenticated %}
+    <form class="favorite-form" method="post" action="{% url 'jobs:alternar_favorito' oferta.pk %}">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+        {% if oferta.pk in favorite_ids %}
+            <button class="favorite-button is-saved" type="submit" aria-label="Quitar {{ oferta.titulo }} de ofertas guardadas">♥ Guardada</button>
+        {% else %}
+            <button class="favorite-button" type="submit" aria-label="Guardar {{ oferta.titulo }}">♡ Guardar</button>
+        {% endif %}
+    </form>
+{% else %}
+    <a class="favorite-button favorite-login-link" href="{% url 'accounts:login' %}?next={{ request.get_full_path|urlencode }}">♡ Inicia sesión para guardar</a>
+{% endif %}

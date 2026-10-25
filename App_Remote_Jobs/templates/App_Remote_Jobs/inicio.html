@@ -27,6 +27,7 @@
                 <h3>{{ oferta.titulo }}</h3>
                 <p>{{ oferta.empresa }} · {{ oferta.sector.nombre }}</p>
                 <p>{{ oferta.resumen }}</p>
+            {% include "App_Remote_Jobs/componentes/boton_favorito.html" with oferta=oferta %}
             </article>
             {% empty %}<p>Aún no hay ofertas. Ejecuta cargar_datos_demo o créalas desde el administrador.</p>
             {% endfor %}

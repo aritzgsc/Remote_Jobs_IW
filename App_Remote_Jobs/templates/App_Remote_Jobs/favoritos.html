@@ -1,0 +1,23 @@
+{% extends "App_Remote_Jobs/base.html" %}
+{% block title %}Ofertas guardadas · Remote Jobs{% endblock %}
+{% block content %}
+    <section class="panel">
+        <h1>Ofertas guardadas</h1>
+        {% if ofertas %}
+            <div class="job-grid">
+                {% for oferta in ofertas %}
+                    <article class="job-card">
+                        <h2><a href="{{ oferta.get_absolute_url }}">{{ oferta.titulo }}</a></h2>
+                        <p>{{ oferta.empresa }} · {{ oferta.sector.nombre }}</p>
+                        <p>{{ oferta.resumen }}</p>
+                        <p><strong>{{ oferta.etiqueta_salario }}</strong></p>
+                        {% include "App_Remote_Jobs/componentes/boton_favorito.html" with oferta=oferta %}
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Aún no has guardado ofertas.</p>
+            <p><a class="button" href="{% url 'jobs:oferta_list' %}">Explorar ofertas</a></p>
+        {% endif %}
+    </section>
+{% endblock %}

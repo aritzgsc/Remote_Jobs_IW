@@ -48,6 +48,7 @@ TEMPLATES = [{
         "django.template.context_processors.csrf",
         "django.contrib.auth.context_processors.auth",
         "django.contrib.messages.context_processors.messages",
+        "App_Remote_Jobs.context_processors.contexto_favoritos",
     ]},
 }]
 

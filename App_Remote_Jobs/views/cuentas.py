@@ -8,7 +8,7 @@ from django.shortcuts import redirect, render
 from django.views.decorators.http import require_POST
 
 from ..forms import DatosCuentaForm, InicioSesionForm, PerfilUsuarioForm, RegistroForm
-from ..models import PerfilUsuario
+from ..models import OfertaGuardada, PerfilUsuario
 
 
 
@@ -52,10 +52,11 @@ def cerrar_sesion(request):
 @login_required
 def perfil(request):
     perfil_usuario, _ = PerfilUsuario.objects.get_or_create(usuario=request.user)
+    total_guardadas = OfertaGuardada.objects.filter(usuario=request.user, oferta__publicada=True).count()
     return render(
         request,
         "App_Remote_Jobs/cuentas/perfil.html",
-        {"perfil_usuario": perfil_usuario, "total_guardadas": 0},
+        {"perfil_usuario": perfil_usuario, "total_guardadas": total_guardadas},
     )
 
 

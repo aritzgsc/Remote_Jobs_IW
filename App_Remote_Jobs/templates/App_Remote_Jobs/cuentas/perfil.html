@@ -12,6 +12,7 @@
         {% endif %}
         <p>{{ perfil_usuario.nombre_mostrado }}</p>
         <p>{{ request.user.email }}</p>
+        <p><a href="{% url 'jobs:favoritos' %}">Ofertas guardadas: {{ total_guardadas }}</a></p>
         <p><a class="button" href="{% url 'accounts:profile_edit' %}">Editar perfil</a></p>
     </section>
 {% endblock %}

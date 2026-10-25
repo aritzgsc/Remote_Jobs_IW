@@ -24,7 +24,7 @@ Remote Jobs organiza ofertas por sector y habilidades para ayudar a encontrar op
 - [x] Modelos modulares y perfil de usuario
 - [x] Registro, inicio y cierre de sesión
 - [x] Edición de perfil y avatar, con vistas modularizadas
-- [ ] Ofertas guardadas de forma privada por usuario
+- [x] Ofertas guardadas de forma privada por usuario
 - [ ] Cambio y recuperación de contraseña
 - [ ] Inicio de sesión con correo o nombre de usuario
 - [ ] Preparación de Google OAuth

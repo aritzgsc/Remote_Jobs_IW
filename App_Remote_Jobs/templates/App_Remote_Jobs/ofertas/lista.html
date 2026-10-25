@@ -68,6 +68,7 @@
                 <p>{{ oferta.empresa }} · {{ oferta.sector.nombre }}</p>
                 <h2><a href="{{ oferta.get_absolute_url }}">{{ oferta.titulo }}</a></h2>
                 <p>{{ oferta.resumen }}</p><strong>{{ oferta.etiqueta_salario }}</strong>
+            {% include "App_Remote_Jobs/componentes/boton_favorito.html" with oferta=oferta %}
             </article>
             {% empty %}<p>No hay ofertas con esos filtros.</p>
             {% endfor %}
