@@ -1,5 +1,7 @@
 """Rutas públicas y de cuenta de Remote Jobs."""
 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import PasswordChangeDoneView
 from django.urls import include, path
 
 from .views.publicas import inicio
@@ -7,7 +9,18 @@ from .views.ofertas import detalle_oferta, lista_ofertas
 from .views.sectores import detalle_sector, lista_sectores
 from .views.habilidades import detalle_habilidad, lista_habilidades
 from .views.favoritos import alternar_favorito, favoritos
-from .views.cuentas import iniciar_sesion, registro, cerrar_sesion, perfil, editar_perfil
+from .views.cuentas import (
+    iniciar_sesion,
+    registro,
+    cerrar_sesion,
+    perfil,
+    editar_perfil,
+    CambioContrasenaView,
+    RecuperarContrasenaView,
+    RecuperarContrasenaEnviadoView,
+    NuevaContrasenaView,
+    ContrasenaRestablecidaView,
+)
 
 
 rutas_cuentas = [
@@ -16,6 +29,20 @@ rutas_cuentas = [
     path("cuenta/salir/", cerrar_sesion, name="logout"),
     path("perfil/", perfil, name="profile"),
     path("perfil/editar/", editar_perfil, name="profile_edit"),
+    path("cuenta/contrasena/cambiar/", CambioContrasenaView.as_view(), name="password_change"),
+    path(
+        "cuenta/contrasena/cambiada/",
+        login_required(
+            PasswordChangeDoneView.as_view(
+                template_name="App_Remote_Jobs/cuentas/contrasena_cambiada.html"
+            )
+        ),
+        name="password_change_done",
+    ),
+    path("cuenta/contrasena/recuperar/", RecuperarContrasenaView.as_view(), name="password_reset"),
+    path("cuenta/contrasena/recuperar/enviado/", RecuperarContrasenaEnviadoView.as_view(), name="password_reset_done"),
+    path("cuenta/contrasena/nueva/<str:uidb64>/<str:token>/", NuevaContrasenaView.as_view(), name="password_reset_confirm"),
+    path("cuenta/contrasena/restablecida/", ContrasenaRestablecidaView.as_view(), name="password_reset_complete"),
 ]
 
 rutas_ofertas = [

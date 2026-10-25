@@ -25,7 +25,7 @@ Remote Jobs organiza ofertas por sector y habilidades para ayudar a encontrar op
 - [x] Registro, inicio y cierre de sesión
 - [x] Edición de perfil y avatar, con vistas modularizadas
 - [x] Ofertas guardadas de forma privada por usuario
-- [ ] Cambio y recuperación de contraseña
+- [x] Cambio y recuperación de contraseña
 - [ ] Inicio de sesión con correo o nombre de usuario
 - [ ] Preparación de Google OAuth
 - [ ] Botón de Google y datos básicos del perfil social
@@ -64,6 +64,7 @@ El archivo `.env.example` documenta las variables reconocidas por el proyecto. C
 
 - `DJANGO_DEBUG`: activa el modo de depuración solo durante el desarrollo local.
 - `DJANGO_ALLOWED_HOSTS`: lista de hosts permitidos, separados por comas.
+- `DJANGO_EMAIL_BACKEND`: en desarrollo puede utilizarse el backend de consola para mostrar los correos en la terminal.
 
 ## Uso
 

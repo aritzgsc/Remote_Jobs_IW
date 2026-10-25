@@ -1,0 +1,11 @@
+{% extends "App_Remote_Jobs/base.html" %}
+{% block title %}
+    Contraseña cambiada · Remote Jobs
+{% endblock %}
+{% block content %}
+    <section class="panel">
+        <h1>Contraseña actualizada</h1>
+        <p>Tu contraseña se ha cambiado correctamente.</p>
+        <p><a href="{% url 'accounts:profile' %}">Volver al perfil</a></p>
+    </section>
+{% endblock %}

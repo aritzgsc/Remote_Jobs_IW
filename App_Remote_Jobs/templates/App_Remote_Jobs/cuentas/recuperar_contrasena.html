@@ -1,0 +1,13 @@
+{% extends "App_Remote_Jobs/base.html" %}
+{% block title %}
+    Recuperar contraseña · Remote Jobs
+{% endblock %}
+{% block content %}
+    <section class="panel">
+        <h1>Recuperar contraseña</h1>
+        <p>Indica el correo asociado a tu cuenta.</p>
+        <form method="post">{% csrf_token %}{{ form.as_p }}
+            <button type="submit">Enviar instrucciones</button>
+        </form>
+    </section>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "App_Remote_Jobs/base.html" %}
+{% block title %}
+    Cambiar contraseña · Remote Jobs
+{% endblock %}
+{% block content %}
+    <section class="panel">
+        <h1>Cambiar contraseña</h1>
+        <form method="post">
+            {% csrf_token %}{{ form.as_p }}
+            <button type="submit">Guardar nueva contraseña</button>
+        </form>
+    </section>
+{% endblock %}

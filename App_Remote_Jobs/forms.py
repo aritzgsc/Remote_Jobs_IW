@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, UserCreationForm
 
 from .models import PerfilUsuario
 
@@ -102,3 +102,7 @@ class PerfilUsuarioForm(WidgetClassesMixin, forms.ModelForm):
 
 
 
+class CambioContrasenaForm(WidgetClassesMixin, PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.add_widget_classes()

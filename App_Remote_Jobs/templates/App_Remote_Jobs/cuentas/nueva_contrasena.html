@@ -1,0 +1,16 @@
+{% extends "App_Remote_Jobs/base.html" %}
+{% block title %}
+    Crear nueva contraseña · Remote Jobs
+{% endblock %}
+{% block content %}
+    <section class="panel">
+        <h1>Crear nueva contraseña</h1>
+        {% if validlink %}
+        <form method="post">
+            {% csrf_token %}{{ form.as_p }}
+            <button type="submit">Guardar contraseña</button>
+        </form>
+        {% else %}<p>El enlace no es válido o ha caducado.</p>
+        {% endif %}
+    </section>
+{% endblock %}
