@@ -22,3 +22,13 @@ class OfertaAdmin(admin.ModelAdmin):
     search_fields = ("titulo", "empresa", "resumen", "descripcion")
     prepopulated_fields = {"slug": ("titulo",)}
     filter_horizontal = ("habilidades",)
+
+
+from .models import PerfilUsuario
+
+@admin.register(PerfilUsuario)
+class PerfilUsuarioAdmin(admin.ModelAdmin):
+    list_display = ("usuario", "nombre_publico", "ubicacion", "actualizado")
+    search_fields = ("usuario__username", "usuario__email", "nombre_publico", "titular")
+    list_select_related = ("usuario",)
+    readonly_fields = ("creado", "actualizado")

@@ -5,3 +5,6 @@ class AppRemoteJobsConfig(AppConfig):
     name = "App_Remote_Jobs"
     label = "app_remote_jobs"
     verbose_name = "Remote Jobs"
+
+    def ready(self):
+        from . import signals  # noqa: F401
