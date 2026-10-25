@@ -1,0 +1,11 @@
+{% extends "App_Remote_Jobs/base.html" %}
+{% block title %}
+    Mi perfil · Remote Jobs
+{% endblock %}
+{% block content %}
+    <section class="panel">
+        <h1>Mi perfil</h1>
+        <p>{{ perfil_usuario.nombre_mostrado }}</p>
+        <p>{{ request.user.email }}</p>
+    </section>
+{% endblock %}

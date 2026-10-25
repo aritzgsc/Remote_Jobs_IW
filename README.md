@@ -24,7 +24,7 @@ Remote Jobs reúne ofertas organizadas por sector y habilidades para que sea má
 - [x] Filtros avanzados, ordenación y paginación
 - [x] Catálogos de sectores y habilidades
 - [x] Modelos modulares y perfil de usuario
-- [ ] Registro, inicio y cierre de sesión
+- [x] Registro, inicio y cierre de sesión
 - [ ] Edición de perfil e imagen de avatar
 - [ ] Ofertas guardadas de forma privada por usuario
 - [ ] Cambio y recuperación de contraseña

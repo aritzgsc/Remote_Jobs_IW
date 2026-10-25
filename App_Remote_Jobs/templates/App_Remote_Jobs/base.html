@@ -5,14 +5,36 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Ofertas junior y prácticas en remoto o híbrido">
     <title>{% block title %}Remote Jobs{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'App_Remote_Jobs/css/estilos.css' %}">
 </head>
 
 <body>
-    <header class="site-header"><a class="brand" href="{% url 'jobs:inicio' %}">remotejobs</a></header>
-    <main id="contenido">{% block content %}{% endblock %}</main>
+    <header class="site-header"><a class="brand" href="{% url 'jobs:inicio' %}">remotejobs</a>
+        <nav>
+            <a href="{% url 'jobs:oferta_list' %}">Ofertas</a> <a href="{% url 'jobs:sector_list' %}">Sectores</a> 
+            <a href="{% url 'jobs:habilidad_list' %}">Habilidades</a> 
+            {% if user.is_authenticated %}
+            <a href="{% url 'accounts:profile' %}">Mi perfil</a>
+            <form method="post" action="{% url 'accounts:logout' %}" style="display:inline">
+                {% csrf_token %}
+                <button type="submit">Salir</button>
+            </form>
+            {% else %}
+            <a href="{% url 'accounts:login' %}">Entrar</a> 
+            <a href="{% url 'accounts:register' %}">Crear cuenta</a>
+            {% endif %}
+        </nav>
+    </header>
+    <main id="contenido">
+        {% if messages %}
+        {% for message in messages %}
+        <p role="status">{{ message }}</p>
+        {% endfor %}
+        {% endif %}
+        {% block content %}
+        {% endblock %}
+    </main>
     <footer class="site-footer">Remote Jobs · Oportunidades profesionales</footer>
 </body>
 

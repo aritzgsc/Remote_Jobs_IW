@@ -1,0 +1,11 @@
+{% extends "App_Remote_Jobs/base.html" %}
+{% block title %}
+    Registro · Remote Jobs
+{% endblock %}
+{% block content %}
+    <section class="panel">
+        <h1>Crear cuenta</h1>
+        <form method="post">{% csrf_token %}{{ form.as_p }}<button type="submit">Registrarme</button></form>
+        <p>¿Ya tienes cuenta? <a href="{% url 'accounts:login' %}">Entrar</a></p>
+    </section>
+{% endblock %}
