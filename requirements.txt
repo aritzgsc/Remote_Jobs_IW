@@ -2,3 +2,5 @@
 Django>=5.2,<7.0
 # Carga de variables locales desde el archivo .env.
 python-dotenv>=1.0.1,<2.0
+# Lectura y validación de las imágenes de perfil.
+Pillow>=10.4,<14.0

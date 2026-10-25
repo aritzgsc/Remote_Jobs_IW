@@ -1,0 +1,19 @@
+{% extends "App_Remote_Jobs/base.html" %}
+{% block title %}
+    Editar perfil · Remote Jobs
+{% endblock %}
+{% block content %}
+    <section class="panel">
+        <h1>Editar perfil</h1>
+        <p>Actualiza los datos de tu cuenta y la información que quieres mostrar en tu perfil.</p>
+        <form method="post" enctype="multipart/form-data" action="{% url 'accounts:profile_edit' %}">
+            {% csrf_token %}
+            <h2>Datos de cuenta</h2>
+            {{ datos_form.as_p }}
+            <h2>Información profesional</h2>
+            {{ perfil_form.as_p }}
+            <button type="submit">Guardar cambios</button>
+            <a href="{% url 'accounts:profile' %}">Cancelar</a>
+        </form>
+    </section>
+{% endblock %}

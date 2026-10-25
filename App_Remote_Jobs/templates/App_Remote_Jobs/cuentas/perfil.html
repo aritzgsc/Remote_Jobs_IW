@@ -5,7 +5,13 @@
 {% block content %}
     <section class="panel">
         <h1>Mi perfil</h1>
+        {% if perfil_usuario.avatar %}
+            <p><img src="{{ perfil_usuario.avatar.url }}" alt="Foto de {{ perfil_usuario.nombre_mostrado }}"></p>
+        {% else %}
+            <p>{{ perfil_usuario.iniciales }}</p>
+        {% endif %}
         <p>{{ perfil_usuario.nombre_mostrado }}</p>
         <p>{{ request.user.email }}</p>
+        <p><a class="button" href="{% url 'accounts:profile_edit' %}">Editar perfil</a></p>
     </section>
 {% endblock %}

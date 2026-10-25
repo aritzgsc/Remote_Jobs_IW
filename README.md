@@ -1,54 +1,46 @@
 # Remote Jobs
 
-> Encuentra oportunidades de primer empleo y prácticas en modalidad remota o híbrida.
+> Oportunidades de primer empleo y prácticas en modalidad remota o híbrida.
 
-Remote Jobs reúne ofertas organizadas por sector y habilidades para que sea más sencillo descubrir oportunidades relevantes. Cada oferta presenta la información disponible sobre su modalidad, tipo de empleo y condiciones; las cuentas personales permiten mantener un perfil y guardar ofertas para consultarlas más adelante.
+Remote Jobs organiza ofertas por sector y habilidades para ayudar a encontrar oportunidades profesionales relevantes. Cada oferta presenta la información disponible sobre modalidad, tipo de empleo y salario. Las cuentas personales permiten administrar el perfil y guardar ofertas para consultarlas más adelante.
 
-## Navegación
-
-[Funcionalidades](#funcionalidades) · [Calidad y mantenimiento](#calidad-y-mantenimiento) · [Instalación](#instalacion) · [Configuración](#configuracion) · [Pruebas](#pruebas-y-comprobaciones) · [Estructura](#estructura) · [Seguridad](#seguridad-local)
+[Funcionalidades](#funcionalidades) · [Instalación](#instalación) · [Configuración](#configuración) · [Uso](#uso) · [Pruebas](#pruebas) · [Estructura](#estructura) · [Seguridad](#seguridad-local)
 
 ## Funcionalidades
 
 - [x] Portada funcional
-- [x] Configuración mediante variables de entorno
+- [x] Configuración local mediante variables de entorno
 - [x] Plantilla base y estilos adaptables
-- [x] Gestión de sectores desde el administrador
-- [x] Habilidades relacionadas con sectores y ofertas
-- [x] Ofertas con modalidad, tipo y datos salariales
+- [x] Sectores gestionables desde el administrador
+- [x] Habilidades y relaciones entre entidades
+- [x] Ofertas con validaciones y datos salariales
 - [x] Datos de demostración reproducibles
-- [x] Portada conectada a la base de datos
+- [x] Portada conectada con la base de datos
 - [x] Listado y detalle de ofertas
-- [x] Búsqueda textual y sugerencias nativas
-- [x] Filtros por sector, habilidad y modalidad
+- [x] Búsqueda textual con sugerencias nativas
+- [x] Filtros combinables por sector, habilidad y modalidad
 - [x] Filtros avanzados, ordenación y paginación
 - [x] Catálogos de sectores y habilidades
 - [x] Modelos modulares y perfil de usuario
 - [x] Registro, inicio y cierre de sesión
-- [ ] Edición de perfil e imagen de avatar
+- [x] Edición de perfil y avatar, con vistas modularizadas
 - [ ] Ofertas guardadas de forma privada por usuario
 - [ ] Cambio y recuperación de contraseña
-- [ ] Acceso mediante correo o nombre de usuario
-- [ ] Preparación de la autenticación con Google
-- [ ] Botón de Google y datos del perfil social
-- [ ] Plantillas de cuenta y componentes compartidos
-
-## Calidad y mantenimiento
-
-- [ ] Pruebas de integración de las funciones principales
-- [ ] Guía de instalación, uso y configuración
-- [ ] Comentarios sobre decisiones técnicas no evidentes
-- [ ] Pruebas de regresión y control de permisos
-- [ ] Documentación de arquitectura y configuración
-
-## Requisitos
-
-- Python 3.11 o posterior.
-- `pip`, incluido con las instalaciones habituales de Python.
+- [ ] Inicio de sesión con correo o nombre de usuario
+- [ ] Preparación de Google OAuth
+- [ ] Botón de Google y datos básicos del perfil social
+- [ ] Plantillas semánticas y componentes compartidos
+- [ ] Pruebas de integración de páginas y permisos
+- [ ] Guía de instalación y herramientas de arranque local
+- [ ] Comentarios que explican decisiones técnicas no evidentes
+- [ ] Pruebas de regresión, integridad salarial y comprobaciones
+- [ ] Estilos visuales finales aplicados a todas las páginas
 
 ## Instalación
 
-### Windows (PowerShell)
+Necesitas Python 3.11 o posterior y `pip`. Ejecuta los comandos desde la carpeta que contiene `manage.py`.
+
+### Windows · PowerShell
 
 ```powershell
 py -m venv .venv
@@ -57,7 +49,7 @@ python -m pip install -r requirements.txt
 Copy-Item .env.example .env
 ```
 
-### macOS y Linux
+### macOS · Linux
 
 ```bash
 python3 -m venv .venv
@@ -66,16 +58,14 @@ python -m pip install -r requirements.txt
 cp .env.example .env
 ```
 
-Abre `.env` y sustituye los valores de ejemplo por los ajustes locales que necesites. Define una clave secreta propia para Django; no compartas este archivo ni lo añadas al repositorio.
-
 ## Configuración
 
-- `DJANGO_DEBUG`: déjalo activado únicamente mientras desarrollas en local.
-- `DJANGO_ALLOWED_HOSTS`: enumera los hosts admitidos, separados por comas.
+El archivo `.env.example` documenta las variables reconocidas por el proyecto. Copia el archivo a `.env` y modifica los valores locales; no guardes credenciales reales en Git.
 
-El archivo `.env.example` contiene nombres de variables y valores de ejemplo, no credenciales reales.
+- `DJANGO_DEBUG`: activa el modo de depuración solo durante el desarrollo local.
+- `DJANGO_ALLOWED_HOSTS`: lista de hosts permitidos, separados por comas.
 
-## Ejecutar la aplicación
+## Uso
 
 ```bash
 python manage.py migrate
@@ -83,11 +73,11 @@ python manage.py cargar_datos_demo
 python manage.py runserver
 ```
 
-Abre [http://127.0.0.1:8000/](http://127.0.0.1:8000/) en el navegador. Para administrar los datos, crea una cuenta de administrador con `python manage.py createsuperuser` y entra en `/admin/`.
+Abre [http://127.0.0.1:8000/](http://127.0.0.1:8000/). Para gestionar los datos desde Django Admin, crea una cuenta con `python manage.py createsuperuser` y entra en `/admin/`.
 
-El comando `cargar_datos_demo` inserta datos de ejemplo para explorar el catálogo. Se puede volver a ejecutar sin crear copias del conjunto inicial.
+El comando `cargar_datos_demo` crea un conjunto inicial reproducible y se puede volver a ejecutar sin duplicar los datos de ejemplo.
 
-## Pruebas y comprobaciones
+## Pruebas
 
 ```bash
 python manage.py check
@@ -95,20 +85,31 @@ python manage.py test
 python manage.py makemigrations --check --dry-run
 ```
 
+
 ## Estructura
 
 ```text
 Remote_Jobs/
-├── App_Remote_Jobs/    # Modelos, vistas, formularios y plantillas
-├── Remote_Jobs/        # Configuración y rutas del proyecto Django
+├── App_Remote_Jobs/
+│   ├── migrations/       # Evolución versionada del esquema de datos
+│   ├── models/           # Sector, Habilidad, Oferta y perfil
+│   ├── views/            # Vistas separadas por responsabilidad
+│   ├── templates/        # Plantillas HTML del servidor
+│   ├── static/            # Hoja de estilos
+│   ├── forms.py
+│   ├── urls.py
+│   └── admin.py
+├── Remote_Jobs/         # Configuración del proyecto Django
 ├── manage.py
 ├── requirements.txt
 ├── .env.example
 └── .gitignore
 ```
 
+Las vistas públicas, de ofertas, sectores, habilidades y cuentas residen en módulos distintos. Las plantillas se mantienen organizadas por página y, a partir de la refactorización de plantillas, reutilizan componentes comunes.
+
 ## Seguridad local
 
-Los archivos `.env`, `.venv/`, `db.sqlite3`, `media/` y `staticfiles/` son locales y están excluidos de Git. Las migraciones y el comando de demostración permiten reconstruir la base de datos sin compartir datos personales.
+`.env`, `.venv/`, `db.sqlite3`, `media/` y `staticfiles/` son archivos o carpetas locales y no se deben versionar. El repositorio conserva las migraciones y los datos de demostración, no las cuentas, imágenes ni bases de datos locales.
 
-El servidor `runserver` está pensado para desarrollo. Antes de publicar la aplicación, configura una clave secreta privada, `DJANGO_DEBUG=False`, los hosts permitidos y HTTPS.
+El servidor `runserver` está pensado para desarrollo. Antes de publicar la aplicación, configura una clave secreta privada, `DEBUG=False`, los hosts permitidos y HTTPS.

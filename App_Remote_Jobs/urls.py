@@ -1,24 +1,30 @@
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import PasswordChangeDoneView
+"""Rutas públicas y de cuenta de Remote Jobs."""
+
 from django.urls import include, path
 
-from . import views, vistas_cuentas
+from .views.publicas import inicio
+from .views.ofertas import detalle_oferta, lista_ofertas
+from .views.sectores import detalle_sector, lista_sectores
+from .views.habilidades import detalle_habilidad, lista_habilidades
+from .views.cuentas import iniciar_sesion, registro, cerrar_sesion, perfil, editar_perfil
+
 
 rutas_cuentas = [
-    path("cuenta/entrar/", vistas_cuentas.iniciar_sesion, name="login"),
-    path("cuenta/registro/", vistas_cuentas.registro, name="register"),
-    path("cuenta/salir/", vistas_cuentas.cerrar_sesion, name="logout"),
-    path("perfil/", vistas_cuentas.perfil, name="profile"),
+    path("cuenta/entrar/", iniciar_sesion, name="login"),
+    path("cuenta/registro/", registro, name="register"),
+    path("cuenta/salir/", cerrar_sesion, name="logout"),
+    path("perfil/", perfil, name="profile"),
+    path("perfil/editar/", editar_perfil, name="profile_edit"),
 ]
 
 rutas_ofertas = [
-    path("", views.inicio, name="inicio"),
-    path("ofertas/", views.lista_ofertas, name="oferta_list"),
-    path("ofertas/<slug:slug>/", views.detalle_oferta, name="oferta_detail"),
-    path("sectores/", views.lista_sectores, name="sector_list"),
-    path("sectores/<slug:slug>/", views.detalle_sector, name="sector_detail"),
-    path("habilidades/", views.lista_habilidades, name="habilidad_list"),
-    path("habilidades/<slug:slug>/", views.detalle_habilidad, name="habilidad_detail"),
+    path("", inicio, name="inicio"),
+    path("ofertas/", lista_ofertas, name="oferta_list"),
+    path("ofertas/<slug:slug>/", detalle_oferta, name="oferta_detail"),
+    path("sectores/", lista_sectores, name="sector_list"),
+    path("sectores/<slug:slug>/", detalle_sector, name="sector_detail"),
+    path("habilidades/", lista_habilidades, name="habilidad_list"),
+    path("habilidades/<slug:slug>/", detalle_habilidad, name="habilidad_detail"),
 ]
 
 urlpatterns = [

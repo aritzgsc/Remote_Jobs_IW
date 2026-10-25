@@ -76,5 +76,8 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 # Tipo de clave primaria aplicado a los modelos que no declaran una explícitamente.
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
+
 X_CONTENT_TYPE_OPTIONS = "nosniff"
 X_FRAME_OPTIONS = "DENY"
