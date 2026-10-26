@@ -47,7 +47,7 @@ class RegistroForm(WidgetClassesMixin, UserCreationForm):
 
 
 class InicioSesionForm(WidgetClassesMixin, AuthenticationForm):
-    username = forms.CharField(label="Nombre de usuario", max_length=254)
+    username = forms.CharField(label="Correo electrónico o nombre de usuario", max_length=254)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
