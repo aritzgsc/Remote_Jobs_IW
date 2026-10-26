@@ -34,6 +34,12 @@ class PerfilUsuario(models.Model):
         verbose_name="Foto de perfil",
         help_text="JPG, PNG o WebP. Máximo 3 MB.",
     )
+    avatar_url = models.URLField(
+        max_length=500,
+        blank=True,
+        verbose_name="URL de la foto del proveedor",
+        help_text="Se rellena automáticamente al crear el perfil con Google; una foto subida manualmente tiene prioridad.",
+    )
     creado = models.DateTimeField(auto_now_add=True)
     actualizado = models.DateTimeField(auto_now=True)
 

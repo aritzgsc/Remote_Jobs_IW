@@ -1,5 +1,6 @@
 """Vistas de autenticación y gestión de perfiles."""
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
@@ -35,6 +36,16 @@ def _destino_seguro(request, destino, fallback):
     ):
         return destino
     return fallback
+
+
+@require_POST
+def google_oauth_setup_required(request):
+    """Explica cómo activar Google OAuth cuando aún no hay credenciales."""
+    if settings.GOOGLE_OAUTH_CLIENT_ID and settings.GOOGLE_OAUTH_CLIENT_SECRET:
+        # Con credenciales configuradas, el botón de la plantilla envía el POST
+        # directamente a django-allauth. Este camino solo es el fallback visual.
+        return redirect("accounts:login")
+    return render(request, "App_Remote_Jobs/cuentas/configurar_google.html")
 
 
 def iniciar_sesion(request):

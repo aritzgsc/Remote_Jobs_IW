@@ -6,6 +6,7 @@
     <section class="panel">
         <h1>Crear cuenta</h1>
         <form method="post">{% csrf_token %}{{ form.as_p }}<button type="submit">Registrarme</button></form>
+        {% include "App_Remote_Jobs/componentes/boton_google.html" %}
         <p>¿Ya tienes cuenta? <a href="{% url 'accounts:login' %}">Entrar</a></p>
     </section>
 {% endblock %}

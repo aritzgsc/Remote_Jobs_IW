@@ -28,7 +28,7 @@ Remote Jobs organiza ofertas por sector y habilidades para ayudar a encontrar op
 - [x] Cambio y recuperación de contraseña
 - [x] Inicio de sesión con correo o nombre de usuario
 - [x] Preparación de Google OAuth
-- [ ] Botón de Google y datos básicos del perfil social
+- [x] Botón de Google y datos básicos del perfil social
 - [ ] Plantillas semánticas y componentes compartidos
 - [ ] Pruebas de integración de páginas y permisos
 - [ ] Guía de instalación y herramientas de arranque local

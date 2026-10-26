@@ -1,0 +1,49 @@
+{% extends "App_Remote_Jobs/base.html" %}
+{% load i18n %}
+{% block title %}
+    Crear cuenta · Remote Jobs
+{% endblock %}
+{% block content %}
+    <section class="account-page">
+        <div class="container account-layout">
+            <aside class="account-aside">
+                <a class="account-back-link" href="{% url 'jobs:inicio' %}">← Volver a Remote Jobs</a>
+                <p class="eyebrow eyebrow-light">
+                    EMPIEZA POR TI
+                </p>
+                <h1>
+                    Tu futuro<br><span>empieza aquí.</span>
+                </h1>
+                <p>
+                    Termina de configurar tu cuenta para conservar oportunidades y preparar tu perfil personal.
+                </p>
+            </aside>
+            <div class="account-card account-card-wide">
+                <div class="account-card-heading">
+                    <p class="eyebrow">
+                        UN BUEN COMIENZO
+                    </p>
+                    <h2>
+                        {% trans "Sign Up" %}
+                    </h2>
+                    <p>
+                        Completa los datos necesarios para terminar el registro.
+                    </p>
+                </div>
+                <form class="account-form" method="post" action="{% url 'account_signup' %}">
+                    {% csrf_token %}
+                    {% if redirect_field_value %}
+                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
+                    {% endif %}
+                    {{ form.as_p }}
+                    <button class="button button-dark button-full" type="submit">
+                        Crear mi cuenta <span aria-hidden="true">→</span>
+                    </button>
+                </form>
+                <p class="account-switch">
+                    ¿Ya tienes una cuenta? <a href="{% url 'account_login' %}">Iniciar sesión</a>
+                </p>
+            </div>
+        </div>
+    </section>
+{% endblock %}

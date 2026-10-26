@@ -6,12 +6,15 @@
     <section class="panel">
         <h1>Mi perfil</h1>
         {% if perfil_usuario.avatar %}
-            <p><img src="{{ perfil_usuario.avatar.url }}" alt="Foto de {{ perfil_usuario.nombre_mostrado }}"></p>
+        <p><img src="{{ perfil_usuario.avatar.url }}" alt="Foto de {{ perfil_usuario.nombre_mostrado }}"></p>
         {% else %}
-            <p>{{ perfil_usuario.iniciales }}</p>
+        <p>{{ perfil_usuario.iniciales }}</p>
         {% endif %}
         <p>{{ perfil_usuario.nombre_mostrado }}</p>
         <p>{{ request.user.email }}</p>
+        {% if perfil_usuario.avatar_url %}
+        <p><img src="{{ perfil_usuario.avatar_url }}" alt="Foto de Google" referrerpolicy="no-referrer"></p>
+        {% endif %}
         <p><a href="{% url 'jobs:favoritos' %}">Ofertas guardadas: {{ total_guardadas }}</a></p>
         <p><a class="button" href="{% url 'accounts:profile_edit' %}">Editar perfil</a></p>
         <p><a href="{% url 'accounts:password_change' %}">Cambiar contraseña</a></p>

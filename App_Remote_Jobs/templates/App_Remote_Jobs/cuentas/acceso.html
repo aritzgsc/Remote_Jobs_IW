@@ -1,13 +1,14 @@
 {% extends "App_Remote_Jobs/base.html" %}
 {% block title %}
     Entrar · Remote Jobs
-    {% endblock %}
+{% endblock %}
 {% block content %}
     <section class="panel">
         <h1>Entrar</h1>
         <form method="post">{% csrf_token %}{{ form.as_p }}
             <button type="submit">Entrar</button>
         </form>
+        {% include "App_Remote_Jobs/componentes/boton_google.html" %}
         <p><a href="{% url 'accounts:password_reset' %}">¿Has olvidado tu contraseña?</a></p>
         <p>¿No tienes cuenta? <a href="{% url 'accounts:register' %}">Regístrate</a></p>
     </section>

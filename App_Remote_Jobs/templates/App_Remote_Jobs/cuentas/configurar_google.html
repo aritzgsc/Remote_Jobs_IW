@@ -1,0 +1,41 @@
+{% extends "App_Remote_Jobs/base.html" %}
+{% block title %}
+    Configurar Google OAuth · Remote Jobs
+{% endblock %}
+{% block content %}
+    <section class="account-page">
+        <div class="container">
+            <div class="account-card account-card-wide account-message-card oauth-setup-card">
+                <span class="account-icon" aria-hidden="true">G</span>
+                <p class="eyebrow">
+                    ACCESO CON GOOGLE
+                </p>
+                <h1>
+                    Falta activar Google OAuth
+                </h1>
+                <p>
+                    El botón ya está disponible, pero esta instalación todavía no tiene las credenciales de Google necesarias para iniciar sesión. Puedes seguir entrando con correo y contraseña mientras lo configuras.
+                </p>
+                <ol class="oauth-setup-steps">
+                    <li>
+                        Entra en Google Cloud Console y crea un cliente OAuth de tipo <strong>Aplicación web</strong>.
+                    </li>
+                    <li>
+                        Añade esta URI de retorno a los URI de redirección autorizados:<br><code>http://127.0.0.1:8000/accounts/google/login/callback/</code>
+                    </li>
+                    <li>
+                        Copia el ID y el secreto del cliente en el archivo <code>.env</code> del proyecto:
+                    </li>
+                </ol>
+                <pre class="oauth-env-example">
+                    <code>GOOGLE_OAUTH_CLIENT_ID=tu-client-id
+                    GOOGLE_OAUTH_CLIENT_SECRET=tu-client-secret</code>
+                </pre>
+                <p class="oauth-setup-note">
+                    Reinicia el servidor Django después de guardar el archivo. Para probar Google desde el móvil necesitarás una URL HTTPS autorizada; la IP local de la Wi-Fi no sirve como callback de Google.
+                </p>
+                <a class="button button-dark" href="{% url 'accounts:login' %}">Volver al inicio de sesión <span aria-hidden="true">→</span></a>
+            </div>
+        </div>
+    </section>
+{% endblock %}

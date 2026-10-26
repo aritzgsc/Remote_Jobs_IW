@@ -1,0 +1,19 @@
+{% load socialaccount %}
+{% if google_oauth_enabled %}
+    <form class="social-login-form" method="post" action="{% provider_login_url 'google' process='login' %}">
+        {% csrf_token %}
+        <button class="button button-google button-full" type="submit">
+            <span class="google-mark" aria-hidden="true">G</span> Continuar con Google
+        </button>
+    </form>
+{% else %}
+    <form class="social-login-form" method="post" action="{% url 'accounts:google_oauth_setup' %}">
+        {% csrf_token %}
+        <button class="button button-google button-full" type="submit">
+            <span class="google-mark" aria-hidden="true">G</span> Continuar con Google
+        </button>
+    </form>
+    <p class="oauth-setup-note">
+        El acceso con Google aparecerá aquí en cuanto configures las credenciales OAuth en el archivo <code>.env</code>.
+    </p>
+{% endif %}

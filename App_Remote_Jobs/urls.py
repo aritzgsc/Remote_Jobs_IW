@@ -15,6 +15,7 @@ from .views.cuentas import (
     cerrar_sesion,
     perfil,
     editar_perfil,
+    google_oauth_setup_required,
     CambioContrasenaView,
     RecuperarContrasenaView,
     RecuperarContrasenaEnviadoView,
@@ -43,6 +44,7 @@ rutas_cuentas = [
     path("cuenta/contrasena/recuperar/enviado/", RecuperarContrasenaEnviadoView.as_view(), name="password_reset_done"),
     path("cuenta/contrasena/nueva/<str:uidb64>/<str:token>/", NuevaContrasenaView.as_view(), name="password_reset_confirm"),
     path("cuenta/contrasena/restablecida/", ContrasenaRestablecidaView.as_view(), name="password_reset_complete"),
+    path("cuenta/entrar/google/configuracion/", google_oauth_setup_required, name="google_oauth_setup"),
 ]
 
 rutas_ofertas = [

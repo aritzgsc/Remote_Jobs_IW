@@ -1,0 +1,49 @@
+{% extends "App_Remote_Jobs/base.html" %}
+{% load i18n %}
+{% block title %}
+    Completar registro · Remote Jobs
+{% endblock %}
+{% block content %}
+    <section class="account-page account-page-dark">
+        <div class="container account-layout">
+            <aside class="account-aside">
+                <a class="account-back-link" href="{% url 'jobs:inicio' %}">← Volver a Remote Jobs</a>
+                <p class="eyebrow eyebrow-light">
+                    UN ÚLTIMO PASO
+                </p>
+                <h1>
+                    Terminemos de<br><span>configurar tu cuenta.</span>
+                </h1>
+                <p>
+                    Tu acceso con Google está listo. Añade los datos que faltan para crear tu espacio personal en Remote Jobs.
+                </p>
+            </aside>
+            <div class="account-card account-card-wide">
+                <div class="account-card-heading">
+                    <p class="eyebrow">
+                        ACCESO CON GOOGLE
+                    </p>
+                    <h2>
+                        Completa tu registro
+                    </h2>
+                    <p>
+                        Comprueba los datos antes de continuar.
+                    </p>
+                </div>
+                <form class="account-form" method="post" action="{% url 'socialaccount_signup' %}">
+                    {% csrf_token %}
+                    {% if redirect_field_value %}
+                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
+                    {% endif %}
+                    {{ form.as_p }}
+                    <button class="button button-dark button-full" type="submit">
+                        Terminar registro <span aria-hidden="true">→</span>
+                    </button>
+                </form>
+                <p class="account-terms">
+                    Tu cuenta se usará para guardar tus preferencias y ofertas favoritas.
+                </p>
+            </div>
+        </div>
+    </section>
+{% endblock %}

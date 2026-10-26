@@ -1,0 +1,53 @@
+{% extends "App_Remote_Jobs/base.html" %}
+{% load i18n %}
+{% block title %}
+    Acceder · Remote Jobs
+{% endblock %}
+{% block content %}
+    <section class="account-page">
+        <div class="container account-layout">
+            <aside class="account-aside">
+                <a class="account-back-link" href="{% url 'jobs:inicio' %}">← Volver a Remote Jobs</a>
+                <p class="eyebrow eyebrow-light">
+                    TU SIGUIENTE CAPÍTULO
+                </p>
+                <h1>
+                    Entra en tu<br><span>espacio personal.</span>
+                </h1>
+                <p>
+                    Usa tu cuenta para recuperar tus oportunidades y gestionar tu perfil.
+                </p>
+            </aside>
+            <div class="account-card">
+                <div class="account-card-heading">
+                    <p class="eyebrow">
+                        ACCESO A REMOTE JOBS
+                    </p>
+                    <h2>
+                        {% trans "Sign In" %}
+                    </h2>
+                    <p>
+                        Accede con tu correo o nombre de usuario.
+                    </p>
+                </div>
+                <form class="account-form" method="post" action="{% url 'account_login' %}">
+                    {% csrf_token %}
+                    {% if redirect_field_value %}
+                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
+                    {% endif %}
+                    {{ form.as_p }}
+                    <button class="button button-dark button-full" type="submit">
+                        Entrar en mi cuenta <span aria-hidden="true">→</span>
+                    </button>
+                </form>
+                {% include "App_Remote_Jobs/componentes/boton_google.html" %}
+                <p class="account-switch">
+                    ¿No tienes cuenta? <a href="{% url 'account_signup' %}">Crear cuenta</a>
+                </p>
+                <p class="account-help">
+                    <a href="{% url 'accounts:password_reset' %}">He olvidado mi contraseña</a>
+                </p>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -116,5 +116,7 @@ SOCIALACCOUNT_PROVIDERS = {"google": {"SCOPE": ["openid", "profile", "email"], "
 if GOOGLE_OAUTH_CLIENT_ID and GOOGLE_OAUTH_CLIENT_SECRET:
     SOCIALACCOUNT_PROVIDERS["google"]["APPS"] = [{"client_id": GOOGLE_OAUTH_CLIENT_ID, "secret": GOOGLE_OAUTH_CLIENT_SECRET, "key": ""}]
 
+SOCIALACCOUNT_ADAPTER = "App_Remote_Jobs.adapters.AdaptadorCuentaSocialRemoteJobs"
+
 X_CONTENT_TYPE_OPTIONS = "nosniff"
 X_FRAME_OPTIONS = "DENY"
