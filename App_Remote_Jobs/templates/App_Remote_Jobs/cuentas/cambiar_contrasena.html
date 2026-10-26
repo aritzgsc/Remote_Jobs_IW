@@ -3,11 +3,43 @@
     Cambiar contraseña · Remote Jobs
 {% endblock %}
 {% block content %}
-    <section class="panel">
-        <h1>Cambiar contraseña</h1>
-        <form method="post">
-            {% csrf_token %}{{ form.as_p }}
-            <button type="submit">Guardar nueva contraseña</button>
-        </form>
+    <section class="account-page account-page-dark">
+        <div class="container account-layout account-layout-centered">
+            <aside class="account-aside">
+                <a class="account-back-link" href="{% url 'accounts:profile' %}">← Volver a mi perfil</a>
+                <p class="eyebrow eyebrow-light">
+                    SEGURIDAD DE TU CUENTA
+                </p>
+                <h1>
+                    Tu cuenta,<br><span>bajo control.</span>
+                </h1>
+                <p>
+                    Elige una contraseña robusta que no utilices en otros servicios.
+                </p>
+            </aside>
+            <div class="account-card">
+                <div class="account-card-heading">
+                    <p class="eyebrow">
+                        ACTUALIZAR ACCESO
+                    </p>
+                    <h2>
+                        Cambiar contraseña
+                    </h2>
+                    <p>
+                        Por seguridad, confirma primero tu contraseña actual.
+                    </p>
+                </div>
+                <form class="account-form" method="post">
+                    {% csrf_token %}
+                    {% include "App_Remote_Jobs/componentes/campos_formulario.html" with form=form %}
+                    <button class="button button-dark button-full" type="submit">
+                        Guardar nueva contraseña <span aria-hidden="true">→</span>
+                    </button>
+                </form>
+                <p class="account-switch">
+                    <a href="{% url 'accounts:profile' %}">Cancelar y volver al perfil</a>
+                </p>
+            </div>
+        </div>
     </section>
 {% endblock %}

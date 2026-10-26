@@ -1,10 +1,21 @@
 {% extends "App_Remote_Jobs/base.html" %}
 {% block title %}
-    Instrucciones enviadas · Remote Jobs
+    Revisa tu correo · Remote Jobs
 {% endblock %}
 {% block content %}
-    <section class="panel">
-        <h1>Revisa tu correo</h1>
-        <p>Si existe una cuenta asociada a ese correo, recibirás instrucciones para restablecer la contraseña.</p>
+    <section class="account-page">
+        <div class="container account-card account-message-card">
+            <span class="account-icon" aria-hidden="true">✉</span>
+            <p class="eyebrow">
+                SIGUIENTE PASO
+            </p>
+            <h1>
+                Revisa tu correo
+            </h1>
+            <p>
+                Si hay una cuenta asociada a la dirección indicada, se han preparado las instrucciones de recuperación. En desarrollo local puedes encontrarlas en la terminal donde se ejecuta Django.
+            </p>
+            <a class="button button-dark" href="{% url 'accounts:login' %}">Volver al acceso <span aria-hidden="true">→</span></a>
+        </div>
     </section>
 {% endblock %}

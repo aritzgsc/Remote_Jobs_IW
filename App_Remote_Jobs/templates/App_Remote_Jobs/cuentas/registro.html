@@ -1,12 +1,59 @@
 {% extends "App_Remote_Jobs/base.html" %}
 {% block title %}
-    Registro · Remote Jobs
+    Crear cuenta · Remote Jobs
 {% endblock %}
 {% block content %}
-    <section class="panel">
-        <h1>Crear cuenta</h1>
-        <form method="post">{% csrf_token %}{{ form.as_p }}<button type="submit">Registrarme</button></form>
-        {% include "App_Remote_Jobs/componentes/boton_google.html" %}
-        <p>¿Ya tienes cuenta? <a href="{% url 'accounts:login' %}">Entrar</a></p>
+    <section class="account-page account-page-dark">
+        <div class="container account-layout">
+            <aside class="account-aside">
+                <a class="account-back-link" href="{% url 'jobs:inicio' %}">← Volver a Remote Jobs</a>
+                <p class="eyebrow eyebrow-light">
+                    <span class="eyebrow-dot"></span> EMPIEZA POR TI
+                </p>
+                <h1>
+                    Tu talento.<br>Tu <span>próximo paso.</span>
+                </h1>
+                <p>
+                    Crea tu espacio para guardar oportunidades, organizar tu búsqueda y presentar tu perfil profesional.
+                </p>
+                <div class="account-aside-note">
+                    <span aria-hidden="true">♡</span>
+                    <div>
+                        <strong>Tu lista de oportunidades, siempre contigo.</strong><small>Guardados asociados a tu propia cuenta.</small>
+                    </div>
+                </div>
+            </aside>
+            <div class="account-card account-card-wide">
+                <div class="account-card-heading">
+                    <span class="account-icon" aria-hidden="true">✳</span>
+                    <p class="eyebrow">
+                        UN BUEN COMIENZO
+                    </p>
+                    <h2>
+                        Crea tu cuenta
+                    </h2>
+                    <p>
+                        Solo necesitas unos datos para empezar.
+                    </p>
+                </div>
+                <form class="account-form" method="post" action="{% url 'accounts:register' %}">
+                    {% csrf_token %}
+                    {% include "App_Remote_Jobs/componentes/campos_formulario.html" with form=form %}
+                    <button class="button button-dark button-full" type="submit">
+                        Crear mi cuenta <span aria-hidden="true">→</span>
+                    </button>
+                </form>
+                <div class="account-divider">
+                    <span>o regístrate con</span>
+                </div>
+                {% include "App_Remote_Jobs/componentes/boton_google.html" %}
+                <p class="account-switch">
+                    ¿Ya tienes una cuenta? <a href="{% url 'accounts:login' %}">Inicia sesión</a>
+                </p>
+                <p class="account-terms">
+                    Al crear una cuenta, aceptas que Remote Jobs guarde los datos de perfil que decidas proporcionar y las ofertas que marques como favoritas.
+                </p>
+            </div>
+        </div>
     </section>
 {% endblock %}

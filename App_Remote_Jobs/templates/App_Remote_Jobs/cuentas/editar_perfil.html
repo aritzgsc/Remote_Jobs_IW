@@ -3,17 +3,65 @@
     Editar perfil · Remote Jobs
 {% endblock %}
 {% block content %}
-    <section class="panel">
-        <h1>Editar perfil</h1>
-        <p>Actualiza los datos de tu cuenta y la información que quieres mostrar en tu perfil.</p>
-        <form method="post" enctype="multipart/form-data" action="{% url 'accounts:profile_edit' %}">
-            {% csrf_token %}
-            <h2>Datos de cuenta</h2>
-            {{ datos_form.as_p }}
-            <h2>Información profesional</h2>
-            {{ perfil_form.as_p }}
-            <button type="submit">Guardar cambios</button>
-            <a href="{% url 'accounts:profile' %}">Cancelar</a>
-        </form>
+    <section class="profile-page">
+        <div class="container profile-edit-container">
+            <a class="account-back-link account-back-dark" href="{% url 'accounts:profile' %}">← Volver a mi perfil</a>
+            <div class="profile-page-top profile-page-top-edit">
+                <div>
+                    <p class="eyebrow">
+                        TU INFORMACIÓN, A TU MANERA
+                    </p>
+                    <h1>
+                        Editar perfil
+                    </h1>
+                    <p>
+                        Modifica los datos que quieres tener a mano en tu espacio personal.
+                    </p>
+                </div>
+            </div>
+            <form class="profile-edit-form" method="post" enctype="multipart/form-data" action="{% url 'accounts:profile_edit' %}">
+                {% csrf_token %}
+                <section class="profile-card profile-form-section">
+                    <div class="profile-section-heading">
+                        <div>
+                            <p class="eyebrow">
+                                01 · DATOS DE CUENTA
+                            </p>
+                            <h2>
+                                Información básica
+                            </h2>
+                        </div>
+                        <span class="section-number">01</span>
+                    </div>
+                    <p class="form-section-intro">
+                        Estos datos sirven para identificarte y recuperar el acceso a tu cuenta.
+                    </p>
+                    {% include "App_Remote_Jobs/componentes/campos_formulario.html" with form=datos_form %}
+                </section>
+                <section class="profile-card profile-form-section">
+                    <div class="profile-section-heading">
+                        <div>
+                            <p class="eyebrow">
+                                02 · IDENTIDAD PROFESIONAL
+                            </p>
+                            <h2>
+                                Tu perfil
+                            </h2>
+                        </div>
+                        <span class="section-number">02</span>
+                    </div>
+                    <p class="form-section-intro">
+                        Cuéntanos un poco más de ti. Todos los campos son opcionales.
+                    </p>
+                    {% include "App_Remote_Jobs/componentes/campos_formulario.html" with form=perfil_form %}
+                </section>
+                <div class="profile-edit-actions">
+                    <a class="button button-outline" href="{% url 'accounts:profile' %}">Cancelar</a>
+                    <button class="button button-dark" type="submit">
+                        Guardar cambios <span aria-hidden="true">→</span>
+                    </button>
+                </div>
+            </form>
+        </div>
     </section>
 {% endblock %}

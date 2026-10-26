@@ -1,23 +1,52 @@
 {% extends "App_Remote_Jobs/base.html" %}
-{% block title %}Ofertas guardadas · Remote Jobs{% endblock %}
+{% block title %}
+    Mis ofertas guardadas · Remote Jobs
+{% endblock %}
 {% block content %}
-    <section class="panel">
-        <h1>Ofertas guardadas</h1>
+    <section class="page-hero page-hero-compact">
+        <div class="container">
+            <p class="eyebrow eyebrow-light">
+                <span class="eyebrow-dot"></span> TU LISTA PERSONAL
+            </p>
+            <h1>
+                Las oportunidades<br><span>que te interesan.</span>
+            </h1>
+            <p>
+                Guarda las ofertas que quieras revisar más tarde. Tu lista está vinculada a tu cuenta y estará disponible cuando vuelvas a iniciar sesión.
+            </p>
+        </div>
+    </section>
+    <section class="section container listings-section">
+        <div class="listings-title-row">
+            <div>
+                <p class="eyebrow">
+                    SELECCIÓN PERSONAL
+                </p>
+                <h2>
+                    Ofertas guardadas
+                </h2>
+            </div>
+            <p class="result-count">
+                <strong>{{ total_guardadas }}</strong> guardada{{ total_guardadas|pluralize:"s" }}
+            </p>
+        </div>
         {% if ofertas %}
-            <div class="job-grid">
+            <div class="job-grid job-grid-list">
                 {% for oferta in ofertas %}
-                    <article class="job-card">
-                        <h2><a href="{{ oferta.get_absolute_url }}">{{ oferta.titulo }}</a></h2>
-                        <p>{{ oferta.empresa }} · {{ oferta.sector.nombre }}</p>
-                        <p>{{ oferta.resumen }}</p>
-                        <p><strong>{{ oferta.etiqueta_salario }}</strong></p>
-                        {% include "App_Remote_Jobs/componentes/boton_favorito.html" with oferta=oferta %}
-                    </article>
+                    {% include "App_Remote_Jobs/componentes/tarjeta_oferta.html" with oferta=oferta %}
                 {% endfor %}
             </div>
         {% else %}
-            <p>Aún no has guardado ofertas.</p>
-            <p><a class="button" href="{% url 'jobs:oferta_list' %}">Explorar ofertas</a></p>
+            <div class="empty-state empty-state-large">
+                <span class="empty-symbol" aria-hidden="true">♡</span>
+                <h2>
+                    Aún no has guardado ninguna oferta.
+                </h2>
+                <p>
+                    Cuando encuentres una oportunidad que te interese, pulsa «Guardar» y aparecerá aquí.
+                </p>
+                <a class="button button-dark" href="{% url 'jobs:oferta_list' %}">Explorar ofertas <span aria-hidden="true">→</span></a>
+            </div>
         {% endif %}
     </section>
 {% endblock %}

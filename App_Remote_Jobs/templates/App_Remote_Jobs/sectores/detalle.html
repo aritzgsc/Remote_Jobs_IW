@@ -1,32 +1,128 @@
 {% extends "App_Remote_Jobs/base.html" %}
 {% block title %}
-    {{ sector.nombre }} · Remote Jobs
+    {{ sector.nombre }} · Sectores · Remote Jobs
 {% endblock %}
 {% block content %}
-    <p><a href="{% url 'jobs:sector_list' %}">← Sectores</a></p>
-    <h1>{{ sector.nombre }}</h1>
-    <p>{{ sector.descripcion }}</p>
-    <form method="get"><label for="modalidad">Modalidad</label>
-        <select name="modalidad" id="modalidad">
-            <option value="">Todas</option>
-            <option value="remoto">Remoto</option>
-            <option value="hibrido">Híbrido</option>
-        </select>
-        <label for="tipo">Tipo</label>
-        <select name="tipo" id="tipo">
-            <option value="">Todos</option>
-            <option value="junior">Junior</option>
-            <option value="practicas">Prácticas</option>
-        </select>
-        <button>Filtrar</button>
-    </form>
-    <div class="job-grid">
-        {% for oferta in ofertas %}
-        <article class="job-card">
-            <h2><a href="{{ oferta.get_absolute_url }}">{{ oferta.titulo }}</a></h2>
-            <p>{{ oferta.empresa }} · {{ oferta.resumen }}</p>
-        </article>
-        {% empty %}<p>No hay ofertas para este sector.</p>
-        {% endfor %}
-    </div>
+    <section class="detail-top-band">
+        <div class="container">
+            <nav class="breadcrumbs" aria-label="Ruta de navegación">
+                <ol>
+                    <li>
+                        <a href="{% url 'jobs:inicio' %}">Inicio</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'jobs:sector_list' %}">Sectores</a>
+                    </li>
+                    <li aria-current="page">
+                        {{ sector.nombre }}
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+    <section class="directory-detail-hero container">
+        <div class="directory-symbol directory-symbol-large" aria-hidden="true">
+            {{ sector.icono }}
+        </div>
+        <p class="eyebrow">
+            ÁREA PROFESIONAL
+        </p>
+        <h1>
+            {{ sector.nombre }}
+        </h1>
+        <p>
+            {{ sector.descripcion }}
+        </p>
+        <div class="directory-detail-meta">
+            <span><strong>{{ ofertas|length }}</strong> oferta{{ ofertas|length|pluralize:"s" }} con los filtros actuales</span><a class="text-link" href="{% url 'jobs:oferta_list' %}?sector={{ sector.slug }}">Abrir en el buscador completo <span aria-hidden="true">→</span></a>
+        </div>
+    </section>
+    <section class="section section-tinted">
+        <div class="container">
+            <div class="section-heading section-heading-row">
+                <div>
+                    <p class="eyebrow">
+                        OPORTUNIDADES EN {{ sector.nombre|upper }}
+                    </p>
+                    <h2>
+                        Da el siguiente paso.
+                    </h2>
+                </div>
+                <a class="section-link" href="{% url 'jobs:sector_list' %}">Todos los sectores <span aria-hidden="true">↗</span></a>
+            </div>
+            <form class="related-filter" method="get" action="{{ sector.get_absolute_url }}" aria-label="Filtrar ofertas de este sector">
+                <div class="filter-field">
+                    <label for="sector-modalidad">
+                        Modalidad
+                    </label>
+                    <select id="sector-modalidad" name="modalidad">
+                        <option value="">
+                            Todas
+                        </option>
+                        <option value="remoto"{% if modalidad_seleccionada == "remoto" %} selected{% endif %}>
+                            Remoto
+                        </option>
+                        <option value="hibrido"{% if modalidad_seleccionada == "hibrido" %} selected{% endif %}>
+                            Híbrido
+                        </option>
+                    </select>
+                </div>
+                <div class="filter-field">
+                    <label for="sector-tipo">
+                        Tipo
+                    </label>
+                    <select id="sector-tipo" name="tipo">
+                        <option value="">
+                            Todos
+                        </option>
+                        <option value="junior"{% if tipo_seleccionado == "junior" %} selected{% endif %}>
+                            Primer empleo
+                        </option>
+                        <option value="practicas"{% if tipo_seleccionado == "practicas" %} selected{% endif %}>
+                            Prácticas
+                        </option>
+                    </select>
+                </div>
+                <div class="filter-field">
+                    <label for="sector-orden">
+                        Ordenar por
+                    </label>
+                    <select id="sector-orden" name="orden">
+                        <option value="recientes"{% if orden == "recientes" %} selected{% endif %}>
+                            Más recientes
+                        </option>
+                        <option value="titulo"{% if orden == "titulo" %} selected{% endif %}>
+                            Título A–Z
+                        </option>
+                        <option value="salario"{% if orden == "salario" %} selected{% endif %}>
+                            Mejor salario
+                        </option>
+                    </select>
+                </div>
+                <div class="filter-actions">
+                    <button class="button button-dark" type="submit">
+                        Filtrar <span aria-hidden="true">→</span>
+                    </button>
+                    <a class="clear-filters" href="{{ sector.get_absolute_url }}">Limpiar</a>
+                </div>
+            </form>
+            {% if ofertas %}
+                <div class="job-grid job-grid-list">
+                    {% for oferta in ofertas %}
+                        {% include "App_Remote_Jobs/componentes/tarjeta_oferta.html" with oferta=oferta %}
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <h3>
+                        Pronto habrá nuevas oportunidades.
+                    </h3>
+                    <p>
+                        En este momento no hay ofertas publicadas en este sector.
+                    </p>
+                    <a class="text-link" href="{% url 'jobs:oferta_list' %}">Explorar todas las ofertas →</a>
+                </div>
+            {% endif %}
+        </div>
+    </section>
 {% endblock %}

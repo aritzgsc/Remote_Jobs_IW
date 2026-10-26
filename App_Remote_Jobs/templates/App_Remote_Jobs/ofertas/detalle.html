@@ -1,31 +1,145 @@
 {% extends "App_Remote_Jobs/base.html" %}
 {% block title %}
-    {{ oferta.titulo }} · Remote Jobs
+    {{ oferta.titulo }} · {{ oferta.empresa }} · Remote Jobs
 {% endblock %}
 {% block content %}
-    <p><a href="{% url 'jobs:oferta_list' %}">← Todas las ofertas</a></p>
-    <article class="panel">
-        <p>{{ oferta.empresa }} · {{ oferta.sector.nombre }}</p>
-        <h1>{{ oferta.titulo }}</h1>
-        <p>{{ oferta.resumen }}</p>
-        <p>{{ oferta.descripcion }}</p>
-        <h2>Requisitos</h2>
-        <ul>
-            {% for requisito in oferta.lista_requisitos %}
-            <li>{{ requisito }}</li>
-            {% endfor %}
-        </ul>
-        <h2>Habilidades</h2>
-        <p>
-            {% for habilidad in oferta.habilidades.all %}
-            <span>{{ habilidad.nombre }}{% if not forloop.last %}, {% endif %}</span>
-            {% empty %}Sin habilidades asociadas
-            {% endfor %}
-        </p>
-        <p>{{ oferta.etiqueta_salario }} · {{ oferta.get_modalidad_display }}</p>
-            {% include "App_Remote_Jobs/componentes/boton_favorito.html" with oferta=oferta %}
-        {% if oferta.url_solicitud %}
-        <p><a class="button" href="{{ oferta.url_solicitud }}" rel="noopener noreferrer">Solicitar oferta</a></p>
-        {% endif %}
-    </article>
+    <section class="detail-top-band">
+        <div class="container">
+            <nav class="breadcrumbs" aria-label="Ruta de navegación">
+                <ol>
+                    <li>
+                        <a href="{% url 'jobs:inicio' %}">Inicio</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'jobs:oferta_list' %}">Ofertas</a>
+                    </li>
+                    <li aria-current="page">
+                        {{ oferta.titulo }}
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+    <section class="container detail-layout">
+        <article class="detail-main">
+            <div class="detail-company-row">
+                <div class="company-mark company-mark-large" aria-hidden="true">
+                    {{ oferta.iniciales_empresa }}
+                </div>
+                <div>
+                    <span class="company-name">{{ oferta.empresa }}</span>
+                    <p class="muted-small">
+                        Publicado el {{ oferta.fecha_publicacion|date:"j \d\e F \d\e Y" }}
+                    </p>
+                </div>
+            </div>
+            <div class="detail-title-block">
+                <div class="detail-tags">
+                    <span class="status-pill">{{ oferta.get_modalidad_display }}</span><span class="type-pill">{{ oferta.get_tipo_empleo_display }}</span>
+                    {% include "App_Remote_Jobs/componentes/boton_favorito.html" with oferta=oferta %}
+                </div>
+                <h1>
+                    {{ oferta.titulo }}
+                </h1>
+                <p class="detail-summary">
+                    {{ oferta.resumen }}
+                </p>
+            </div>
+            <div class="detail-facts-grid">
+                <div>
+                    <span class="fact-icon" aria-hidden="true">⌖</span><span><small>Ubicación</small><strong>{{ oferta.ubicacion }}</strong></span>
+                </div>
+                <div>
+                    <span class="fact-icon" aria-hidden="true">€</span><span><small>Rango salarial</small><strong>{{ oferta.etiqueta_salario }}</strong></span>
+                </div>
+                <div>
+                    <span class="fact-icon" aria-hidden="true">◈</span><span><small>Sector</small><strong><a href="{{ oferta.sector.get_absolute_url }}">{{ oferta.sector.nombre }}</a></strong></span>
+                </div>
+            </div>
+            <section class="detail-content-section">
+                <h2>
+                    Sobre el puesto
+                </h2>
+                <p>
+                    {{ oferta.descripcion|linebreaksbr }}
+                </p>
+            </section>
+            <section class="detail-content-section">
+                <h2>
+                    Qué buscamos
+                </h2>
+                <ul class="check-list">
+                    {% for requisito in oferta.lista_requisitos %}
+                        <li>
+                            {{ requisito }}
+                        </li>
+                    {% empty %}
+                        <li>
+                            Los requisitos se concretarán con la empresa.
+                        </li>
+                    {% endfor %}
+                </ul>
+            </section>
+            {% if oferta.lista_beneficios %}
+                <section class="detail-content-section">
+                    <h2>
+                        Lo que encontrarás
+                    </h2>
+                    <ul class="check-list">
+                        {% for beneficio in oferta.lista_beneficios %}
+                            <li>
+                                {{ beneficio }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </section>
+            {% endif %}
+            <section class="detail-content-section">
+                <h2>
+                    Habilidades relacionadas
+                </h2>
+                <div class="tag-list tag-list-large">
+                    {% for habilidad in oferta.habilidades.all %}
+                        <a class="tag" href="{{ habilidad.get_absolute_url }}">{{ habilidad.nombre }} <span aria-hidden="true">↗</span></a>
+                    {% empty %}
+                        <span class="muted-text">No se han añadido habilidades a esta oferta.</span>
+                    {% endfor %}
+                </div>
+            </section>
+        </article>
+        <aside class="detail-sidebar">
+            <div class="apply-card">
+                <p class="eyebrow">
+                    TU PRÓXIMO CAPÍTULO
+                </p>
+                <h2>
+                    ¿Te encaja esta oportunidad?
+                </h2>
+                <p>
+                    Revisa los requisitos y descubre más puestos relacionados con tu perfil.
+                </p>
+                {% if oferta.url_solicitud %}
+                    <a class="button button-green button-full" href="{{ oferta.url_solicitud }}" target="_blank" rel="noopener noreferrer">Solicitar oferta <span aria-hidden="true">↗</span></a>
+                {% else %}
+                    <p class="demo-note">
+                        Oferta de demostración: no hay un enlace externo de solicitud configurado.
+                    </p>
+                {% endif %}
+                <a class="button button-outline button-full" href="{% url 'jobs:oferta_list' %}">Ver todas las ofertas</a>
+                <div class="apply-card-foot">
+                    <span aria-hidden="true">✓</span> Oportunidades para empezar tu carrera
+                </div>
+            </div>
+            {% if otras_ofertas %}
+                <div class="sidebar-related">
+                    <p class="eyebrow">
+                        TAMBIÉN TE PUEDE INTERESAR
+                    </p>
+                    {% for otra in otras_ofertas %}
+                        <a class="related-job" href="{{ otra.get_absolute_url }}"><span class="related-job-company">{{ otra.empresa }}</span><strong>{{ otra.titulo }}</strong><span class="related-job-arrow" aria-hidden="true">↗</span></a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </aside>
+    </section>
 {% endblock %}

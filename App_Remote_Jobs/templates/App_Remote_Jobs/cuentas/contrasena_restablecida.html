@@ -3,9 +3,19 @@
     Contraseña restablecida · Remote Jobs
 {% endblock %}
 {% block content %}
-    <section class="panel">
-        <h1>Contraseña restablecida</h1>
-        <p>Ya puedes entrar con tu nueva contraseña.</p>
-        <p><a href="{% url 'accounts:login' %}">Iniciar sesión</a></p>
+    <section class="account-page">
+        <div class="container account-card account-message-card">
+            <span class="account-icon" aria-hidden="true">✓</span>
+            <p class="eyebrow">
+                ACCESO RECUPERADO
+            </p>
+            <h1>
+                Contraseña restablecida
+            </h1>
+            <p>
+                La nueva contraseña se ha guardado correctamente.
+            </p>
+            <a class="button button-dark" href="{% url 'accounts:login' %}">Iniciar sesión <span aria-hidden="true">→</span></a>
+        </div>
     </section>
 {% endblock %}

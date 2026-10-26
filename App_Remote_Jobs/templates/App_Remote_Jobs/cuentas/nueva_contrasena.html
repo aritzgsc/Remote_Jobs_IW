@@ -3,14 +3,34 @@
     Crear nueva contraseña · Remote Jobs
 {% endblock %}
 {% block content %}
-    <section class="panel">
-        <h1>Crear nueva contraseña</h1>
-        {% if validlink %}
-        <form method="post">
-            {% csrf_token %}{{ form.as_p }}
-            <button type="submit">Guardar contraseña</button>
-        </form>
-        {% else %}<p>El enlace no es válido o ha caducado.</p>
-        {% endif %}
+    <section class="account-page">
+        <div class="container account-card account-message-card">
+            <p class="eyebrow">
+                RECUPERACIÓN SEGURA
+            </p>
+            {% if validlink %}
+                <h1>
+                    Elige una nueva contraseña
+                </h1>
+                <p>
+                    Procura que sea larga y que no la utilices en otros servicios.
+                </p>
+                <form class="account-form" method="post">
+                    {% csrf_token %}
+                    {% include "App_Remote_Jobs/componentes/campos_formulario.html" with form=form %}
+                    <button class="button button-dark button-full" type="submit">
+                        Guardar nueva contraseña <span aria-hidden="true">→</span>
+                    </button>
+                </form>
+            {% else %}
+                <h1>
+                    Este enlace ya no es válido
+                </h1>
+                <p>
+                    El enlace puede haber caducado o haberse utilizado previamente. Solicita uno nuevo para continuar.
+                </p>
+                <a class="button button-dark" href="{% url 'accounts:password_reset' %}">Solicitar otro enlace</a>
+            {% endif %}
+        </div>
     </section>
 {% endblock %}

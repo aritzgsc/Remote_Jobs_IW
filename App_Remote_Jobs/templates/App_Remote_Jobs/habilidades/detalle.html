@@ -1,19 +1,126 @@
 {% extends "App_Remote_Jobs/base.html" %}
 {% block title %}
-    {{ habilidad.nombre }} · Remote Jobs
+    {{ habilidad.nombre }} · Habilidades · Remote Jobs
 {% endblock %}
 {% block content %}
-    <p><a href="{% url 'jobs:habilidad_list' %}">← Habilidades</a></p>
-    <h1>{{ habilidad.nombre }}</h1>
-    <p>{{ habilidad.descripcion }}</p>
-    <p>Categoría: {{ habilidad.categoria }}</p>
-    <div class="job-grid">
-        {% for oferta in ofertas %}
-        <article class="job-card">
-            <h2><a href="{{ oferta.get_absolute_url }}">{{ oferta.titulo }}</a></h2>
-            <p>{{ oferta.empresa }} · {{ oferta.resumen }}</p>
-        </article>
-        {% empty %}<p>No hay ofertas asociadas.</p>
-        {% endfor %}
-    </div>
+    <section class="detail-top-band">
+        <div class="container">
+            <nav class="breadcrumbs" aria-label="Ruta de navegación">
+                <ol>
+                    <li>
+                        <a href="{% url 'jobs:inicio' %}">Inicio</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'jobs:habilidad_list' %}">Habilidades</a>
+                    </li>
+                    <li aria-current="page">
+                        {{ habilidad.nombre }}
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+    <section class="directory-detail-hero skill-detail-hero container">
+        <span class="skill-category">{{ habilidad.categoria }}</span>
+        <p class="eyebrow">
+            HABILIDAD PROFESIONAL
+        </p>
+        <h1>
+            {{ habilidad.nombre }}
+        </h1>
+        <p>
+            {{ habilidad.descripcion }}
+        </p>
+        <div class="directory-detail-meta">
+            <span><strong>{{ ofertas|length }}</strong> oferta{{ ofertas|length|pluralize:"s" }} con los filtros actuales</span><a class="text-link" href="{% url 'jobs:oferta_list' %}?habilidad={{ habilidad.slug }}">Ver en el buscador completo <span aria-hidden="true">→</span></a>
+        </div>
+    </section>
+    <section class="section section-tinted">
+        <div class="container">
+            <div class="section-heading section-heading-row">
+                <div>
+                    <p class="eyebrow">
+                        OPORTUNIDADES RELACIONADAS
+                    </p>
+                    <h2>
+                        Puestos donde encaja.
+                    </h2>
+                </div>
+                <a class="section-link" href="{% url 'jobs:habilidad_list' %}">Todas las habilidades <span aria-hidden="true">↗</span></a>
+            </div>
+            <form class="related-filter" method="get" action="{{ habilidad.get_absolute_url }}" aria-label="Filtrar ofertas relacionadas">
+                <div class="filter-field">
+                    <label for="skill-modalidad">
+                        Modalidad
+                    </label>
+                    <select id="skill-modalidad" name="modalidad">
+                        <option value="">
+                            Todas
+                        </option>
+                        <option value="remoto"{% if modalidad_seleccionada == "remoto" %} selected{% endif %}>
+                            Remoto
+                        </option>
+                        <option value="hibrido"{% if modalidad_seleccionada == "hibrido" %} selected{% endif %}>
+                            Híbrido
+                        </option>
+                    </select>
+                </div>
+                <div class="filter-field">
+                    <label for="skill-tipo">
+                        Tipo
+                    </label>
+                    <select id="skill-tipo" name="tipo">
+                        <option value="">
+                            Todos
+                        </option>
+                        <option value="junior"{% if tipo_seleccionado == "junior" %} selected{% endif %}>
+                            Primer empleo
+                        </option>
+                        <option value="practicas"{% if tipo_seleccionado == "practicas" %} selected{% endif %}>
+                            Prácticas
+                        </option>
+                    </select>
+                </div>
+                <div class="filter-field">
+                    <label for="skill-orden">
+                        Ordenar por
+                    </label>
+                    <select id="skill-orden" name="orden">
+                        <option value="recientes"{% if orden == "recientes" %} selected{% endif %}>
+                            Más recientes
+                        </option>
+                        <option value="titulo"{% if orden == "titulo" %} selected{% endif %}>
+                            Título A–Z
+                        </option>
+                        <option value="salario"{% if orden == "salario" %} selected{% endif %}>
+                            Mejor salario
+                        </option>
+                    </select>
+                </div>
+                <div class="filter-actions">
+                    <button class="button button-dark" type="submit">
+                        Filtrar <span aria-hidden="true">→</span>
+                    </button>
+                    <a class="clear-filters" href="{{ habilidad.get_absolute_url }}">Limpiar</a>
+                </div>
+            </form>
+            {% if ofertas %}
+                <div class="job-grid job-grid-list">
+                    {% for oferta in ofertas %}
+                        {% include "App_Remote_Jobs/componentes/tarjeta_oferta.html" with oferta=oferta %}
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <h3>
+                        Aún no hay ofertas relacionadas.
+                    </h3>
+                    <p>
+                        Explora el resto de oportunidades para encontrar otros puestos que encajen contigo.
+                    </p>
+                    <a class="text-link" href="{% url 'jobs:oferta_list' %}">Explorar ofertas →</a>
+                </div>
+            {% endif %}
+        </div>
+    </section>
 {% endblock %}

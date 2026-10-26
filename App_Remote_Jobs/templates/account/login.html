@@ -35,7 +35,7 @@
                     {% if redirect_field_value %}
                         <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
                     {% endif %}
-                    {{ form.as_p }}
+                    {% include "App_Remote_Jobs/componentes/campos_formulario.html" with form=form %}
                     <button class="button button-dark button-full" type="submit">
                         Entrar en mi cuenta <span aria-hidden="true">→</span>
                     </button>

@@ -1,15 +1,60 @@
 {% extends "App_Remote_Jobs/base.html" %}
 {% block title %}
-    Entrar · Remote Jobs
+    Iniciar sesión · Remote Jobs
 {% endblock %}
 {% block content %}
-    <section class="panel">
-        <h1>Entrar</h1>
-        <form method="post">{% csrf_token %}{{ form.as_p }}
-            <button type="submit">Entrar</button>
-        </form>
-        {% include "App_Remote_Jobs/componentes/boton_google.html" %}
-        <p><a href="{% url 'accounts:password_reset' %}">¿Has olvidado tu contraseña?</a></p>
-        <p>¿No tienes cuenta? <a href="{% url 'accounts:register' %}">Regístrate</a></p>
+    <section class="account-page account-page-dark">
+        <div class="container account-layout">
+            <aside class="account-aside">
+                <a class="account-back-link" href="{% url 'jobs:inicio' %}">← Volver a Remote Jobs</a>
+                <p class="eyebrow eyebrow-light">
+                    <span class="eyebrow-dot"></span> TU SIGUIENTE CAPÍTULO
+                </p>
+                <h1>
+                    Qué bien que<br>hayas <span>vuelto.</span>
+                </h1>
+                <p>
+                    Entra en tu espacio personal, recupera tus oportunidades favoritas y mantén tu perfil listo para el siguiente paso.
+                </p>
+                <div class="account-aside-note">
+                    <span aria-hidden="true">✳</span>
+                    <div>
+                        <strong>Tu camino profesional, en un solo lugar.</strong><small>Tus ofertas guardadas viajan contigo.</small>
+                    </div>
+                </div>
+            </aside>
+            <div class="account-card">
+                <div class="account-card-heading">
+                    <span class="account-icon" aria-hidden="true">↗</span>
+                    <p class="eyebrow">
+                        BIENVENIDO DE NUEVO
+                    </p>
+                    <h2>
+                        Inicia sesión
+                    </h2>
+                    <p>
+                        Accede con tu correo o nombre de usuario.
+                    </p>
+                </div>
+                <form class="account-form" method="post" action="{% url 'accounts:login' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ next }}">
+                    {% include "App_Remote_Jobs/componentes/campos_formulario.html" with form=form %}
+                    <button class="button button-dark button-full" type="submit">
+                        Entrar en mi cuenta <span aria-hidden="true">→</span>
+                    </button>
+                </form>
+                <div class="account-divider">
+                    <span>o continúa con</span>
+                </div>
+                {% include "App_Remote_Jobs/componentes/boton_google.html" %}
+                <p class="account-switch">
+                    ¿Todavía no tienes cuenta? <a href="{% url 'accounts:register' %}">Crear una cuenta</a>
+                </p>
+                <p class="account-help">
+                    <a href="{% url 'accounts:password_reset' %}">He olvidado mi contraseña</a>
+                </p>
+            </div>
+        </div>
     </section>
 {% endblock %}

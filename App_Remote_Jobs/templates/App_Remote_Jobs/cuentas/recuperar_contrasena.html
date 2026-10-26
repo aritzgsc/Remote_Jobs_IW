@@ -3,12 +3,43 @@
     Recuperar contraseña · Remote Jobs
 {% endblock %}
 {% block content %}
-    <section class="panel">
-        <h1>Recuperar contraseña</h1>
-        <p>Indica el correo asociado a tu cuenta.</p>
-        <form method="post">
-            {% csrf_token %}{{ form.as_p }}
-            <button type="submit">Enviar instrucciones</button>
-        </form>
+    <section class="account-page account-page-dark">
+        <div class="container account-layout account-layout-centered">
+            <aside class="account-aside">
+                <a class="account-back-link" href="{% url 'accounts:login' %}">← Volver al inicio de sesión</a>
+                <p class="eyebrow eyebrow-light">
+                    NO TE PREOCUPES
+                </p>
+                <h1>
+                    Vamos a<br><span>recuperarla.</span>
+                </h1>
+                <p>
+                    Indica el correo asociado a tu cuenta. Te enviaremos los pasos necesarios para crear una contraseña nueva.
+                </p>
+            </aside>
+            <div class="account-card">
+                <div class="account-card-heading">
+                    <p class="eyebrow">
+                        RECUPERAR ACCESO
+                    </p>
+                    <h2>
+                        ¿Has olvidado tu contraseña?
+                    </h2>
+                    <p>
+                        Introduce tu correo electrónico para continuar.
+                    </p>
+                </div>
+                <form class="account-form" method="post">
+                    {% csrf_token %}
+                    {% include "App_Remote_Jobs/componentes/campos_formulario.html" with form=form %}
+                    <button class="button button-dark button-full" type="submit">
+                        Enviar instrucciones <span aria-hidden="true">→</span>
+                    </button>
+                </form>
+                <p class="account-help">
+                    En desarrollo local, el mensaje aparece en la consola de Django.
+                </p>
+            </div>
+        </div>
     </section>
 {% endblock %}

@@ -1,88 +1,206 @@
 {% extends "App_Remote_Jobs/base.html" %}
 {% block title %}
-    Ofertas · Remote Jobs
+    Ofertas de empleo · Remote Jobs
 {% endblock %}
 {% block content %}
-    <section>
-        <h1>Explorar ofertas</h1>
-        <p>{{ page_obj.paginator.count }} oportunidades</p>
-        <form method="get" action="{% url 'jobs:oferta_list' %}" role="search">
-            <label for="q">Puesto, empresa o habilidad</label>
-            <input id="q" type="search" name="q" value="{{ q }}" list="sugerencias-ofertas">
-            <datalist id="sugerencias-ofertas">
-                {% for titulo, empresa in sugerencias_busqueda %}
-                <option value="{{ titulo }}">{{ empresa }}</option>
-                <option value="{{ empresa }}">{{ titulo }}</option>
-                {% endfor %}
-            </datalist>
-            <label for="sector">Sector</label>
-            <select id="sector" name="sector">
-                <option value="">Todos</option>
-                {% for item in sectores %}
-                <option value="{{ item.slug }}" {% if sector_seleccionado == item.slug %} selected{% endif %}>{{ item.nombre }}</option>
-                {% endfor %}
-            </select>
-            <label for="habilidad">Habilidad</label>
-            <select id="habilidad" name="habilidad">
-                <option value="">Todas</option>
-                {% for item in habilidades %}
-                <option value="{{ item.slug }}" {% if habilidad_seleccionada == item.slug %} selected{% endif %}>{{ item.nombre }}</option>
-                {% endfor %}
-            </select>
-            <label for="modalidad">Modalidad</label>
-            <select id="modalidad" name="modalidad">
-                <option value="">Todas</option>
-                <option value="remoto" {% if modalidad_seleccionada == "remoto" %} selected{% endif %}>Remoto</option>
-                <option value="hibrido" {% if modalidad_seleccionada == "hibrido" %} selected{% endif %}>Híbrido</option>
-            </select>
-            <label for="tipo">Tipo</label>
-            <select id="tipo" name="tipo">
-                <option value="">Todos</option>
-                <option value="junior" {% if tipo_seleccionado == "junior" %} selected{% endif %}>Junior</option>
-                <option value="practicas" {% if tipo_seleccionado == "practicas" %} selected{% endif %}>Prácticas</option>
-            </select>
-            <label for="ubicacion">Ubicación</label>
-            <input id="ubicacion" name="ubicacion" value="{{ ubicacion }}">
-            <label for="salario_desde">Salario desde</label>
-            <input id="salario_desde" name="salario_desde" type="number" min="0" value="{{ salario_desde }}">
-            <label for="salario_hasta">Salario hasta</label>
-            <input id="salario_hasta" name="salario_hasta" type="number" min="0" value="{{ salario_hasta }}">
-            <label for="fecha_desde">Publicadas desde</label>
-            <input id="fecha_desde" name="fecha_desde" type="date" value="{{ fecha_desde }}">
-            <label for="fecha_hasta">Publicadas hasta</label>
-            <input id="fecha_hasta" name="fecha_hasta" type="date" value="{{ fecha_hasta }}">
-            <label for="orden">Orden</label>
-            <select id="orden" name="orden">
-                <option value="recientes" {% if orden == "recientes" %} selected{% endif %}>Más recientes</option>
-                <option value="antiguas" {% if orden == "antiguas" %} selected{% endif %}>Más antiguas</option>
-                <option value="titulo" {% if orden == "titulo" %} selected{% endif %}>Título</option>
-                <option value="salario_desc" {% if orden == "salario_desc" %} selected{% endif %}>Salario más alto</option>
-                <option value="salario_asc" {% if orden == "salario_asc" %} selected{% endif %}>Salario más bajo</option>
-            </select>
-            <button type="submit">Aplicar filtros</button>
-            <a href="{% url 'jobs:oferta_list' %}">Limpiar</a>
-        </form>
-        <div class="job-grid">
-            {% for oferta in ofertas %}
-            <article class="job-card">
-                <p>{{ oferta.empresa }} · {{ oferta.sector.nombre }}</p>
-                <h2><a href="{{ oferta.get_absolute_url }}">{{ oferta.titulo }}</a></h2>
-                <p>{{ oferta.resumen }}</p><strong>{{ oferta.etiqueta_salario }}</strong>
-            {% include "App_Remote_Jobs/componentes/boton_favorito.html" with oferta=oferta %}
-            </article>
-            {% empty %}<p>No hay ofertas con esos filtros.</p>
-            {% endfor %}
+    <section class="page-hero page-hero-compact">
+        <div class="container">
+            <p class="eyebrow eyebrow-light">
+                <span class="eyebrow-dot"></span> TU PRÓXIMO PASO
+            </p>
+            <h1>
+                Ofertas con futuro.<br><span>Empieza por aquí.</span>
+            </h1>
+            <p>
+                Busca por palabras clave y combina filtros hasta encontrar una oportunidad que encaje contigo.
+            </p>
         </div>
-        {% if page_obj.paginator.num_pages > 1 %}
-        <nav aria-label="Paginación">
-            {% if page_obj.has_previous %}
-            <a href="?{% if query_string %}{{ query_string }}&amp;{% endif %}page={{ page_obj.previous_page_number }}">Anterior</a>
+    </section>
+    <section class="section container listings-section">
+        <div class="listings-title-row">
+            <div>
+                <p class="eyebrow">
+                    ELIGE TU CAMINO
+                </p>
+                <h2>
+                    Explorar ofertas
+                </h2>
+            </div>
+            <p class="result-count">
+                <strong>{{ page_obj.paginator.count }}</strong> oportunidad{{ page_obj.paginator.count|pluralize:"es" }}
+            </p>
+        </div>
+        <form class="filter-panel filter-panel-extended" method="get" action="{% url 'jobs:oferta_list' %}" role="search">
+            <div class="filter-search">
+                <label for="q">
+                    Puesto, empresa o palabra clave
+                </label>
+                <input id="q" type="search" name="q" value="{{ q }}" list="sugerencias-ofertas" placeholder="Ej. Python, diseño, marketing" autocomplete="on">
+                <datalist id="sugerencias-ofertas">
+                {% for titulo, empresa in sugerencias_busqueda %}
+                    <option value="{{ titulo }}">
+                        {{ empresa }}
+                    </option>
+                    <option value="{{ empresa }}">
+                        {{ titulo }}
+                    </option>
+                {% endfor %}
+                </datalist>
+            </div>
+            <div class="filter-field">
+                <label for="sector">
+                    Sector
+                </label>
+                <select id="sector" name="sector">
+                    <option value="">
+                        Todos los sectores
+                    </option>
+                    {% for sector in sectores %}
+                        <option value="{{ sector.slug }}"{% if sector_seleccionado == sector.slug %} selected{% endif %}>
+                            {{ sector.nombre }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="filter-field">
+                <label for="habilidad">
+                    Habilidad
+                </label>
+                <select id="habilidad" name="habilidad">
+                    <option value="">
+                        Todas las habilidades
+                    </option>
+                    {% for habilidad in habilidades %}
+                        <option value="{{ habilidad.slug }}"{% if habilidad_seleccionada == habilidad.slug %} selected{% endif %}>
+                            {{ habilidad.nombre }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="filter-field">
+                <label for="modalidad">
+                    Modalidad
+                </label>
+                <select id="modalidad" name="modalidad">
+                    <option value="">
+                        Todas
+                    </option>
+                    <option value="remoto"{% if modalidad_seleccionada == "remoto" %} selected{% endif %}>
+                        Remoto
+                    </option>
+                    <option value="hibrido"{% if modalidad_seleccionada == "hibrido" %} selected{% endif %}>
+                        Híbrido
+                    </option>
+                </select>
+            </div>
+            <div class="filter-field">
+                <label for="tipo">
+                    Tipo de oportunidad
+                </label>
+                <select id="tipo" name="tipo">
+                    <option value="">
+                        Todos
+                    </option>
+                    <option value="junior"{% if tipo_seleccionado == "junior" %} selected{% endif %}>
+                        Primer empleo · Junior
+                    </option>
+                    <option value="practicas"{% if tipo_seleccionado == "practicas" %} selected{% endif %}>
+                        Prácticas
+                    </option>
+                </select>
+            </div>
+            <div class="filter-field">
+                <label for="ubicacion">
+                    Ubicación
+                </label>
+                <input id="ubicacion" type="search" name="ubicacion" value="{{ ubicacion }}" placeholder="Ej. España, Madrid">
+            </div>
+            <div class="filter-field">
+                <label for="salario_desde">
+                    Salario mínimo deseado (€ / año)
+                </label>
+                <input id="salario_desde" type="number" name="salario_desde" value="{{ salario_desde }}" min="0" step="1000" placeholder="Ej. 24000">
+            </div>
+            <div class="filter-field">
+                <label for="salario_hasta">
+                    Salario máximo (€ / año)
+                </label>
+                <input id="salario_hasta" type="number" name="salario_hasta" value="{{ salario_hasta }}" min="0" step="1000" placeholder="Sin límite">
+            </div>
+            <div class="filter-field">
+                <label for="fecha_desde">
+                    Publicadas desde
+                </label>
+                <input id="fecha_desde" type="date" name="fecha_desde" value="{{ fecha_desde }}">
+            </div>
+            <div class="filter-field">
+                <label for="fecha_hasta">
+                    Publicadas hasta
+                </label>
+                <input id="fecha_hasta" type="date" name="fecha_hasta" value="{{ fecha_hasta }}">
+            </div>
+            <div class="filter-field filter-sort-field">
+                <label for="orden">
+                    Ordenar por
+                </label>
+                <select id="orden" name="orden">
+                    <option value="recientes"{% if orden == "recientes" %} selected{% endif %}>
+                        Más recientes
+                    </option>
+                    <option value="antiguas"{% if orden == "antiguas" %} selected{% endif %}>
+                        Más antiguas
+                    </option>
+                    <option value="titulo"{% if orden == "titulo" %} selected{% endif %}>
+                        Título A–Z
+                    </option>
+                    <option value="salario_desc"{% if orden == "salario_desc" %} selected{% endif %}>
+                        Salario más alto
+                    </option>
+                    <option value="salario_asc"{% if orden == "salario_asc" %} selected{% endif %}>
+                        Salario más bajo
+                    </option>
+                </select>
+            </div>
+            <div class="filter-actions">
+                <button class="button button-dark" type="submit">
+                    Buscar ofertas <span aria-hidden="true">→</span>
+                </button>
+                {% if hay_filtros %}
+                    <a class="clear-filters" href="{% url 'jobs:oferta_list' %}">Borrar filtros</a>
+                {% endif %}
+            </div>
+        </form>
+        <div class="filter-shortcuts" aria-label="Filtros rápidos">
+            <span>Atajos:</span><a href="?modalidad=remoto">Solo remoto</a><a href="?tipo=practicas">Prácticas</a><a href="?orden=salario_desc">Mayor salario</a><a href="{% url 'jobs:favoritos' %}">Mis guardadas ({{ favorite_count }})</a>
+        </div>
+        {% if ofertas %}
+            <div class="job-grid job-grid-list">
+                {% for oferta in ofertas %}
+                    {% include "App_Remote_Jobs/componentes/tarjeta_oferta.html" with oferta=oferta %}
+                {% endfor %}
+            </div>
+            {% if page_obj.paginator.num_pages > 1 %}
+                <nav class="pagination" aria-label="Paginación de ofertas">
+                    {% if page_obj.has_previous %}
+                        <a href="?{% if query_string %}{{ query_string }}&amp;{% endif %}page={{ page_obj.previous_page_number }}" rel="prev">← Anterior</a>
+                    {% endif %}
+                    <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+                    {% if page_obj.has_next %}
+                        <a href="?{% if query_string %}{{ query_string }}&amp;{% endif %}page={{ page_obj.next_page_number }}" rel="next">Siguiente →</a>
+                    {% endif %}
+                </nav>
             {% endif %}
-            <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
-            {% if page_obj.has_next %}
-            <a href="?{% if query_string %}{{ query_string }}&amp;{% endif %}page={{ page_obj.next_page_number }}">Siguiente</a>
-            {% endif %}
-        </nav>
+        {% else %}
+            <div class="empty-state empty-state-large">
+                <span class="empty-symbol" aria-hidden="true">⌕</span>
+                <h2>
+                    No encontramos ofertas con esos filtros.
+                </h2>
+                <p>
+                    Prueba con otro término, amplía el rango salarial o elimina alguno de los filtros.
+                </p>
+                <a class="button button-dark" href="{% url 'jobs:oferta_list' %}">Ver todas las ofertas</a>
+            </div>
         {% endif %}
     </section>
 {% endblock %}

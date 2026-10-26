@@ -1,36 +1,144 @@
 {% extends "App_Remote_Jobs/base.html" %}
 {% block title %}
-    Inicio · Remote Jobs
+    Remote Jobs · Tu carrera, sin fronteras
 {% endblock %}
 {% block content %}
-    <section>
-        <p>EL SIGUIENTE PASO</p>
-        <h1>Tu carrera. Sin fronteras.</h1>
-        <p>Oportunidades en remoto e híbridas para dar el primer paso profesional.</p>
-        <div class="job-grid">
-            <div class="panel"><strong>{{ total_ofertas }}</strong>
-                <p>ofertas publicadas</p>
+    <section class="hero-section">
+        <div class="hero-orb hero-orb-one" aria-hidden="true">
+        </div>
+        <div class="hero-orb hero-orb-two" aria-hidden="true">
+        </div>
+        <div class="container hero-grid">
+            <div class="hero-copy">
+                <p class="eyebrow eyebrow-light">
+                    <span class="eyebrow-dot"></span> EL INICIO DE ALGO GRANDE
+                </p>
+                <h1>
+                    Tu carrera.<br>Sin <span>fronteras.</span>
+                </h1>
+                <p class="hero-description">
+                    Oportunidades en remoto e híbridas para dar el primer paso profesional. Encuentra un equipo que apueste por tu talento, estés donde estés.
+                </p>
+                <form class="hero-search" action="{% url 'jobs:oferta_list' %}" method="get" role="search">
+                    <label class="visually-hidden" for="hero-query">
+                        Puesto, empresa o habilidad
+                    </label>
+                    <span class="search-icon" aria-hidden="true">⌕</span>
+                    <input id="hero-query" type="search" name="q" list="sugerencias-ofertas" placeholder="Puesto, empresa o habilidad..." autocomplete="on">
+                    <datalist id="sugerencias-ofertas">
+                    {% for titulo, empresa in sugerencias_busqueda %}
+                        <option value="{{ titulo }}">
+                            {{ empresa }}
+                        </option>
+                        <option value="{{ empresa }}">
+                            {{ titulo }}
+                        </option>
+                    {% endfor %}
+                    </datalist>
+                    <button type="submit">
+                        Buscar ofertas <span aria-hidden="true">→</span>
+                    </button>
+                </form>
+                <p class="hero-note">
+                    <span aria-hidden="true">✓</span> Solo oportunidades junior y prácticas
+                </p>
+                <nav class="quick-search-links" aria-label="Búsquedas rápidas">
+                    <a href="{% url 'jobs:oferta_list' %}?modalidad=remoto">100 % remoto</a><a href="{% url 'jobs:oferta_list' %}?modalidad=hibrido">Híbrido</a><a href="{% url 'jobs:oferta_list' %}?tipo=practicas">Prácticas</a><a href="{% url 'jobs:oferta_list' %}?orden=salario_desc">Mejor salario</a>
+                </nav>
             </div>
-            <div class="panel"><strong>{{ total_sectores }}</strong>
-                <p>sectores</p>
+            <div class="hero-visual" role="group" aria-label="Resumen de oportunidades disponibles">
+                <div class="visual-topline">
+                    <span class="status-live"></span> TU SIGUIENTE CAPÍTULO
+                </div>
+                <div class="visual-headline">
+                    Hay sitio para<br><em>tu talento.</em>
+                </div>
+                <div class="visual-stats">
+                    <div>
+                        <strong>{{ total_ofertas|stringformat:"02d" }}</strong><span>ofertas activas</span>
+                    </div>
+                    <div>
+                        <strong>{{ total_sectores|stringformat:"02d" }}</strong><span>sectores</span>
+                    </div>
+                    <div>
+                        <strong>{{ total_habilidades|stringformat:"02d" }}</strong><span>habilidades</span>
+                    </div>
+                </div>
+                <div class="visual-floating-card">
+                    <span class="floating-icon" aria-hidden="true">↗</span> <span><strong>El talento no tiene código postal.</strong><small>Tu carrera empieza aquí.</small></span>
+                </div>
+                <div class="visual-decoration" aria-hidden="true">
+                    <span></span><span></span><span></span><span></span><span></span>
+                </div>
             </div>
-            <div class="panel"><strong>{{ total_habilidades }}</strong>
-                <p>habilidades</p>
+        </div>
+        <div class="hero-bottom-line" aria-hidden="true">
+            <span></span><span></span><span></span>
+        </div>
+    </section>
+    <section class="section container section-sectors">
+        <div class="section-heading section-heading-row">
+            <div>
+                <p class="eyebrow">
+                    EXPLORA TUS POSIBILIDADES
+                </p>
+                <h2>
+                    Un mundo de opciones.<br><span>Tu lugar está en alguna.</span>
+                </h2>
+            </div>
+            <a class="section-link" href="{% url 'jobs:sector_list' %}">Ver todos los sectores <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="sector-feature-grid">
+            {% for item in sectores_con_oferta %}
+                <a class="sector-feature" href="{{ item.sector.get_absolute_url }}"> <span class="sector-symbol" aria-hidden="true">{{ item.sector.icono }}</span> <span class="sector-feature-content"> <strong>{{ item.sector.nombre }}</strong> <span>{{ item.sector.total_ofertas }} oferta{{ item.sector.total_ofertas|pluralize:"s" }}</span> </span> <span class="sector-feature-arrow" aria-hidden="true">↗</span> </a>
+            {% empty %}
+                <p class="empty-state">
+                    Aún no hay sectores con ofertas publicadas.
+                </p>
+            {% endfor %}
+        </div>
+    </section>
+    <section class="section section-tinted">
+        <div class="container">
+            <div class="section-heading section-heading-row">
+                <div>
+                    <p class="eyebrow">
+                        RECIÉN LLEGADAS
+                    </p>
+                    <h2>
+                        Oportunidades que<br><span>merecen tu atención.</span>
+                    </h2>
+                </div>
+                <a class="section-link" href="{% url 'jobs:oferta_list' %}">Todas las ofertas <span aria-hidden="true">↗</span></a>
+            </div>
+            <div class="job-grid job-grid-home">
+                {% for oferta in ofertas_destacadas %}
+                    {% include "App_Remote_Jobs/componentes/tarjeta_oferta.html" with oferta=oferta %}
+                {% empty %}
+                    <div class="empty-state">
+                        <h3>
+                            Estamos preparando nuevas oportunidades.
+                        </h3>
+                        <p>
+                            Vuelve pronto para descubrir las próximas ofertas.
+                        </p>
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </section>
-    <section>
-        <h2>Ofertas recientes</h2>
-        <div class="job-grid">
-            {% for oferta in ofertas_destacadas %}
-            <article class="job-card">
-                <h3>{{ oferta.titulo }}</h3>
-                <p>{{ oferta.empresa }} · {{ oferta.sector.nombre }}</p>
-                <p>{{ oferta.resumen }}</p>
-            {% include "App_Remote_Jobs/componentes/boton_favorito.html" with oferta=oferta %}
-            </article>
-            {% empty %}<p>Aún no hay ofertas. Ejecuta cargar_datos_demo o créalas desde el administrador.</p>
-            {% endfor %}
+    <section class="closing-cta container">
+        <div class="closing-cta-mark" aria-hidden="true">
+            ↗
         </div>
+        <div>
+            <p class="eyebrow">
+                EL SIGUIENTE PASO ES TUYO
+            </p>
+            <h2>
+                Tu primera oportunidad<br>está más cerca de lo que crees.
+            </h2>
+        </div>
+        <a class="button button-dark" href="{% url 'jobs:oferta_list' %}">Encuentra tu oferta <span aria-hidden="true">→</span></a>
     </section>
 {% endblock %}

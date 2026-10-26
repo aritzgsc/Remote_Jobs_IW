@@ -1,0 +1,36 @@
+<article class="job-card">
+    <div class="job-card-top">
+        <div class="company-mark" aria-hidden="true">
+            {{ oferta.iniciales_empresa }}
+        </div>
+        <div class="job-card-meta">
+            <span class="company-name">{{ oferta.empresa }}</span> <span class="muted-small">{{ oferta.fecha_publicacion|date:"j M Y" }}</span>
+        </div>
+        <span class="job-arrow" aria-hidden="true">↗</span>
+    </div>
+    <h3>
+        <a href="{{ oferta.get_absolute_url }}">{{ oferta.titulo }}</a>
+    </h3>
+    <p class="job-summary">
+        {{ oferta.resumen }}
+    </p>
+    <div class="job-facts">
+        <span><span aria-hidden="true">⌖</span> {{ oferta.ubicacion }}</span> <span><span aria-hidden="true">◷</span> {{ oferta.get_tipo_empleo_display }}</span>
+    </div>
+    <div class="tag-list" role="group" aria-label="Habilidades solicitadas">
+        {% for habilidad in oferta.habilidades.all|slice:":4" %}
+            <a class="tag" href="{{ habilidad.get_absolute_url }}">{{ habilidad.nombre }}</a>
+        {% empty %}
+            <span class="tag tag-muted">Habilidades por definir</span>
+        {% endfor %}
+        {% if oferta.habilidades.count > 4 %}
+            <span class="tag tag-muted">+{{ oferta.habilidades.count|add:"-4" }}</span>
+        {% endif %}
+    </div>
+    <div class="job-card-bottom">
+        <span class="salary">{{ oferta.etiqueta_salario }}</span> <a class="text-link" href="{{ oferta.get_absolute_url }}">Ver oferta <span aria-hidden="true">→</span></a>
+    </div>
+    <div class="job-card-actions">
+        {% include "App_Remote_Jobs/componentes/boton_favorito.html" with oferta=oferta %}
+    </div>
+</article>

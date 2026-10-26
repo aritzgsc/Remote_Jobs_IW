@@ -1,29 +1,96 @@
 {% extends "App_Remote_Jobs/base.html" %}
 {% block title %}
-    Habilidades · Remote Jobs
+    Habilidades y tecnologías · Remote Jobs
 {% endblock %}
 {% block content %}
-    <h1>Explorar habilidades</h1>
-    <form method="get">
-        <label for="q">Buscar habilidad</label>
-        <input id="q" name="q" value="{{ q }}">
-        <label for="categoria">Categoría</label>
-        <select name="categoria" id="categoria">
-            <option value="">Todas</option>
-            {% for item in categorias %}
-            <option value="{{ item }}">{{ item }}</option>
+    <section class="page-hero page-hero-compact">
+        <div class="container">
+            <p class="eyebrow eyebrow-light">
+                <span class="eyebrow-dot"></span> LO QUE SABES HACER
+            </p>
+            <h1>
+                Tus habilidades.<br><span>Nuevas posibilidades.</span>
+            </h1>
+            <p>
+                Busca tecnologías, herramientas e idiomas y descubre en qué oportunidades se valoran.
+            </p>
+        </div>
+    </section>
+    <section class="section container listings-section">
+        <div class="listings-title-row">
+            <div>
+                <p class="eyebrow">
+                    TECNOLOGÍAS Y COMPETENCIAS
+                </p>
+                <h2>
+                    Explora habilidades
+                </h2>
+            </div>
+            <p class="result-count">
+                <strong>{{ habilidades|length }}</strong> habilidad{{ habilidades|length|pluralize:"es" }}
+            </p>
+        </div>
+        <form class="directory-filter directory-filter-wide" method="get" action="{% url 'jobs:habilidad_list' %}" role="search">
+            <div class="filter-search">
+                <label for="q-habilidad">
+                    Buscar habilidad
+                </label>
+                <input type="search" id="q-habilidad" name="q" value="{{ q }}" placeholder="Ej. Python, inglés, diseño">
+            </div>
+            <div class="filter-field">
+                <label for="categoria">
+                    Categoría
+                </label>
+                <select id="categoria" name="categoria">
+                    <option value="">
+                        Todas las categorías
+                    </option>
+                    {% for item in categorias %}
+                        <option value="{{ item }}"{% if categoria_seleccionada == item %} selected{% endif %}>
+                            {{ item }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="filter-field">
+                <label for="orden-habilidad">
+                    Ordenar por
+                </label>
+                <select id="orden-habilidad" name="orden">
+                    <option value="nombre"{% if orden == "nombre" %} selected{% endif %}>
+                        Nombre A–Z
+                    </option>
+                    <option value="categoria"{% if orden == "categoria" %} selected{% endif %}>
+                        Categoría
+                    </option>
+                    <option value="ofertas"{% if orden == "ofertas" %} selected{% endif %}>
+                        Más demandadas
+                    </option>
+                </select>
+            </div>
+            <div class="filter-actions">
+                <button class="button button-dark" type="submit">
+                    Buscar habilidades <span aria-hidden="true">→</span>
+                </button>
+                {% if q or categoria_seleccionada or orden != "nombre" %}
+                    <a class="clear-filters" href="{% url 'jobs:habilidad_list' %}">Limpiar</a>
+                {% endif %}
+            </div>
+        </form>
+        <div class="skill-directory-grid">
+            {% for habilidad in habilidades %}
+                <a class="skill-directory-card" href="{{ habilidad.get_absolute_url }}"><span class="skill-category">{{ habilidad.categoria }}</span><strong>{{ habilidad.nombre }}</strong><span class="skill-card-bottom">{{ habilidad.total_ofertas }} oferta{{ habilidad.total_ofertas|pluralize:"s" }} <span aria-hidden="true">↗</span></span></a>
+            {% empty %}
+                <div class="empty-state">
+                    <h3>
+                        No encontramos esa habilidad.
+                    </h3>
+                    <p>
+                        Prueba otro término o cambia la categoría.
+                    </p>
+                    <a class="text-link" href="{% url 'jobs:habilidad_list' %}">Ver todas las habilidades →</a>
+                </div>
             {% endfor %}
-        </select>
-        <button>Buscar</button>
-    </form>
-    <div class="job-grid">
-        {% for habilidad in habilidades %}
-        <article class="job-card">
-            <h2><a href="{{ habilidad.get_absolute_url }}">{{ habilidad.nombre }}</a></h2>
-            <p>{{ habilidad.descripcion }}</p>
-            <p>{{ habilidad.total_ofertas }} ofertas</p>
-        </article>
-        {% empty %}<p>No hay habilidades.</p>
-        {% endfor %}
-    </div>
+        </div>
+    </section>
 {% endblock %}
