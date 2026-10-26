@@ -27,7 +27,7 @@ Remote Jobs organiza ofertas por sector y habilidades para ayudar a encontrar op
 - [x] Ofertas guardadas de forma privada por usuario
 - [x] Cambio y recuperación de contraseña
 - [x] Inicio de sesión con correo o nombre de usuario
-- [ ] Preparación de Google OAuth
+- [x] Preparación de Google OAuth
 - [ ] Botón de Google y datos básicos del perfil social
 - [ ] Plantillas semánticas y componentes compartidos
 - [ ] Pruebas de integración de páginas y permisos
@@ -65,6 +65,7 @@ El archivo `.env.example` documenta las variables reconocidas por el proyecto. C
 - `DJANGO_DEBUG`: activa el modo de depuración solo durante el desarrollo local.
 - `DJANGO_ALLOWED_HOSTS`: lista de hosts permitidos, separados por comas.
 - `DJANGO_EMAIL_BACKEND`: en desarrollo puede utilizarse el backend de consola para mostrar los correos en la terminal.
+- `GOOGLE_OAUTH_CLIENT_ID` y `GOOGLE_OAUTH_CLIENT_SECRET`: credenciales locales para habilitar Google OAuth.
 
 ## Uso
 

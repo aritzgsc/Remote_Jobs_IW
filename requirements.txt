@@ -4,3 +4,5 @@ Django>=5.2,<7.0
 python-dotenv>=1.0.1,<2.0
 # Lectura y validación de las imágenes de perfil.
 Pillow>=10.4,<14.0
+# Inicio de sesión local y autenticación social mediante OAuth.
+django-allauth[socialaccount]>=65.20.0,<66.0
