@@ -2,51 +2,64 @@
 <!doctype html>
 <html lang="es">
     <head>
-        <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1"> <meta name="description" content="Remote Jobs reúne oportunidades de primer empleo y prácticas en remoto o híbridas para personas que empiezan su carrera profesional."> <meta name="theme-color" content="#142a25"> <title>
-        {% block title %}
-            Remote Jobs · Tu carrera, sin fronteras
-        {% endblock %}
-        </title> <link rel="stylesheet" href="{% static 'App_Remote_Jobs/css/estilos.css' %}">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Remote Jobs reúne oportunidades de primer empleo y prácticas en remoto o híbridas para personas que empiezan su carrera profesional.">
+        <meta name="theme-color" content="#142a25">
+        <title>{% block title %}Remote Jobs · Tu carrera, sin fronteras{% endblock %}</title>
+        <link rel="stylesheet" href="{% static 'App_Remote_Jobs/css/estilos.css' %}">
     </head>
     <body>
         <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
         <header class="site-header">
             <div class="container header-inner">
-                <a class="brand" href="{% url 'jobs:inicio' %}" aria-label="Remote Jobs, página de inicio"> <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span> <span class="brand-name">remote<span>jobs</span><small>EL SIGUIENTE PASO</small></span> </a>
+                <a class="brand" href="{% url 'jobs:inicio' %}" aria-label="Remote Jobs, página de inicio">
+                    <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+                    <span class="brand-name"><span class="brand-word">remote<span>jobs</span></span><small>EL SIGUIENTE PASO</small></span>
+                </a>
+
                 <nav class="main-nav" aria-label="Navegación principal">
-                    <a href="{% url 'jobs:oferta_list' %}"{% if request.resolver_match.url_name == 'oferta_list' or request.resolver_match.url_name == 'oferta_detail' %} aria-current="page"{% endif %}>Ofertas</a> <a href="{% url 'jobs:sector_list' %}"{% if request.resolver_match.url_name == 'sector_list' or request.resolver_match.url_name == 'sector_detail' %} aria-current="page"{% endif %}>Sectores</a> <a href="{% url 'jobs:habilidad_list' %}"{% if request.resolver_match.url_name == 'habilidad_list' or request.resolver_match.url_name == 'habilidad_detail' %} aria-current="page"{% endif %}>Habilidades</a> <a href="{% url 'jobs:favoritos' %}"{% if request.resolver_match.url_name == 'favoritos' %} aria-current="page"{% endif %}>Guardadas <span class="nav-count">{{ favorite_count }}</span></a>
+                    <a href="{% url 'jobs:oferta_list' %}"{% if request.resolver_match.url_name == 'oferta_list' or request.resolver_match.url_name == 'oferta_detail' %} aria-current="page"{% endif %}>Ofertas</a>
+                    <a href="{% url 'jobs:sector_list' %}"{% if request.resolver_match.url_name == 'sector_list' or request.resolver_match.url_name == 'sector_detail' %} aria-current="page"{% endif %}>Sectores</a>
+                    <a href="{% url 'jobs:habilidad_list' %}"{% if request.resolver_match.url_name == 'habilidad_list' or request.resolver_match.url_name == 'habilidad_detail' %} aria-current="page"{% endif %}>Habilidades</a>
+                    <a href="{% url 'jobs:favoritos' %}"{% if request.resolver_match.url_name == 'favoritos' %} aria-current="page"{% endif %}>
+                        Guardadas <span class="nav-count">{{ favorite_count }}</span>
+                    </a>
                 </nav>
+
                 {% if user.is_authenticated %}
                     <div class="header-account">
                         <a class="header-profile-link" href="{% url 'accounts:profile' %}" aria-label="Mi perfil">
-                        {% if current_profile and current_profile.avatar %}
-                            <img class="nav-avatar" src="{{ current_profile.avatar.url }}" alt="">
-                        {% elif current_profile and current_profile.avatar_url %}
-                            <img class="nav-avatar" src="{{ current_profile.avatar_url }}" alt="" loading="lazy" referrerpolicy="no-referrer">
-                        {% else %}
-                            <span class="nav-avatar nav-avatar-fallback" aria-hidden="true">
-                            {% if current_profile %}
-                                {{ current_profile.iniciales }}
+                            {% if current_profile and current_profile.avatar %}
+                                <img class="nav-avatar" src="{{ current_profile.avatar.url }}" alt="">
+                            {% elif current_profile and current_profile.avatar_url %}
+                                <img class="nav-avatar" src="{{ current_profile.avatar_url }}" alt="" loading="lazy" referrerpolicy="no-referrer">
                             {% else %}
-                                {{ user.username|first|upper }}
+                                <span class="nav-avatar nav-avatar-fallback" aria-hidden="true">
+                                    {% if current_profile %}
+                                        {{ current_profile.iniciales }}
+                                    {% else %}
+                                        {{ user.username|first|upper }}
+                                    {% endif %}
+                                </span>
                             {% endif %}
-                            </span>
-                        {% endif %}
-                        <span class="header-profile-name">{{ current_profile.nombre_mostrado|default:user.username }}</span> </a>
-                        <form method="post" action="{% url 'accounts:logout' %}" class="logout-inline" style="display:inline">
+                            <span class="header-profile-name">{{ current_profile.nombre_mostrado|default:user.username }}</span>
+                        </a>
+                        <form method="post" action="{% url 'accounts:logout' %}" class="logout-inline">
                             {% csrf_token %}
-                            <button class="header-login-button" type="submit">
-                                Salir
-                            </button>
+                            <button class="header-login-button" type="submit">Salir</button>
                         </form>
                     </div>
                 {% else %}
                     <div class="header-account">
-                        <a class="header-login-link" href="{% url 'accounts:login' %}">Entrar</a><a class="header-cta" href="{% url 'accounts:register' %}">Crear cuenta <span aria-hidden="true">↗</span></a>
+                        <a class="header-login-link" href="{% url 'accounts:login' %}">Entrar</a>
+                        <a class="header-cta" href="{% url 'accounts:register' %}">Crear cuenta <span aria-hidden="true">↗</span></a>
                     </div>
                 {% endif %}
             </div>
         </header>
+
         {% if messages %}
             <div class="container message-stack" aria-live="polite">
                 {% for message in messages %}
@@ -56,26 +69,29 @@
                 {% endfor %}
             </div>
         {% endif %}
+
         <main id="contenido">
-            {% block content %}
-            {% endblock %}
+            {% block content %}{% endblock %}
         </main>
+
         <footer class="site-footer">
             <div class="container footer-main">
                 <div>
-                    <a class="brand brand-footer" href="{% url 'jobs:inicio' %}" aria-label="Remote Jobs, página de inicio"> <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span> <span class="brand-name">remote<span>jobs</span><small>EL SIGUIENTE PASO</small></span> </a>
-                    <p>
-                        Primeras oportunidades. Nuevos horizontes.
-                    </p>
+                    <a class="brand brand-footer" href="{% url 'jobs:inicio' %}" aria-label="Remote Jobs, página de inicio">
+                        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+                        <span class="brand-name"><span class="brand-word">remote<span>jobs</span></span><small>EL SIGUIENTE PASO</small></span>
+                    </a>
+                    <p>Primeras oportunidades. Nuevos horizontes.</p>
                 </div>
-                <div class="footer-links">
-                    <a href="{% url 'jobs:oferta_list' %}">Ver ofertas</a> <a href="{% url 'jobs:sector_list' %}">Explorar sectores</a> <a href="{% url 'jobs:habilidad_list' %}">Buscar habilidades</a>
-                </div>
+                <nav class="footer-links" aria-label="Navegación del pie de página">
+                    <a href="{% url 'jobs:oferta_list' %}">Ver ofertas</a>
+                    <a href="{% url 'jobs:sector_list' %}">Explorar sectores</a>
+                    <a href="{% url 'jobs:habilidad_list' %}">Buscar habilidades</a>
+                </nav>
             </div>
             <div class="container footer-bottom">
-                <span>©
-                {% now "Y" %}
-                 Remote Jobs</span> <span>Oportunidades para empezar tu carrera profesional</span>
+                <span>© {% now "Y" %} Remote Jobs</span>
+                <span>Oportunidades para empezar tu carrera profesional</span>
             </div>
         </footer>
     </body>
