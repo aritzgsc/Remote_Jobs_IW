@@ -170,7 +170,7 @@
                 {% endif %}
             </div>
         </form>
-        <div class="filter-shortcuts" aria-label="Filtros rápidos">
+        <div role="group" class="filter-shortcuts" aria-label="Filtros rápidos">
             <span>Atajos:</span><a href="?modalidad=remoto">Solo remoto</a><a href="?tipo=practicas">Prácticas</a><a href="?orden=salario_desc">Mayor salario</a><a href="{% url 'jobs:favoritos' %}">Mis guardadas ({{ favorite_count }})</a>
         </div>
         {% if ofertas %}
