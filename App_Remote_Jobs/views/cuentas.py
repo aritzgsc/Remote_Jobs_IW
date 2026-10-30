@@ -141,6 +141,7 @@ class CambioContrasenaView(PasswordChangeView):
 class RecuperarContrasenaView(PasswordResetView):
     template_name = "App_Remote_Jobs/cuentas/recuperar_contrasena.html"
     email_template_name = "App_Remote_Jobs/cuentas/recuperacion_contrasena_email.txt"
+    html_email_template_name = "App_Remote_Jobs/cuentas/recuperacion_contrasena_email.html"
     subject_template_name = "App_Remote_Jobs/cuentas/recuperacion_contrasena_asunto.txt"
     success_url = reverse_lazy("accounts:password_reset_done")
 

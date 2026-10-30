@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <meta name="supported-color-schemes" content="light">
+    <title>Restablecer contraseña · Remote Jobs</title>
+    <style>
+        /* Identidad visual basada en estilos.css.
+           Se mantiene el CSS en la cabecera para facilitar su lectura y mantenimiento. */
+        :root {
+            color-scheme: light;
+        }
+
+        body,
+        table,
+        td,
+        p,
+        h1,
+        a {
+            font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            width: 100% !important;
+            margin: 0;
+            padding: 0;
+            background-color: #f6f7f1;
+            color: #102b25;
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+
+        table {
+            border-spacing: 0;
+            border-collapse: collapse;
+        }
+
+        img {
+            border: 0;
+            outline: none;
+            text-decoration: none;
+            -ms-interpolation-mode: bicubic;
+        }
+
+        a {
+            color: #19483b;
+        }
+
+        .email-background {
+            width: 100%;
+            padding: 38px 14px;
+            background-color: #f6f7f1;
+        }
+
+        .email-card {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            overflow: hidden;
+            background-color: #ffffff;
+            border: 1px solid #d9e2d7;
+            border-radius: 18px;
+        }
+
+        .brand-header {
+            padding: 27px 34px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #d9e2d7;
+        }
+
+        .brand-mark {
+            width: 43px;
+            height: 43px;
+            background-color: #102b25;
+            border-radius: 13px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .brand-mark-inner {
+            display: inline-block;
+            padding-top: 8px;
+            white-space: nowrap;
+        }
+
+        .brand-bar {
+            display: inline-block;
+            width: 5px;
+            margin: 0 2px;
+            border-radius: 4px;
+            background-color: #d9ff6d;
+            vertical-align: bottom;
+        }
+
+        .brand-bar-one {
+            height: 12px;
+        }
+
+        .brand-bar-two {
+            height: 19px;
+        }
+
+        .brand-bar-three {
+            height: 25px;
+        }
+
+        .brand-name {
+            padding-left: 12px;
+            color: #102b25;
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: -1.5px;
+            line-height: 1;
+        }
+
+        .brand-name-accent {
+            color: #19483b;
+        }
+
+        .brand-tagline {
+            padding-top: 5px;
+            color: #61766c;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .hero {
+            padding: 39px 42px 34px;
+            background-color: #102b25;
+        }
+
+        .eyebrow {
+            margin: 0 0 17px;
+            color: #d9ff6d;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            line-height: 1.5;
+            text-transform: uppercase;
+        }
+
+        .hero-title {
+            margin: 0;
+            color: #ffffff;
+            font-size: 34px;
+            font-weight: 850;
+            letter-spacing: -1.3px;
+            line-height: 1.12;
+        }
+
+        .hero-title-accent {
+            color: #d9ff6d;
+        }
+
+        .hero-copy {
+            margin: 17px 0 0;
+            color: #d2e1d7;
+            font-size: 15px;
+            line-height: 1.75;
+        }
+
+        .content {
+            padding: 36px 42px 40px;
+        }
+
+        .greeting {
+            margin: 0 0 13px;
+            color: #102b25;
+            font-size: 17px;
+            font-weight: 750;
+            line-height: 1.5;
+        }
+
+        .paragraph {
+            margin: 0 0 17px;
+            color: #61766c;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .button-row {
+            padding: 12px 0 23px;
+            text-align: center;
+        }
+
+        .reset-button {
+            display: inline-block;
+            padding: 15px 27px;
+            background-color: #102b25;
+            border: 1px solid #102b25;
+            border-radius: 9px;
+            color: #ffffff !important;
+            font-size: 14px;
+            font-weight: 800;
+            line-height: 1.2;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .reset-button span {
+            color: #d9ff6d;
+        }
+
+        .security-note {
+            margin-top: 25px;
+            padding: 16px 18px;
+            background-color: #f6f7f1;
+            border-left: 4px solid #d9ff6d;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .security-note-title {
+            margin: 0 0 5px;
+            color: #102b25;
+            font-size: 12px;
+            font-weight: 850;
+            line-height: 1.5;
+        }
+
+        .security-note-copy {
+            margin: 0;
+            color: #61766c;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .email-footer {
+            padding: 24px 30px;
+            background-color: #102b25;
+            text-align: center;
+        }
+
+        .footer-brand {
+            margin: 0 0 5px;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 850;
+            letter-spacing: -0.2px;
+        }
+
+        .footer-tagline {
+            margin: 0 0 12px;
+            color: #d9ff6d;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .footer-note {
+            margin: 0;
+            color: #b8ccc0;
+            font-size: 10px;
+            line-height: 1.7;
+        }
+
+        @media only screen and (max-width: 620px) {
+            .email-background {
+                padding: 14px 8px;
+            }
+
+            .brand-header {
+                padding: 22px 20px;
+            }
+
+            .hero {
+                padding: 31px 24px 28px;
+            }
+
+            .hero-title {
+                font-size: 29px;
+            }
+
+            .content {
+                padding: 29px 24px 32px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <table role="presentation" width="100%" class="email-background">
+        <tr>
+            <td align="center">
+                <table role="presentation" width="100%" class="email-card">
+                    <tr>
+                        <td class="brand-header">
+                            <table role="presentation">
+                                <tr>
+                                    <td class="brand-mark" width="43" height="43">
+                                        <span class="brand-mark-inner">
+                                            <span class="brand-bar brand-bar-one"></span>
+                                            <span class="brand-bar brand-bar-two"></span>
+                                            <span class="brand-bar brand-bar-three"></span>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="brand-name">remote<span class="brand-name-accent">jobs</span></div>
+                                        <div class="brand-tagline">EL SIGUIENTE PASO</div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="hero">
+                            <p class="eyebrow">SEGURIDAD DE TU CUENTA</p>
+                            <h1 class="hero-title">Volvamos a ponerte<br><span class="hero-title-accent">en
+                                    marcha.</span></h1>
+                            <p class="hero-copy">Un pequeño paso para recuperar el acceso. Tu próxima oportunidad puede
+                                estar más cerca de lo que crees.</p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="content">
+                            <p class="greeting">¡Hola!</p>
+                            <p class="paragraph">
+                                Hemos recibido una solicitud para restablecer la contraseña de tu cuenta de
+                                <strong>Remote Jobs</strong>.
+                            </p>
+                            <p class="paragraph">
+                                Para elegir una contraseña nueva y volver a acceder a tu cuenta, utiliza el siguiente
+                                botón:
+                            </p>
+
+                            <table role="presentation" width="100%">
+                                <tr>
+                                    <td class="button-row">
+                                        <a class="reset-button"
+                                            href="{{ protocol }}://{{ domain }}{% url 'accounts:password_reset_confirm' uidb64=uid token=token %}">
+                                            Restablecer mi contraseña <span>→</span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <div class="security-note">
+                                <p class="security-note-title">Una nota sobre tu seguridad</p>
+                                <p class="security-note-copy">
+                                    Si no has solicitado este cambio, puedes ignorar este correo. Tu contraseña actual
+                                    seguirá siendo la misma mientras no completes el proceso de restablecimiento.
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="email-footer">
+                            <p class="footer-brand">Remote Jobs</p>
+                            <p class="footer-tagline">Primeras oportunidades. Nuevos horizontes.</p>
+                            <p class="footer-note">Este mensaje se ha enviado automáticamente. Por favor, no respondas a
+                                este correo.</p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>
