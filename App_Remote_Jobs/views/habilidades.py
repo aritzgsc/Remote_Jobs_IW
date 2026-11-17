@@ -44,7 +44,7 @@ def lista_habilidades(request):
 
 def detalle_habilidad(request, slug):
     habilidad = get_object_or_404(Habilidad, slug=slug)
-    ofertas = ofertas_publicadas().filter(habilidades=habilidad)
+    ofertas = ofertas_publicadas(habilidad.ofertas.all())
     modalidad = request.GET.get("modalidad", "").strip()
     tipo_empleo = request.GET.get("tipo", "").strip()
     orden = request.GET.get("orden", "recientes").strip()

@@ -33,7 +33,7 @@ def lista_sectores(request):
 
 def detalle_sector(request, slug):
     sector = get_object_or_404(Sector, slug=slug)
-    ofertas = ofertas_publicadas().filter(sector=sector)
+    ofertas = ofertas_publicadas(sector.ofertas.all())
     modalidad = request.GET.get("modalidad", "").strip()
     tipo_empleo = request.GET.get("tipo", "").strip()
     orden = request.GET.get("orden", "recientes").strip()

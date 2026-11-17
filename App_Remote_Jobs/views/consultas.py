@@ -5,9 +5,12 @@ from ..models import Oferta
 
 
 
-def ofertas_publicadas():
+def ofertas_publicadas(ofertas=None):
+    if ofertas is None:
+        ofertas = Oferta.objects.all()
+
     return (
-        Oferta.objects.filter(publicada=True)
+        ofertas.filter(publicada=True)
         .select_related("sector")
         .prefetch_related("habilidades")
         .order_by("-fecha_publicacion", "titulo")
