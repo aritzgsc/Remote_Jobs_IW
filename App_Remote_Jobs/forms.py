@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, UserCreationForm
 
-from .models import PerfilUsuario
+from .models import BusquedaGuardada, PerfilUsuario
 
 User = get_user_model()
 
@@ -109,3 +109,43 @@ class CambioContrasenaForm(WidgetClassesMixin, PasswordChangeForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.add_widget_classes()
+
+
+class BusquedaGuardadaForm(WidgetClassesMixin, forms.ModelForm):
+    class Meta:
+        model = BusquedaGuardada
+        fields = ("nombre", "q", "sector", "habilidad", "modalidad", "tipo_empleo", "ubicacion", "salario_desde", "salario_hasta", "fecha_desde", "fecha_hasta", "orden")
+        widgets = {"fecha_desde": forms.DateInput(attrs={"type": "date"}),
+                   "fecha_hasta": forms.DateInput(attrs={"type": "date"})}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        from .models import Habilidad, Oferta, Sector
+        self.fields["sector"] = forms.ChoiceField(required=False, choices=[("", "Todos los sectores")] + list(Sector.objects.values_list("slug", "nombre")))
+        self.fields["habilidad"] = forms.ChoiceField(required=False, choices=[("", "Todas las habilidades")] + list(Habilidad.objects.values_list("slug", "nombre")))
+        self.fields["modalidad"] = forms.ChoiceField(required=False, choices=[("", "Cualquiera")] + list(Oferta.Modalidad.choices))
+        self.fields["tipo_empleo"] = forms.ChoiceField(required=False, choices=[("", "Cualquiera")] + list(Oferta.TipoEmpleo.choices))
+        self.fields["orden"] = forms.ChoiceField(
+            required=False,
+            choices=[
+                ("recientes", "Recientes"), ("antiguas", "Antiguas"),
+                ("titulo", "Título"), ("salario_desc", "Mayor salario"),
+                ("salario_asc", "Menor salario"),
+            ],
+        )
+        self.add_widget_classes()
+
+    def clean_nombre(self):
+        valor = self.cleaned_data["nombre"].strip()
+        if not valor:
+            raise forms.ValidationError("Da un nombre a tu búsqueda.")
+        return valor
+
+    def clean(self):
+        datos = super().clean()
+        desde, hasta = datos.get("salario_desde"), datos.get("salario_hasta")
+        if desde is not None and hasta is not None and desde > hasta:
+            self.add_error("salario_hasta", "No puede ser inferior al salario mínimo.")
+        if datos.get("fecha_desde") and datos.get("fecha_hasta") and datos["fecha_desde"] > datos["fecha_hasta"]:
+            self.add_error("fecha_hasta", "No puede ser anterior a la fecha inicial.")
+        return datos
