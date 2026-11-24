@@ -11,9 +11,12 @@ class WidgetClassesMixin:
     """Aplica clases coherentes al HTML generado por Django sin JavaScript."""
 
     def add_widget_classes(self):
-        for field in self.fields.values():
+        for nombre, field in self.fields.items():
             css = field.widget.attrs.get("class", "")
             field.widget.attrs["class"] = (css + " form-control").strip()
+            if field.help_text and not field.widget.attrs.get("aria-describedby"):
+                # Mismo ID que usa la plantilla de campos compartida.
+                field.widget.attrs["aria-describedby"] = f"{self[nombre].auto_id}_helptext"
             if isinstance(field.widget, forms.Textarea):
                 field.widget.attrs.setdefault("rows", 4)
 
