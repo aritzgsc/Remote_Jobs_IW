@@ -9,6 +9,7 @@ from .views.ofertas import detalle_oferta, lista_ofertas
 from .views.sectores import detalle_sector, lista_sectores
 from .views.habilidades import detalle_habilidad, lista_habilidades
 from .views.favoritos import alternar_favorito, favoritos
+from .views.espacio import mi_espacio
 from .views.busquedas import mis_busquedas, crear_busqueda, abrir_busqueda, borrar_busqueda
 from .views.cuentas import (
     iniciar_sesion,
@@ -30,6 +31,7 @@ rutas_cuentas = [
     path("cuenta/registro/", registro, name="register"),
     path("cuenta/salir/", cerrar_sesion, name="logout"),
     path("perfil/", perfil, name="profile"),
+    path("mi-espacio/", mi_espacio, name="mi_espacio"),
     path("perfil/editar/", editar_perfil, name="profile_edit"),
     path("cuenta/contrasena/cambiar/", CambioContrasenaView.as_view(), name="password_change"),
     path(

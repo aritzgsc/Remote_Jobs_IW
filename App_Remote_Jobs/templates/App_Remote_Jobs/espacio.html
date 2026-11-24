@@ -1,0 +1,36 @@
+{% extends "App_Remote_Jobs/base.html" %}
+{% block title %}
+    Mi espacio · Remote Jobs
+{% endblock %}
+{% block content %}
+    <section class="page-hero page-hero-compact">
+        <div class="container">
+            <p class="eyebrow eyebrow-light">TU CUENTA</p>
+            <h1>Mi espacio</h1>
+            <p>Todo lo que necesitas para organizar tus primeras oportunidades.</p>
+        </div>
+    </section>
+    <section class="section container">
+        <h2>Tu actividad</h2>
+        <div class="personal-grid">
+            <a class="personal-card" href="{% url 'jobs:favoritos' %}">
+                <span class="eyebrow">FAVORITOS</span>
+                <strong>{{ total_favoritos }} ofertas guardadas</strong>
+                <p>Revisa los puestos que te interesan.</p>
+                <span>Ver favoritos →</span>
+            </a>
+            <a class="personal-card" href="{% url 'jobs:mis_busquedas' %}">
+                <span class="eyebrow">BÚSQUEDAS</span>
+                <strong>{{ total_busquedas }} búsquedas</strong>
+                <p>Vuelve a los filtros que guardaste.</p>
+                <span>Mis búsquedas →</span>
+            </a>
+            <a class="personal-card" href="{% url 'accounts:profile_edit' %}">
+                <span class="eyebrow">PERFIL</span>
+                <strong>Editar mi perfil</strong>
+                <p>Actualiza tus datos y presentación.</p>
+                <span>Mi perfil →</span>
+            </a>
+        </div>
+    </section>
+{% endblock %}
