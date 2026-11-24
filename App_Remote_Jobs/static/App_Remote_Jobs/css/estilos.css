@@ -3540,7 +3540,7 @@ textarea {
 /* E4 · Resumen privado, búsquedas y diseños fluidos */
 .personal-grid {
     display: grid;
-    grid-template-columns: repeat(3,minmax(0,1fr));
+    grid-template-columns: repeat(auto-fit, minmax(0,1fr));
     gap: 1.1rem;
     margin-top: 2rem;
 }
