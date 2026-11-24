@@ -25,7 +25,7 @@
                     <a href="{% url 'jobs:sector_list' %}"{% if request.resolver_match.url_name == 'sector_list' or request.resolver_match.url_name == 'sector_detail' %} aria-current="page"{% endif %}>Sectores</a>
                     <a href="{% url 'jobs:habilidad_list' %}"{% if request.resolver_match.url_name == 'habilidad_list' or request.resolver_match.url_name == 'habilidad_detail' %} aria-current="page"{% endif %}>Habilidades</a>
                     <a href="{% url 'jobs:favoritos' %}"{% if request.resolver_match.url_name == 'favoritos' %} aria-current="page"{% endif %}>
-                        Guardadas <span class="nav-count">{{ favorite_count }}</span>
+                        Guardadas <span class="nav-count" data-favorite-count>{{ favorite_count }}</span>
                     </a>
                 </nav>
 
@@ -71,6 +71,7 @@
             </div>
         {% endif %}
 
+        <p id="favorite-feedback" class="visually-hidden" role="status" aria-live="polite"></p>
         <main id="contenido">
             {% block content %}{% endblock %}
         </main>

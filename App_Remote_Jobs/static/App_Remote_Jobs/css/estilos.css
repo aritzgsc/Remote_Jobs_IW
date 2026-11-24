@@ -3515,3 +3515,24 @@ textarea {
         min-height: 0;
     }
 }
+
+/* E4 · Feedback coherente y accesible en favoritos */
+.favorite-button {
+    transition: background-color .18s ease, border-color .18s ease, transform .18s ease;
+}
+.favorite-button:focus-visible {
+    outline: 3px solid #0f766e;
+    outline-offset: 3px;
+}
+.favorite-button:disabled {
+    opacity: .65;
+    cursor: progress;
+}
+.favorite-button:not(:disabled):active {
+    transform: scale(.97);
+}
+@media (prefers-reduced-motion: reduce) {
+    .favorite-button {
+        transition: none;
+    }
+}

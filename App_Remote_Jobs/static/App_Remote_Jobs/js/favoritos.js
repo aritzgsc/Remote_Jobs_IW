@@ -39,6 +39,19 @@ document.addEventListener('submit', async (event) => {
     document.querySelectorAll('[data-favorite-count]').forEach((counter) => {
       counter.textContent = String(data.total_guardadas);
     });
+    // En la vista de favoritos, quitar la tarjeta y actualizar el estado vacío.
+    const grid = document.querySelector('[data-favorite-grid]');
+    if (grid && !data.guardada) {
+      form.closest('.job-card')?.remove();
+      const total = document.querySelector('[data-favorite-total]');
+      if (total) total.textContent = String(data.total_guardadas);
+      if (!grid.querySelector('.job-card')) {
+        const empty = document.createElement('p');
+        empty.className = 'empty-state';
+        empty.textContent = 'No quedan ofertas guardadas. Explora nuevas oportunidades.';
+        grid.replaceWith(empty);
+      }
+    }
     const status = document.getElementById('favorite-feedback');
     if (status) status.textContent = data.guardada ? 'Oferta guardada.' : 'Oferta eliminada de guardadas.';
   } catch (error) {
