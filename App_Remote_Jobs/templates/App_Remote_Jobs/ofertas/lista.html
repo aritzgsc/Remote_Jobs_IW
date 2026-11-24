@@ -170,6 +170,14 @@
                 {% endif %}
             </div>
         </form>
+        {% if user.is_authenticated %}
+            <p class="saved-search-cta">
+                <a class="button button-dark" href="{% url 'jobs:crear_busqueda' %}{% if query_string %}?{{ query_string }}{% endif %}">Guardar esta búsqueda</a>
+                <a href="{% url 'jobs:mis_busquedas' %}">Mis búsquedas</a>
+            </p>
+        {% else %}
+        <p class="saved-search-cta"><a href="{% url 'accounts:login' %}?next={{ request.get_full_path|urlencode }}">Inicia sesión para guardar estos filtros</a></p>
+        {% endif %}
         <div role="group" class="filter-shortcuts" aria-label="Filtros rápidos">
             <span>Atajos:</span><a href="?modalidad=remoto">Solo remoto</a><a href="?tipo=practicas">Prácticas</a><a href="?orden=salario_desc">Mayor salario</a><a href="{% url 'jobs:favoritos' %}">Mis guardadas ({{ favorite_count }})</a>
         </div>
