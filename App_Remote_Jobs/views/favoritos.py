@@ -2,6 +2,7 @@
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
+from django.http import JsonResponse
 from django.urls import reverse
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_POST
@@ -36,6 +37,13 @@ def alternar_favorito(request, pk):
         guardada.delete()
     else:
         OfertaGuardada.objects.get_or_create(usuario=request.user, oferta=oferta)
+
+    if "application/json" in request.headers.get("Accept", ""):
+        return JsonResponse({
+            "guardada": not bool(guardada),
+            "total_guardadas": OfertaGuardada.objects.filter(usuario=request.user, oferta__publicada=True).count(),
+            "oferta_id": oferta.pk,
+        })
 
     destino = request.POST.get("next", "")
     if not destino or not destino.startswith("/") or not url_has_allowed_host_and_scheme(
