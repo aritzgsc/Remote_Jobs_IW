@@ -90,7 +90,15 @@
         </div>
         <div class="sector-feature-grid">
             {% for item in sectores_con_oferta %}
-                <a class="sector-feature" href="{{ item.sector.get_absolute_url }}"> <span class="sector-symbol" aria-hidden="true">{{ item.sector.icono }}</span> <span class="sector-feature-content"> <strong>{{ item.sector.nombre }}</strong> <span>{{ item.sector.total_ofertas }} oferta{{ item.sector.total_ofertas|pluralize:"s" }}</span> </span> <span class="sector-feature-arrow" aria-hidden="true">↗</span> </a>
+                <a class="sector-feature" href="{{ item.sector.get_absolute_url }}">
+                    <span class="sector-symbol" aria-hidden="true">{{ item.sector.icono }}</span>
+                    <span class="sector-feature-content">
+                        <strong>{{ item.sector.nombre }}</strong>
+                        <span>{{ item.sector.total_ofertas }} oferta{{ item.sector.total_ofertas|pluralize:"s" }}</span>
+                        <small class="sector-feature-offer">{{ item.oferta.titulo }}</small>
+                    </span>
+                    <span class="sector-feature-arrow" aria-hidden="true">↗</span>
+                </a>
             {% empty %}
                 <p class="empty-state">
                     Aún no hay sectores con ofertas publicadas.
