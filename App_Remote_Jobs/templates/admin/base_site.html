@@ -1,0 +1,58 @@
+{% extends "admin/base_site.html" %}
+{% load static i18n %}
+
+{% block title %}{{ title }} | Remote Jobs · Administración{% endblock %}
+
+{# No se carga el CSS ni el JavaScript del selector de tema de Django. #}
+{% block dark-mode-vars %}{% endblock %}
+
+{# Último bloque del head: después de los estilos de cada vista y responsive. #}
+{% block blockbots %}
+    {{ block.super }}
+    <link rel="icon" type="image/x-icon" href="{% static 'App_Remote_Jobs/images/logo.ico' %}">
+    <link rel="stylesheet" href="{% static 'App_Remote_Jobs/css/admin.css' %}">
+{% endblock %}
+
+{% block branding %}
+    <div id="site-name" class="rj-admin-branding">
+        <a class="rj-admin-brand" href="{% url 'admin:index' %}" aria-label="Remote Jobs, inicio de administración">
+            <span class="rj-admin-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+            <span class="rj-admin-name">
+                <span>remote<span>jobs</span></span>
+                <small>EL SIGUIENTE PASO</small>
+            </span>
+        </a>
+        <span class="rj-admin-label">Administración</span>
+    </div>
+{% endblock %}
+
+{% block usertools %}
+    {% if has_permission %}
+        <div id="user-tools" class="rj-admin-tools">
+            <span class="rj-admin-user">{% firstof user.get_short_name user.get_username %}</span>
+            {% if site_url %}
+                <a href="{{ site_url }}">Ver el sitio <span aria-hidden="true">↗</span></a>
+            {% endif %}
+            {% if user.is_active and user.is_staff %}
+                {% url 'django-admindocs-docroot' as docsroot %}
+                {% if docsroot %}<a href="{{ docsroot }}">{% translate 'Documentation' %}</a>{% endif %}
+            {% endif %}
+            {% if user.has_usable_password %}
+                <a href="{% url 'admin:password_change' %}">Cambiar contraseña</a>
+            {% endif %}
+            <form id="logout-form" method="post" action="{% url 'admin:logout' %}">
+                {% csrf_token %}
+                <button type="submit">Cerrar sesión</button>
+            </form>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block footer %}
+    {% if not is_popup %}
+        <div class="rj-admin-footer">
+            <span>© {% now "Y" %} Remote Jobs</span>
+            <span>Gestión del portal de empleo</span>
+        </div>
+    {% endif %}
+{% endblock %}
