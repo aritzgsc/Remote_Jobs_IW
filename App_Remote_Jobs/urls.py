@@ -9,6 +9,7 @@ from .views.ofertas import detalle_oferta, lista_ofertas
 from .views.sectores import detalle_sector, lista_sectores
 from .views.habilidades import detalle_habilidad, lista_habilidades
 from .views.favoritos import alternar_favorito, favoritos
+from .views.busquedas import mis_busquedas, crear_busqueda, abrir_busqueda, borrar_busqueda
 from .views.cuentas import (
     iniciar_sesion,
     registro,
@@ -56,6 +57,10 @@ rutas_ofertas = [
     path("habilidades/", lista_habilidades, name="habilidad_list"),
     path("habilidades/<slug:slug>/", detalle_habilidad, name="habilidad_detail"),
     path("favoritos/", favoritos, name="favoritos"),
+    path("mis-busquedas/", mis_busquedas, name="mis_busquedas"),
+    path("mis-busquedas/nueva/", crear_busqueda, name="crear_busqueda"),
+    path("mis-busquedas/<int:pk>/abrir/", abrir_busqueda, name="abrir_busqueda"),
+    path("mis-busquedas/<int:pk>/borrar/", borrar_busqueda, name="borrar_busqueda"),
     path("favoritos/<int:pk>/alternar/", alternar_favorito, name="alternar_favorito"),
 ]
 

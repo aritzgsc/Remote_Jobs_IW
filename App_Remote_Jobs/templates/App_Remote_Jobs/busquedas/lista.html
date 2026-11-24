@@ -1,0 +1,44 @@
+{% extends "App_Remote_Jobs/base.html" %}
+{% block title %}
+    Mis búsquedas · Remote Jobs
+{% endblock %}
+{% block content %}
+    <section class="page-hero page-hero-compact">
+        <div class="container">
+            <p class="eyebrow eyebrow-light">MI ESPACIO</p>
+            <h1>Mis búsquedas guardadas</h1>
+            <p>Recupera tus filtros cuando quieras.</p>
+        </div>
+    </section>
+    <section class="section container">
+        <div class="listings-title-row">
+            <h2>Búsquedas</h2>
+            <a class="button button-dark" href="{% url 'jobs:crear_busqueda' %}">Nueva búsqueda</a>
+        </div>
+        {% if busquedas %}
+            <ul class="saved-search-list">
+                {% for busqueda in busquedas %}
+                    <li class="saved-search-row">
+                        <div>
+                            <strong>{{ busqueda.nombre }}</strong>
+                            <p>{{ busqueda.q|default:"Todos los puestos" }} · {{ busqueda.ubicacion|default:"Cualquier ubicación" }}</p>
+                        </div>
+                        <div class="saved-search-actions">
+                            <a class="button button-dark" href="{% url 'jobs:abrir_busqueda' busqueda.pk %}">Abrir filtros</a>
+                            <form method="post" action="{% url 'jobs:borrar_busqueda' busqueda.pk %}">
+                                {% csrf_token %}
+                                <button class="button button-outline" type="submit">Borrar</button>
+                            </form>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="empty-state">
+                <h2>Aún no has guardado búsquedas</h2>
+                <p>Aplica filtros a las ofertas y guarda tu selección.</p>
+                <a class="button button-dark" href="{% url 'jobs:oferta_list' %}">Explorar ofertas</a>
+            </div>
+        {% endif %}
+    </section>
+{% endblock %}

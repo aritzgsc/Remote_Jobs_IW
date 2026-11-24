@@ -1,0 +1,25 @@
+{% extends "App_Remote_Jobs/base.html" %}
+{% block title %}
+    Guardar búsqueda · Remote Jobs
+{% endblock %}
+{% block content %}
+    <section class="page-hero page-hero-compact">
+        <div class="container">
+            <p class="eyebrow eyebrow-light">MIS BÚSQUEDAS</p>
+            <h1>Guarda tus filtros</h1>
+            <p>Ponle nombre para encontrarlos después.</p>
+        </div>
+    </section>
+    <section class="section container" aria-label="Formulario de búsqueda">
+        <div class="account-card saved-search-form">
+            <form method="post" action="{% url 'jobs:crear_busqueda' %}">
+                {% csrf_token %}
+                {% include "App_Remote_Jobs/componentes/campos_formulario.html" with form=form %}
+                <div class="filter-actions">
+                    <button class="button button-dark" type="submit">Guardar búsqueda</button>
+                    <a href="{% url 'jobs:mis_busquedas' %}">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </section>
+{% endblock %}
