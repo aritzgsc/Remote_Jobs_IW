@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.db.models import Count, Q
 
 from .models import Habilidad, Oferta, Sector, PerfilUsuario, OfertaGuardada, BusquedaGuardada
 
@@ -10,9 +11,18 @@ class SectorAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("nombre",)}
     ordering = ("orden", "nombre")
 
+    def get_queryset(self, request):
+        return super().get_queryset(request).annotate(
+            _total_publicadas=Count(
+                "ofertas",
+                filter=Q(ofertas__publicada=True),
+                distinct=True
+            )
+        )
+
     @admin.display(description="Ofertas publicadas")
     def numero_ofertas(self, obj):
-        return obj.ofertas.filter(publicada=True).count()
+        return obj._total_publicadas
 
 
 @admin.register(Habilidad)
@@ -22,9 +32,18 @@ class HabilidadAdmin(admin.ModelAdmin):
     search_fields = ("nombre", "descripcion")
     prepopulated_fields = {"slug": ("nombre",)}
 
+    def get_queryset(self, request):
+        return super().get_queryset(request).annotate(
+            _total_publicadas=Count(
+                "ofertas",
+                filter=Q(ofertas__publicada=True),
+                distinct=True
+            )
+        )
+
     @admin.display(description="Ofertas publicadas")
     def numero_ofertas(self, obj):
-        return obj.ofertas.filter(publicada=True).count()
+        return obj._total_publicadas
 
 
 @admin.register(Oferta)
