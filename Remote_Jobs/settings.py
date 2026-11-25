@@ -120,3 +120,13 @@ SOCIALACCOUNT_ADAPTER = "App_Remote_Jobs.adapters.AdaptadorCuentaSocialRemoteJob
 
 X_CONTENT_TYPE_OPTIONS = "nosniff"
 X_FRAME_OPTIONS = "DENY"
+
+# Las cookies solo pueden exigirse por HTTPS cuando la instalación lo utiliza.
+if not DEBUG:
+    if SECRET_KEY.startswith("django-insecure-") or SECRET_KEY == "replace-with-a-local-secret":
+        raise ValueError("Define una DJANGO_SECRET_KEY segura para producción.")
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
+    # HSTS y SSL_REDIRECT requieren comprobar HTTPS/proxy en la instalación real.
