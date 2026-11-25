@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.decorators.http import require_http_methods, require_POST
+from django.http import JsonResponse
 
 from ..forms import BusquedaGuardadaForm
 from ..models import BusquedaGuardada
@@ -44,4 +45,8 @@ def abrir_busqueda(request, pk):
 def borrar_busqueda(request, pk):
     busqueda = get_object_or_404(BusquedaGuardada, pk=pk, usuario=request.user)
     busqueda.delete()
+
+    if request.headers.get("Accept") == "application/json":
+        return JsonResponse({"eliminada": True})
+
     return redirect("jobs:mis_busquedas")

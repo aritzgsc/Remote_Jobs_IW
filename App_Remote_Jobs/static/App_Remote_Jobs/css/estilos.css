@@ -243,7 +243,7 @@ main#contenido {
     line-height: 1.05;
 }
 
-.brand-name > span {
+.brand-name>span {
     display: inline;
     color: var(--green);
 }
@@ -836,7 +836,7 @@ button:disabled,
     font-size: 1.25rem;
 }
 
-.visual-floating-card > span:last-child {
+.visual-floating-card>span:last-child {
     display: none;
 }
 
@@ -1011,7 +1011,7 @@ button:disabled,
     font-size: 0.97rem;
 }
 
-.sector-feature-content > span {
+.sector-feature-content>span {
     color: var(--muted);
     font-size: 0.8rem;
 }
@@ -1091,7 +1091,7 @@ button:disabled,
     line-height: 1.01;
 }
 
-.page-hero .container > p:last-child {
+.page-hero .container>p:last-child {
     max-width: 720px;
     color: #d5e4da;
     font-size: 1.08rem;
@@ -1260,7 +1260,7 @@ textarea {
     font-size: 0.84rem;
 }
 
-.filter-shortcuts > span {
+.filter-shortcuts>span {
     margin-right: 0.15rem;
     font-weight: 800;
 }
@@ -1434,7 +1434,7 @@ textarea {
     font-size: 0.87rem;
 }
 
-.job-facts > span {
+.job-facts>span {
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
@@ -1631,7 +1631,7 @@ textarea {
     list-style: none;
 }
 
-.breadcrumbs li + li::before {
+.breadcrumbs li+li::before {
     margin-right: 0.55rem;
     color: #9cac9f;
     content: "/";
@@ -1655,7 +1655,7 @@ textarea {
 }
 
 .detail-main,
-.detail-sidebar > *,
+.detail-sidebar>*,
 .profile-card,
 .profile-identity,
 .profile-stat-card {
@@ -1736,7 +1736,7 @@ textarea {
     border-bottom: 1px solid var(--line);
 }
 
-.detail-facts-grid > div {
+.detail-facts-grid>div {
     display: flex;
     min-width: 0;
     align-items: flex-start;
@@ -1755,7 +1755,7 @@ textarea {
     font-weight: 900;
 }
 
-.detail-facts-grid > div > span:last-child {
+.detail-facts-grid>div>span:last-child {
     display: flex;
     min-width: 0;
     flex-direction: column;
@@ -1782,7 +1782,7 @@ textarea {
     padding-top: 1.8rem;
 }
 
-.detail-content-section + .detail-content-section {
+.detail-content-section+.detail-content-section {
     margin-top: 1.6rem;
     border-top: 1px solid var(--line);
 }
@@ -1849,13 +1849,13 @@ textarea {
     font-size: 1.65rem;
 }
 
-.apply-card > p:not(.eyebrow):not(.demo-note) {
+.apply-card>p:not(.eyebrow):not(.demo-note) {
     margin-bottom: 1.25rem;
     color: var(--muted);
     font-size: 0.93rem;
 }
 
-.apply-card .button + .button {
+.apply-card .button+.button {
     margin-top: 0.65rem;
 }
 
@@ -2006,7 +2006,7 @@ textarea {
     font-size: clamp(2.3rem, 5vw, 4rem);
 }
 
-.directory-detail-hero > p:not(.eyebrow) {
+.directory-detail-hero>p:not(.eyebrow) {
     max-width: 800px;
     color: var(--muted);
     font-size: 1.08rem;
@@ -2089,11 +2089,11 @@ textarea {
     font-size: 0.82rem;
 }
 
-.skill-detail-hero > .skill-category {
+.skill-detail-hero>.skill-category {
     margin-bottom: 1rem;
 }
 
-.skill-detail-hero > .eyebrow {
+.skill-detail-hero>.eyebrow {
     margin-top: 0.75rem;
 }
 
@@ -2185,7 +2185,7 @@ textarea {
     margin: 0;
 }
 
-.profile-data-list > div {
+.profile-data-list>div {
     display: grid;
     gap: 0.2rem;
 }
@@ -2244,12 +2244,12 @@ textarea {
     font-size: 1.3rem;
 }
 
-.profile-stat-card > strong {
+.profile-stat-card>strong {
     font-size: 1.65rem;
     line-height: 1.15;
 }
 
-.profile-stat-card > span:not(.profile-stat-icon) {
+.profile-stat-card>span:not(.profile-stat-icon) {
     margin-top: 0.25rem;
     font-weight: 800;
 }
@@ -2298,7 +2298,7 @@ textarea {
     background: #f8faf5;
 }
 
-.profile-empty-note > span {
+.profile-empty-note>span {
     display: grid;
     width: 40px;
     height: 40px;
@@ -2325,7 +2325,7 @@ textarea {
     text-decoration: none;
 }
 
-.profile-settings > p:not(.eyebrow) {
+.profile-settings>p:not(.eyebrow) {
     color: var(--muted);
 }
 
@@ -2356,7 +2356,7 @@ textarea {
     color: var(--green);
 }
 
-.profile-action-links a > span:nth-child(2) {
+.profile-action-links a>span:nth-child(2) {
     display: flex;
     flex-direction: column;
     gap: 0.2rem;
@@ -2367,7 +2367,7 @@ textarea {
     font-size: 0.8rem;
 }
 
-.profile-action-links a > span:last-child {
+.profile-action-links a>span:last-child {
     color: #7c9488;
 }
 
@@ -2476,7 +2476,7 @@ textarea {
     font-size: clamp(3rem, 5.3vw, 5.2rem);
 }
 
-.account-aside > p:not(.eyebrow) {
+.account-aside>p:not(.eyebrow) {
     max-width: 570px;
     color: #d1e0d6;
     font-size: 1.07rem;
@@ -2493,7 +2493,7 @@ textarea {
     border-top: 1px solid rgb(255 255 255 / 19%);
 }
 
-.account-aside-note > span {
+.account-aside-note>span {
     display: grid;
     width: 48px;
     height: 48px;
@@ -2561,7 +2561,7 @@ textarea {
     font-size: clamp(1.8rem, 3vw, 2.35rem);
 }
 
-.account-card-heading > p:last-child {
+.account-card-heading>p:last-child {
     margin-bottom: 0;
     color: var(--muted);
     font-size: 0.94rem;
@@ -2751,7 +2751,7 @@ textarea {
     background: #1d4539;
 }
 
-.brand-footer .brand-name > span {
+.brand-footer .brand-name>span {
     color: var(--lime);
 }
 
@@ -2795,6 +2795,7 @@ textarea {
 }
 
 @media (min-width: 1700px) {
+
     .hero-grid,
     .page-hero .container {
         width: min(100% - 4rem, 1440px);
@@ -2905,7 +2906,7 @@ textarea {
         color: var(--ink);
     }
 
-    .visual-floating-card > span:last-child {
+    .visual-floating-card>span:last-child {
         display: flex;
         flex-direction: column;
         gap: 0.15rem;
@@ -3209,7 +3210,7 @@ textarea {
         font-size: 1.45rem;
     }
 
-    .closing-cta > .button {
+    .closing-cta>.button {
         grid-column: 1 / -1;
         width: 100%;
     }
@@ -3222,7 +3223,7 @@ textarea {
         font-size: clamp(2.6rem, 11vw, 3.8rem);
     }
 
-    .page-hero .container > p:last-child {
+    .page-hero .container>p:last-child {
         font-size: 0.98rem;
     }
 
@@ -3416,7 +3417,7 @@ textarea {
         font-size: clamp(2.7rem, 11vw, 3.8rem);
     }
 
-    .account-aside > p:not(.eyebrow) {
+    .account-aside>p:not(.eyebrow) {
         font-size: 0.98rem;
     }
 
@@ -3520,17 +3521,21 @@ textarea {
 .favorite-button {
     transition: background-color .18s ease, border-color .18s ease, transform .18s ease;
 }
+
 .favorite-button:focus-visible {
     outline: 3px solid #0f766e;
     outline-offset: 3px;
 }
+
 .favorite-button:disabled {
     opacity: .65;
     cursor: progress;
 }
+
 .favorite-button:not(:disabled):active {
     transform: scale(.97);
 }
+
 @media (prefers-reduced-motion: reduce) {
     .favorite-button {
         transition: none;
@@ -3540,10 +3545,11 @@ textarea {
 /* E4 · Resumen privado, búsquedas y diseños fluidos */
 .personal-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(0,1fr));
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
     gap: 1.1rem;
     margin-top: 2rem;
 }
+
 .personal-card {
     display: flex;
     flex-direction: column;
@@ -3556,22 +3562,27 @@ textarea {
     color: inherit;
     min-width: 0;
 }
+
 .personal-card strong {
     font-size: 1.3rem;
     line-height: 1.3;
 }
+
 .personal-card p {
     flex: 1;
 }
+
 .personal-card:hover {
     border-color: #1d806c;
 }
+
 .saved-search-list {
     padding: 0;
     list-style: none;
     display: grid;
     gap: 1rem;
 }
+
 .saved-search-row {
     display: flex;
     justify-content: space-between;
@@ -3581,15 +3592,19 @@ textarea {
     border: 1px solid #dce8e1;
     border-radius: 1rem;
 }
+
 .saved-search-actions {
     display: flex;
     gap: .7rem;
     align-items: center;
     flex-wrap: wrap;
 }
+
 .saved-search-form {
     max-width: 760px;
+    margin: 0 auto;
 }
+
 .saved-search-cta {
     display: flex;
     align-items: center;
@@ -3597,6 +3612,7 @@ textarea {
     flex-wrap: wrap;
     margin: 1rem 0;
 }
+
 .sector-feature-offer {
     display: block;
     margin-top: .35rem;
@@ -3604,23 +3620,101 @@ textarea {
     font-weight: 400;
     opacity: .9;
 }
+
 @media (max-width:720px) {
     .personal-grid {
         grid-template-columns: 1fr;
     }
+
     .saved-search-row {
         align-items: flex-start;
         flex-direction: column;
     }
 }
+
 @media (max-width:360px) {
-    .personal-card,.saved-search-row {
+
+    .personal-card,
+    .saved-search-row {
         padding: 1rem;
     }
+
     .saved-search-actions {
         width: 100%;
     }
+
     .saved-search-actions form {
         width: 100%;
+    }
+}
+
+/* E4 · Formularios personales reutilizan controles de la web E3. */
+.saved-search-form .form-field {
+    margin-bottom: 1.15rem;
+}
+
+.saved-search-form label {
+    display: block;
+    font-weight: 650;
+    margin-bottom: .35rem;
+}
+
+.saved-search-form input,
+.saved-search-form select,
+.saved-search-form textarea {
+    box-sizing: border-box;
+    max-width: 100%;
+    width: 100%;
+}
+
+.saved-search-form :is(input, select, textarea):focus-visible {
+    outline: 3px solid #2e947c;
+    outline-offset: 2px;
+}
+
+.saved-search-form .field-errors {
+    color: #9f2337;
+    font-weight: 600;
+}
+
+.saved-search-form .field-help {
+    font-size: .87rem;
+    line-height: 1.45;
+}
+
+@media(max-width:480px) {
+    .saved-search-form .filter-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+/* Focos, espacios y alineación de los componentes nuevos de E4. */
+.saved-search-actions a,
+.saved-search-actions button,
+.saved-search-cta a {
+    min-height: 2.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.saved-search-form .form-field {
+    margin-bottom: 1rem;
+}
+
+.personal-card:focus-visible,
+.saved-search-actions a:focus-visible {
+    outline: 3px solid #95c94e;
+    outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+    .saved-search-actions {
+        flex-wrap: wrap;
+    }
+
+    .saved-search-row {
+        gap: 1rem;
     }
 }

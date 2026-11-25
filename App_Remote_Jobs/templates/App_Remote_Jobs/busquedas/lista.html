@@ -1,4 +1,5 @@
 {% extends "App_Remote_Jobs/base.html" %}
+{% load static %}
 {% block title %}
     Mis búsquedas · Remote Jobs
 {% endblock %}
@@ -25,7 +26,7 @@
                         </div>
                         <div class="saved-search-actions">
                             <a class="button button-dark" href="{% url 'jobs:abrir_busqueda' busqueda.pk %}">Abrir filtros</a>
-                            <form method="post" action="{% url 'jobs:borrar_busqueda' busqueda.pk %}">
+                            <form class="delete-search-form" method="post" action="{% url 'jobs:borrar_busqueda' busqueda.pk %}">
                                 {% csrf_token %}
                                 <button class="button button-outline" type="submit">Borrar</button>
                             </form>
@@ -33,12 +34,15 @@
                     </li>
                 {% endfor %}
             </ul>
-        {% else %}
-            <div class="empty-state">
-                <h2>Aún no has guardado búsquedas</h2>
-                <p>Aplica filtros a las ofertas y guarda tu selección.</p>
-                <a class="button button-dark" href="{% url 'jobs:oferta_list' %}">Explorar ofertas</a>
-            </div>
         {% endif %}
+
+        <div class="empty-state" id="search-empty" {% if busquedas %}hidden{% endif %}>
+            <h2>Aún no has guardado búsquedas</h2>
+            <p>Aplica filtros a las ofertas y guarda tu selección.</p>
+            <a class="button button-dark" href="{% url 'jobs:oferta_list' %}">Explorar ofertas</a>
+        </div>
+
+        <p id="search-feedback" role="status"></p>
     </section>
+    <script src="{% static 'App_Remote_Jobs/js/busquedas.js' %}" defer></script>
 {% endblock %}
