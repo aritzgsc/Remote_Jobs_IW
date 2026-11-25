@@ -6,7 +6,7 @@
 
 ---
 
-Remote Jobs es una aplicación web hecha con **Django** para encontrar ofertas junior y prácticas que se pueden hacer a distancia. Se puede explorar sin cuenta; al registrarse, cada persona tiene su perfil y su propia lista de ofertas guardadas.
+Remote Jobs es una aplicación web hecha con **Django** para encontrar ofertas junior y prácticas que se pueden hacer a distancia. Se puede explorar sin cuenta; al registrarse, cada persona tiene su perfil, su propia lista de ofertas guardadas y un espacio donde organizar sus búsquedas.
 
 ## ✨ Funcionalidades
 
@@ -18,18 +18,22 @@ Remote Jobs es una aplicación web hecha con **Django** para encontrar ofertas j
 | 👤 **Cuentas** | Registro, acceso con correo o usuario, cambio y recuperación de contraseña. |
 | 🔐 **Google** | Inicio de sesión con Google mediante `django-allauth` (opcional, con credenciales propias). |
 | 🧑‍💼 **Perfil** | Nombre, titular, ubicación, biografía, portfolio y foto, subida o tomada de Google. |
-| ⭐ **Guardadas** | Lista privada de ofertas por cuenta. |
-| 🛠️ **Administración** | Gestión de ofertas, sectores, habilidades y perfiles desde `/admin/`. |
-| 🧪 **Datos de demo** | `cargar_datos_demo` crea 6 sectores, 18 habilidades y 9 ofertas, y se puede repetir sin duplicar. |
+| ⭐ **Guardadas** | Lista privada de ofertas por cuenta, actualizada sin recargar la página. |
+| 🔖 **Búsquedas guardadas** | Guardar, recuperar y eliminar combinaciones de filtros de búsqueda. |
+| 🏠 **Mi espacio** | Panel personal desde el que consultar ofertas y búsquedas guardadas. |
+| 🛠️ **Administración** | Panel personalizado con gestión de entidades y diferentes roles administrativos. |
+| 🧪 **Datos de demo** | Generación de sectores, habilidades, ofertas, usuarios, perfiles, favoritos y búsquedas guardadas. |
 
-La interfaz se genera en el servidor con plantillas de Django, sin JavaScript propio: la búsqueda y los filtros son formularios normales. Los estilos están en un único CSS adaptable a móvil.
+La interfaz se genera en el servidor con plantillas de Django. La búsqueda y los filtros utilizan formularios normales, mientras que la gestión de favoritos y la eliminación de búsquedas guardadas utilizan JavaScript y AJAX para evitar recargas innecesarias. Los estilos son adaptables a diferentes tamaños de pantalla.
 
 <details>
   <summary><h2>Cambios y añadidos respecto al enunciado</h2></summary>
 
   ### Decisiones de diseño
 
-  - **Portada:** se ha optado por mostrar una selección de las ofertas más recientes y un resumen de los sectores disponibles, en lugar de mostrar una oferta de cada sector. Consideramos que esta alternativa ofrece una presentación más clara y evita que la portada crezca excesivamente a medida que aumente el número de sectores. Para consultar las oportunidades en detalle se dispone de un buscador específico.
+  - **Portada:** se muestran las ofertas más recientes y un resumen de los sectores disponibles, incluyendo una oferta representativa de cada sector que dispone de ofertas publicadas.
+  - **Navegación:** las opciones personales, como Mi espacio y Guardadas, únicamente aparecen cuando el usuario ha iniciado sesión.
+  - **Administración:** el panel mantiene la identidad visual del resto de la aplicación y utiliza un tema claro uniforme.
 
   ### Funcionalidades adicionales
 
@@ -39,10 +43,14 @@ La interfaz se genera en el servidor con plantillas de Django, sin JavaScript pr
   - **Autenticación con Google:** posibilidad de iniciar sesión mediante Google OAuth, previa configuración de las credenciales correspondientes.
   - **Perfiles personales:** cada usuario puede personalizar su perfil con nombre público, titular profesional, ubicación, biografía, portfolio e imagen de perfil.
   - **Gestión de contraseñas:** cambio y recuperación de contraseña mediante los mecanismos de Django.
-  - **Ofertas guardadas:** los usuarios registrados pueden guardar ofertas en una lista personal para consultarlas posteriormente.
-  - **Administración personalizada:** se ha ampliado el panel de administración de Django con filtros, búsquedas, ordenación y visualización de información relacionada para facilitar la gestión de las entidades.
-  - **Información adicional de las ofertas:** se incluyen datos como empresa, modalidad, tipo de empleo, ubicación, rango salarial, requisitos, beneficios y fecha de publicación.
-  - **Directorios mejorados:** los sectores y habilidades muestran información adicional, categorías o número de ofertas relacionadas, y permiten ordenar y filtrar sus resultados.
+  - **Ofertas guardadas:** gestión de favoritos mediante AJAX, con actualización automática del contador y del listado.
+  - **Búsquedas guardadas:** almacenamiento de filtros mediante un modelo y un ModelForm propios. Cada usuario únicamente puede gestionar sus búsquedas.
+  - **Mi espacio:** acceso centralizado a la actividad personal y, para usuarios autorizados, al panel de administración.
+  - **Administración personalizada:** adaptación visual del administrador y creación de grupos con distintos permisos de gestión.
+  - **Información adicional de las ofertas:** empresa, modalidad, tipo de empleo, ubicación, rango salarial, requisitos, beneficios y fecha de publicación.
+  - **Directorios mejorados:** los sectores y habilidades muestran información adicional y el número de ofertas relacionadas.
+  - **Rendimiento y seguridad:** optimización de las consultas de los contadores administrativos y refuerzo de los ajustes de seguridad para producción.
+  - **Accesibilidad:** asociación de los campos de los formularios con sus correspondientes textos de ayuda.
 
 </details>
 
@@ -56,17 +64,18 @@ python -m venv .venv
 python -m pip install -r requirements.txt
 cp .env.example .env          # en PowerShell: Copy-Item .env.example .env
 python manage.py migrate
+python manage.py configurar_roles
 python manage.py cargar_datos_demo
 python manage.py runserver
 ```
 
 La web queda en <http://127.0.0.1:8000/>. Para entrar en `/admin/` crea antes un administrador con `python manage.py createsuperuser`.
 
-Las variables de entorno, Google OAuth, el correo y las notas de despliegue están en **[CONFIGURACION.md](CONFIGURACION.md)**.
+Las variables de entorno, los roles administrativos, Google OAuth, el correo y las notas de despliegue están en **[CONFIGURACION.md](CONFIGURACION.md)**.
 
 ## 🧩 Modelo de datos
 
-La **oferta** es el centro del modelo: pertenece a un sector, pide varias habilidades y puede ser guardada por muchas personas. Cada usuario de Django tiene además un perfil.
+La **oferta** es el centro del modelo: pertenece a un sector, pide varias habilidades y puede ser guardada por muchas personas. Cada usuario de Django tiene además un perfil y puede almacenar sus propios filtros de búsqueda.
 
 ```mermaid
 flowchart LR
@@ -75,11 +84,14 @@ flowchart LR
     Usuario ---|"1"| r3{"tiene"} ---|"1"| PerfilUsuario
     Usuario ---|"1"| r4{"guarda"} -->|"N"| OfertaGuardada
     Oferta ---|"1"| r5{"aparece en"} -->|"N"| OfertaGuardada
+    Usuario ---|"1"| r6{"conserva"} -->|"N"| BusquedaGuardada
 ```
 
-Cada rombo es una relación y el número junto a cada caja indica cuántos elementos de esa entidad intervienen. Por ejemplo, un sector agrupa muchas ofertas, pero cada oferta tiene un solo sector. `OfertaGuardada` es la tabla intermedia que une usuarios y ofertas: una persona guarda muchas ofertas y una oferta la guardan muchas personas, es decir, una relación de muchos a muchos.
+Cada rombo es una relación y el número junto a cada caja indica cuántos elementos de esa entidad intervienen.
 
-Validaciones propias: el salario máximo no puede ser menor que el mínimo, y las fotos de perfil deben ser JPG, PNG o WebP de hasta 3 MB.
+`OfertaGuardada` es la tabla intermedia que une usuarios y ofertas mediante una relación de muchos a muchos. `BusquedaGuardada` almacena los filtros y el criterio de ordenación de una búsqueda, asociados al usuario que la ha creado.
+
+Validaciones propias: el salario máximo no puede ser menor que el mínimo, los rangos de fechas de búsqueda deben ser coherentes y las fotos de perfil deben ser JPG, PNG o WebP de hasta 3 MB.
 
 ## 📁 Estructura
 
@@ -88,28 +100,35 @@ Remote_Jobs_IW/
 ├── manage.py
 ├── requirements.txt
 ├── .env.example
-├── Remote_Jobs/                 # Configuración del proyecto (settings, urls, wsgi/asgi)
+├── Remote_Jobs/                 # Configuración del proyecto
 └── App_Remote_Jobs/             # La aplicación
-    ├── models/                  # Sector, Habilidad, Oferta, PerfilUsuario, OfertaGuardada
-    ├── views/                   # Ofertas, sectores, habilidades, cuentas, favoritos
-    ├── templates/               # base.html, páginas y componentes reutilizables
-    ├── static/.../estilos.css   # Hoja de estilos única
-    ├── management/commands/     # cargar_datos_demo
+    ├── models/                  # Entidades y relaciones
+    ├── views/                   # Ofertas, cuentas, favoritos, búsquedas...
+    ├── templates/               # Páginas, componentes y administración
+    ├── static/App_Remote_Jobs/
+    │   ├── css/
+    │   │   ├── estilos.css      # Estilos generales
+    │   │   └── admin.css        # Estilos de administración
+    │   └── js/
+    │       ├── favoritos.js     # Gestión AJAX de favoritos
+    │       └── busquedas.js     # Eliminación AJAX de búsquedas
+    ├── management/commands/
+    │   ├── cargar_datos_demo.py
+    │   └── configurar_roles.py
     ├── forms.py  urls.py  admin.py
     ├── backends.py              # Acceso con correo o nombre de usuario
     ├── adapters.py              # Perfil a partir de los datos de Google
     ├── signals.py               # Crea el perfil al crear la cuenta
-    └── context_processors.py    # Perfil y favoritos disponibles en todas las plantillas
+    └── context_processors.py    # Perfil y favoritos en las plantillas
 ```
 
 ## 🚧 Estado del proyecto
 
-Es un proyecto de equipo en fase de desarrollo, y conviene tener claro hasta dónde llega:
-
 - Los datos son de demostración; la solicitud de cada oferta remite a una URL externa.
-- Hay una única prueba automática (la portada responde): `python manage.py test`.
+- Las funcionalidades se comprueban en local desde el navegador y el administrador.
 - La verificación de correo al registrarse está desactivada, y el correo de recuperación se escribe en la consola por defecto.
 - Usa SQLite y almacenamiento local de imágenes. Para publicarlo habría que ajustar varias cosas, listadas en [CONFIGURACION.md](CONFIGURACION.md#despliegue).
+- Se han incorporado ajustes de seguridad para producción, aunque el despliegue de Django requiere configuración adicional.
 
 ## 👥 Equipo
 
