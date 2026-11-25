@@ -2,8 +2,9 @@
 from datetime import date
 
 from django.core.management.base import BaseCommand
+from django.contrib.auth import get_user_model
 
-from App_Remote_Jobs.models import Habilidad, Oferta, Sector
+from App_Remote_Jobs.models import BusquedaGuardada, Habilidad, Oferta, OfertaGuardada, PerfilUsuario, Sector
 
 
 SECTORES = [
@@ -218,7 +219,35 @@ class Command(BaseCommand):
             oferta, _ = Oferta.objects.update_or_create(slug=slug, defaults=datos_oferta)
             oferta.habilidades.set([habilidades[nombre] for nombre in habilidades_oferta])
 
+        self._crear_usuarios_demo()
+
         self.stdout.write(self.style.SUCCESS(
             f"Datos de demostración listos: {Sector.objects.count()} sectores, "
             f"{Habilidad.objects.count()} habilidades y {Oferta.objects.count()} ofertas."
         ))
+
+
+    def _crear_usuarios_demo(self):
+        User = get_user_model()
+        for nombre in ("demo_e4_a", "demo_e4_b"):
+            # Cuentas de demostración sin acceso. No alterar cuentas reales preexistentes.
+            usuario, creado = User.objects.get_or_create(
+                username=nombre, defaults={"is_active": False}
+            )
+            nombre_demo = f"Cuenta {nombre}"
+            if creado:
+                usuario.set_unusable_password()
+                usuario.save(update_fields=["password"])
+                perfil, _ = PerfilUsuario.objects.get_or_create(usuario=usuario)
+                perfil.nombre_publico = nombre_demo
+                perfil.save(update_fields=["nombre_publico"])
+            else:
+                perfil = PerfilUsuario.objects.filter(usuario=usuario).first()
+                # Solo reponer datos si el perfil mantiene el marcador del fixture.
+                if (usuario.is_active or usuario.has_usable_password()
+                        or perfil is None or perfil.nombre_publico != nombre_demo):
+                    continue
+            oferta = Oferta.objects.filter(publicada=True).first()
+            if oferta:
+                OfertaGuardada.objects.get_or_create(usuario=usuario, oferta=oferta)
+            BusquedaGuardada.objects.get_or_create(usuario=usuario, nombre="Ofertas remotas", defaults={"modalidad": "remoto"})

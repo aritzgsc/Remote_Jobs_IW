@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Habilidad, Oferta, Sector, PerfilUsuario, OfertaGuardada
+from .models import Habilidad, Oferta, Sector, PerfilUsuario, OfertaGuardada, BusquedaGuardada
 
 
 @admin.register(Sector)
@@ -69,3 +69,11 @@ class OfertaGuardadaAdmin(admin.ModelAdmin):
     list_filter = ("guardada_en", "oferta__modalidad", "oferta__tipo_empleo")
     list_select_related = ("usuario", "oferta")
     readonly_fields = ("guardada_en",)
+
+@admin.register(BusquedaGuardada)
+class BusquedaGuardadaAdmin(admin.ModelAdmin):
+    list_display = ("nombre", "usuario", "modalidad", "creada")
+    search_fields = ("nombre", "usuario__username")
+    list_filter = ("modalidad", "creada")
+    list_select_related = ("usuario",)
+    readonly_fields = ("creada",)
