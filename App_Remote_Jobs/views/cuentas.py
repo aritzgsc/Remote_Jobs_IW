@@ -154,6 +154,12 @@ class CambioContrasenaView(PasswordChangeView):
 
 
 class RecuperarContrasenaView(PasswordResetView):
+    def dispatch(self, request, *args, **kwargs):
+        if not settings.PASSWORD_RESET_ENABLED:
+            messages.info(request, "La recuperación por correo todavía no está habilitada en este servidor.")
+            return redirect("accounts:login")
+        return super().dispatch(request, *args, **kwargs)
+
     template_name = "App_Remote_Jobs/cuentas/recuperar_contrasena.html"
     email_template_name = "App_Remote_Jobs/cuentas/recuperacion_contrasena_email.txt"
     html_email_template_name = "App_Remote_Jobs/cuentas/recuperacion_contrasena_email.html"

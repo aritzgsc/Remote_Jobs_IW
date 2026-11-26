@@ -6,3 +6,10 @@ python-dotenv>=1.0.1,<2.0
 Pillow>=10.4,<14.0
 # Inicio de sesión local y autenticación social mediante OAuth.
 django-allauth[socialaccount]>=65.20.0,<66.0
+# Servidor y archivos estáticos en producción.
+gunicorn>=23,<26; sys_platform != "win32"
+whitenoise>=6.8,<7
+# Base de datos PostgreSQL y servicios opcionales de producción.
+dj-database-url>=2.3,<4
+psycopg[binary]>=3.2,<4
+django-anymail[brevo]>=12,<16
