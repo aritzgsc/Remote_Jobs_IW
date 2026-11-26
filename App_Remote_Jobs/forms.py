@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, SetPasswordForm, UserCreationForm
 
 from .models import BusquedaGuardada, PerfilUsuario
 
@@ -106,6 +106,12 @@ class PerfilUsuarioForm(WidgetClassesMixin, forms.ModelForm):
 
 
 class CambioContrasenaForm(WidgetClassesMixin, PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.add_widget_classes()
+
+
+class EstablecerContrasenaForm(WidgetClassesMixin, SetPasswordForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.add_widget_classes()

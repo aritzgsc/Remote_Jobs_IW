@@ -1,12 +1,53 @@
 """Adaptación de las cuentas sociales de OAuth al perfil de Remote Jobs."""
 
+from allauth.core.exceptions import ImmediateHttpResponse
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
+from django.contrib import messages
+from django.contrib.auth import get_user_model
+from django.shortcuts import redirect
 
 from .models import PerfilUsuario
 
 
 class AdaptadorCuentaSocialRemoteJobs(DefaultSocialAccountAdapter):
     """Completa el perfil con los datos básicos que Google devuelve con consentimiento."""
+
+    def pre_social_login(self, request, sociallogin):
+        super().pre_social_login(request, sociallogin)
+        if sociallogin.account.provider != "google":
+            return
+
+        proceso = sociallogin.state.get("process")
+        if proceso == "connect":
+            if not request.user.is_authenticated:
+                raise ImmediateHttpResponse(redirect("accounts:login"))
+
+            correo = (request.user.email or "").strip().casefold()
+            coincide = bool(correo) and any(
+                direccion.verified and direccion.email.strip().casefold() == correo
+                for direccion in sociallogin.email_addresses
+            )
+            if not coincide:
+                messages.error(
+                    request,
+                    "Solo puedes vincular una cuenta de Google con el mismo correo "
+                    "electrónico verificado que tienes en Remote Jobs.",
+                )
+                raise ImmediateHttpResponse(redirect("accounts:profile"))
+            return
+
+        if sociallogin.is_existing or proceso == "redirect":
+            return
+
+        # Un correo coincidente no autoriza a entrar en una cuenta local.
+        for address in sociallogin.email_addresses:
+            if get_user_model().objects.filter(email__iexact=address.email).exists():
+                messages.info(
+                    request,
+                    "Ya existe una cuenta con ese correo. Entra con tu contraseña "
+                    "y vincula Google desde tu perfil.",
+                )
+                raise ImmediateHttpResponse(redirect("accounts:login"))
 
     def save_user(self, request, sociallogin, form=None):
         user = super().save_user(request, sociallogin, form=form)

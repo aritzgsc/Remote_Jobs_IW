@@ -1,6 +1,6 @@
 {% extends "App_Remote_Jobs/base.html" %}
 {% block title %}
-    Cambiar contraseña · Remote Jobs
+    {% if user.has_usable_password %}Cambiar contraseña{% else %}Establecer contraseña{% endif %} · Remote Jobs
 {% endblock %}
 {% block content %}
     <section class="account-page account-page-dark">
@@ -22,12 +22,13 @@
                     <p class="eyebrow">
                         ACTUALIZAR ACCESO
                     </p>
-                    <h2>
-                        Cambiar contraseña
-                    </h2>
-                    <p>
-                        Por seguridad, confirma primero tu contraseña actual.
-                    </p>
+                    {% if user.has_usable_password %}
+                        <h2>Cambiar contraseña</h2>
+                        <p>Por seguridad, confirma primero tu contraseña actual.</p>
+                    {% else %}
+                        <h2>Establecer contraseña</h2>
+                        <p>Crea una contraseña para acceder también con tu correo o nombre de usuario.</p>
+                    {% endif %}
                 </div>
                 <form class="account-form" method="post">
                     {% csrf_token %}

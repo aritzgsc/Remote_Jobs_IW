@@ -1,4 +1,5 @@
 {% extends "App_Remote_Jobs/base.html" %}
+{% load socialaccount %}
 {% block title %}
     Mi perfil · Remote Jobs
 {% endblock %}
@@ -143,11 +144,36 @@
                             Gestiona tu acceso
                         </h2>
                         <p>
-                            Actualiza tu contraseña o revisa los datos básicos de tu cuenta.
+                            Gestiona tus métodos de acceso o revisa los datos básicos de tu cuenta.
                         </p>
                         <div class="profile-action-links">
-                            <a href="{% url 'accounts:password_change' %}"><span class="profile-action-icon" aria-hidden="true">⌑</span><span><strong>Cambiar contraseña</strong><small>Actualiza la clave de acceso</small></span><span aria-hidden="true">→</span></a><a href="{% url 'accounts:profile_edit' %}"><span class="profile-action-icon" aria-hidden="true">☷</span><span><strong>Datos personales</strong><small>Nombre, correo, ubicación y foto</small></span><span aria-hidden="true">→</span></a>
+                            <a href="{% url 'accounts:password_change' %}">
+                                <span class="profile-action-icon" aria-hidden="true">⌑</span>
+                                <span>
+                                    {% if user.has_usable_password %}
+                                        <strong>Cambiar contraseña</strong>
+                                        <small>Actualiza la clave de acceso</small>
+                                    {% else %}
+                                        <strong>Establecer contraseña</strong>
+                                        <small>Accede también con correo o usuario</small>
+                                    {% endif %}
+                                </span>
+                                <span aria-hidden="true">→</span>
+                            </a>
+                            <a href="{% url 'accounts:profile_edit' %}"><span class="profile-action-icon" aria-hidden="true">☷</span><span><strong>Datos personales</strong><small>Nombre, correo, ubicación y foto</small></span><span aria-hidden="true">→</span></a>
                         </div>
+                        {% if google_vinculado %}
+                            <p><strong>Google vinculado.</strong> Puedes entrar con tu cuenta de Google.</p>
+                        {% elif google_oauth_enabled %}
+                            <p>Vincula una cuenta de Google con el mismo correo electrónico de tu perfil.</p>
+                            {% url 'accounts:profile' as perfil_url %}
+                            <form class="social-login-form" method="post" action="{% provider_login_url 'google' process='connect' next=perfil_url %}">
+                                {% csrf_token %}
+                                <button class="button button-google button-full" type="submit">
+                                    <span class="google-mark" aria-hidden="true">G</span> Vincular Google
+                                </button>
+                            </form>
+                        {% endif %}
                         <form class="profile-logout-form" method="post" action="{% url 'accounts:logout' %}">
                             {% csrf_token %}
                             <button class="button button-outline" type="submit">

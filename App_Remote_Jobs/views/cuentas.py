@@ -1,5 +1,6 @@
 """Vistas de autenticación y gestión de perfiles."""
 
+from allauth.socialaccount.models import SocialAccount
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login as auth_login, logout as auth_logout
@@ -12,6 +13,7 @@ from django.contrib.auth.views import (
     PasswordResetView,
 )
 from django.db import transaction
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
 from django.utils.http import url_has_allowed_host_and_scheme
@@ -20,6 +22,7 @@ from django.views.decorators.http import require_POST
 from ..forms import (
     CambioContrasenaForm,
     DatosCuentaForm,
+    EstablecerContrasenaForm,
     InicioSesionForm,
     PerfilUsuarioForm,
     RegistroForm,
@@ -96,10 +99,15 @@ def cerrar_sesion(request):
 def perfil(request):
     perfil_usuario, _ = PerfilUsuario.objects.get_or_create(usuario=request.user)
     guardadas = OfertaGuardada.objects.filter(usuario=request.user, oferta__publicada=True).count()
+    google_vinculado = SocialAccount.objects.filter(user=request.user, provider="google").exists()
     return render(
         request,
         "App_Remote_Jobs/cuentas/perfil.html",
-        {"perfil_usuario": perfil_usuario, "total_guardadas": guardadas},
+        {
+            "perfil_usuario": perfil_usuario,
+            "total_guardadas": guardadas,
+            "google_vinculado": google_vinculado,
+        },
     )
 
 
@@ -133,8 +141,15 @@ class CambioContrasenaView(PasswordChangeView):
     template_name = "App_Remote_Jobs/cuentas/cambiar_contrasena.html"
     success_url = reverse_lazy("accounts:password_change_done")
 
+    def get_form_class(self):
+        if not self.request.user.has_usable_password():
+            if not SocialAccount.objects.filter(user=self.request.user, provider="google").exists():
+                raise PermissionDenied
+            return EstablecerContrasenaForm
+        return super().get_form_class()
+
     def form_valid(self, form):
-        messages.success(self.request, "La contraseña se ha cambiado correctamente.")
+        messages.success(self.request, "La contraseña se ha guardado correctamente.")
         return super().form_valid(form)
 
 
